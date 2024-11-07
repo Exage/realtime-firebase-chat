@@ -1,0 +1,61 @@
+.btnIcon {
+    display: inline-block;
+
+    padding: 1rem;
+    border-radius: 50%;
+
+    fill: var(--button-transparent-text);
+    background-color: transparent;
+
+    cursor: pointer;
+
+    transition-property: background-color, fill;
+    transition-duration: 200ms;
+    transition-timing-function: linear;
+
+    &:hover {
+        fill: var(--button-transparent-text-hover);
+        background-color: var(--button-transparent-hover);
+    }
+
+    &:focus-visible {
+        outline: 1px solid var(--text-primary);
+        fill: var(--button-transparent-text-hover);
+        background-color: var(--button-transparent-hover);
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        fill: var(--button-transparent-disabled);
+
+        &:hover {
+            fill: var(--button-transparent-disabled);
+            background-color: transparent;
+        }
+    }
+
+    &Filled {
+        fill: var(--button-text);
+        background-color: var(--button);
+
+        &:hover {
+            fill: var(--button-text);
+            background-color: var(--button-hover);
+        }
+
+        &:focus-visible {
+            fill: var(--button-text);
+            background-color: var(--button-hover);
+        }
+
+        &:disabled {
+            fill: var(--button-text);
+            background-color: var(--button-disabled);
+
+            &:hover {
+                fill: var(--button-text);
+                background-color: var(--button-disabled);
+            }
+        }
+    }
+}

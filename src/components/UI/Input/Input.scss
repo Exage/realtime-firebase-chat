@@ -1,0 +1,28 @@
+.input {
+    padding: 1rem 3.5rem;
+    border: 1px solid var(--input-inactive);
+    border-radius: 2.2rem;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    vertical-align: bottom;
+
+    transition: border .2s ease;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    &::placeholder {
+        color: var(--input-inactive);
+        transition: color .2s ease;
+    }
+
+    &:focus {
+        border-color: var(--input-active);
+
+        &::placeholder {
+            color: var(--input-active);
+        }
+    }
+}

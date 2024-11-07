@@ -1,0 +1,17 @@
+.sidebar {
+    max-width: 35rem;
+    width: 100%;
+
+    position: relative;
+    z-index: 20;
+
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: var(--sidebar-background);
+    border-right: 2px solid var(--sidebar-border);
+
+    // padding: 0 1rem;
+}

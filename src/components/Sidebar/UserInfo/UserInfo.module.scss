@@ -1,0 +1,76 @@
+.user__info {
+    padding: 1rem 1.5rem;
+}
+
+.user {
+
+    display: flex;
+    align-items: center;
+    column-gap: 1.5rem;
+
+    border-radius: 1rem;
+
+    &:hover {
+        background-color: var(--sidebar-user-hover);
+    }
+
+    &__photo {
+        width: 5.6rem;
+        height: 5.6rem;
+
+        border-radius: 50%;
+        overflow: hidden;
+
+        user-select: none;
+        pointer-events: none;
+
+        img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+        }
+    }
+
+    &__text {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+
+        &::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            bottom: -1rem;
+            width: 100%;
+            height: 1px;
+            background-color: var(--sidebar-user-border);
+            pointer-events: none;
+            user-select: none;
+        }
+    }
+
+    &__name {
+        font-size: 1.6rem;
+        color: var(--text-primary);
+        font-weight: 700;
+
+        overflow: hidden;
+        white-space: nowrap;
+        text-wrap: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    &__subtitle {
+        margin-top: 0.5rem;
+
+        overflow: hidden;
+        white-space: nowrap;
+        text-wrap: nowrap;
+        text-overflow: ellipsis;
+
+        overflow: hidden;
+        font-size: 1.4rem;
+        color: var(--text-secondary);
+    }
+}

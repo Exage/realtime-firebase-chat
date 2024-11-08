@@ -22,7 +22,7 @@ $gap: 1rem;
         width: 100%;
         line-height: 1.2;
 
-        &__error {
+        &-error {
             color: var(--error);
             border: 1px solid var(--error);
             background-color: var(--error-secondary);
@@ -40,7 +40,7 @@ $gap: 1rem;
             }
         }
 
-        &__wrapper {
+        &-wrapper {
             position: relative;
             flex: 1;
 
@@ -63,11 +63,7 @@ $gap: 1rem;
 .emoji {
     position: relative;
 
-    &Icon {
-
-    }
-
-    &Picker {
+    &__picker {
         position: absolute;
         bottom: 100%;
         right: 0;

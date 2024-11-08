@@ -3,19 +3,27 @@ import styles from './UserInfo.module.scss'
 
 export const UserInfo = () => {
 
-    const { user, user__info, user__photo, user__text, user__name, user__subtitle, buttons } = styles
+    const { 
+        user, 
+        ['user__info']: userInfo, 
+        ['user__photo']: userPhoto, 
+        ['user__text']: userText, 
+        ['user__name']: userName, 
+        ['user__subtitle']: userSubtitle, 
+        buttons 
+    } = styles
 
     return (
-        <div className={user__info}>
+        <div className={userInfo}>
             <div className={user}>
-                <div className={user__photo}>
+                <div className={userPhoto}>
                     <img src="https://placehold.co/56" alt="" />
                 </div>
-                <div className={user__text}>
-                    <h3 className={user__name}>
+                <div className={userText}>
+                    <h3 className={userName}>
                         Niktia Horkavchuk
                     </h3>
-                    <p className={user__subtitle}>
+                    <p className={userSubtitle}>
                         @n.horkavchuk
                     </p>
                 </div>

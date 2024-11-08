@@ -5,10 +5,11 @@ import { Input } from '../../UI/Input/Input'
 
 export const Search = () => {
     
+    const { search: searchClass } = styles
     const [search, setSearch] = useState('')
     
     return (
-        <div className={styles.search}>
+        <div className={searchClass}>
             <Input
                 value={search} 
                 onChange={e => setSearch(e.target.value)}

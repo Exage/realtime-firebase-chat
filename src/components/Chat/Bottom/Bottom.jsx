@@ -17,13 +17,13 @@ export const Bottom = () => {
     const {
         bottom,
         form,
-        form__input,
-        form__input__error,
-        form__input__wrapper,
-        emoji, emojiIcon:
-        emojiIconClass,
-        emojiPicker,
-        error: errorClass
+        ['form__input']: formInput,
+        ['form__input-error']: formInputError,
+        ['form__input-wrapper']: formInputWrapper,
+        ['emoji']: emoji, 
+        ['emoji__icon']: emojiIconClass,
+        ['emoji__picker']: emojiPicker,
+        ['error']: errorClass
     } = styles
 
     const [message, setMessage] = useState('')
@@ -92,10 +92,10 @@ export const Bottom = () => {
         <div className={bottom}>
             <IconButton icon={fileIcon} />
             <form onSubmit={handleSubmit} className={form}>
-                <div className={form__input__wrapper}>
+                <div className={formInputWrapper}>
                     <TextArea
                         placeholder='Type your message'
-                        className={error ? [form__input, form__input__error] : [form__input]}
+                        className={error ? [formInput, formInputError] : [formInput]}
                         value={message}
                         onChange={e => setMessage(e.target.value)}
                         onKeyDown={handleKeyDown}

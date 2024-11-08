@@ -35,11 +35,14 @@ const userData = [
 
 export const UserList = () => {
 
-    const { users, users__overflow } = styles
+    const { 
+        users, 
+        ['users__overflow']: usersOverflow 
+    } = styles
 
     return (
         <div className={users}>
-            <div className={users__overflow}>
+            <div className={usersOverflow}>
 
                 {userData.map((data, index) => {
                     return (

@@ -6,7 +6,12 @@ import noIcon from '../../../assets/icons/no-icon.svg'
 import styles from './IconButton.module.scss'
 
 export const IconButton = ({ icon, className = '', filled=false, ...props }) => {
-    const { btnIcon, btnIconFilled } = styles
+
+    const { 
+        ['btn__icon']: btnIcon, 
+        ['btn__icon-filled']: btnIconFilled
+    } = styles
+
     const combinedClassName = `${btnIcon}${Array.isArray(className) ? ' ' + className.join(' ') : className}`
     const combinedClassNameFilled = `${btnIcon} ${btnIconFilled}${Array.isArray(className) ? ' ' + className.join(' ') : className}`
 

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
+import EmojiPicker from 'emoji-picker-react'
 import styles from './Bottom.module.scss'
 
 import sendIcon from '../../../assets/icons/send.svg'
@@ -10,7 +11,20 @@ import { IconButton } from '../../UI/IconButton/IconButton'
 
 export const Bottom = () => {
 
-    const { bottom, form, form__input, form__input__error, form__input__wrapper, error:errorClass } = styles
+    const emojiRef = useRef(null)
+    const [emojiPickerShow, setEmojiPickerShow] = useState(false)
+
+    const {
+        bottom,
+        form,
+        form__input,
+        form__input__error,
+        form__input__wrapper,
+        emoji, emojiIcon:
+        emojiIconClass,
+        emojiPicker,
+        error: errorClass
+    } = styles
 
     const [message, setMessage] = useState('')
     const [sendDisabled, setSendDisabled] = useState(true)
@@ -18,6 +32,20 @@ export const Bottom = () => {
 
     const maxSymbols = 500
     const maxRows = 4
+
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (emojiRef.current && !emojiRef.current.contains(e.target)) {
+                setEmojiPickerShow(false)
+            }
+        }
+
+        window.addEventListener('click', handleClickOutside)
+
+        return () => {
+            window.removeEventListener('click', handleClickOutside)
+        }
+    }, [])
 
     useEffect(() => {
         setError(false)
@@ -46,6 +74,11 @@ export const Bottom = () => {
 
     const handleEmojiButton = (e) => {
         e.preventDefault()
+        setEmojiPickerShow(prev => !prev)
+    }
+
+    const handleEmojiPicker = (e) => {
+        setMessage(prev => prev + e.emoji)
     }
 
     const handleKeyDown = (e) => {
@@ -70,7 +103,18 @@ export const Bottom = () => {
                     />
                     {error && <span className={`error ${errorClass}`}>{error}</span>}
                 </div>
-                <IconButton icon={emojiIcon} onClick={handleEmojiButton} />
+                <div className={emoji} ref={emojiRef}>
+                    <IconButton
+                        icon={emojiIcon}
+                        className={emojiIconClass}
+                        onClick={handleEmojiButton}
+                    />
+                    {emojiPickerShow && (
+                        <div className={emojiPicker}>
+                            <EmojiPicker onEmojiClick={handleEmojiPicker} />
+                        </div>
+                    )}
+                </div>
                 <IconButton icon={sendIcon} filled={true} type="submit" disabled={sendDisabled} />
             </form>
         </div>

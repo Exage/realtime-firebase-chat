@@ -1,9 +1,11 @@
 import React from 'react'
 import styles from './UserList.module.scss'
 
+import { User } from './User/User'
+
 const userData = [
     {
-        id: "1351235",
+        id: Math.round(Math.random() * 100000).toString(),
         avatar: "https://placehold.co/56",
         name: "Ben",
         lastname: "Kenobi",
@@ -12,7 +14,7 @@ const userData = [
         blocked: []
     },
     {
-        id: "65656552",
+        id: Math.round(Math.random() * 100000).toString(),
         avatar: "https://placehold.co/56",
         name: "Ben",
         lastname: "Kenobi",
@@ -21,7 +23,7 @@ const userData = [
         blocked: []
     },
     {
-        id: "5456965",
+        id: Math.round(Math.random() * 100000).toString(),
         avatar: "https://placehold.co/56",
         name: "Ben",
         lastname: "Kenobi",
@@ -33,38 +35,18 @@ const userData = [
 
 export const UserList = () => {
 
-    const {
-        users,
-        users__overflow,
-        user,
-        active,
-        user__photo,
-        user__text,
-        user__name,
-        user__subtitle
-    } = styles
+    const { users, users__overflow } = styles
 
     return (
         <div className={users}>
             <div className={users__overflow}>
-                {userData.map((item, index) => {
+
+                {userData.map((data, index) => {
                     return (
-                        <div className={index === 1 ? `${user} ${active}` : user} key={item.id}>
-                            {/* {<div className={user} key={item.id}>} */}
-                            <div className={user__photo}>
-                                <img src={item.avatar} alt="" />
-                            </div>
-                            <div className={user__text}>
-                                <h3 className={user__name}>
-                                    {`${item.name} ${item.lastname}`}
-                                </h3>
-                                <p className={user__subtitle}>
-                                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eaque aspernatur minima consectetur illo accusantium maiores mollitia incidunt omnis doloribus dolor magnam amet deserunt facere in cupiditate sequi, error explicabo accusamus.
-                                </p>
-                            </div>
-                        </div>
+                        <User data={data} key={data.id} index={index} />
                     )
                 })}
+
             </div>
         </div>
     )

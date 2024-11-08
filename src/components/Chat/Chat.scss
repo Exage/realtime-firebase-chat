@@ -1,7 +1,11 @@
+@import '../../vars';
+
 .chat {
     display: flex;
     flex-direction: column;
     flex: 1;
+
+    padding-left: $sidebarWidth;
     
     position: relative;
 

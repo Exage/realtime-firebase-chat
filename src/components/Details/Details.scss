@@ -1,5 +1,7 @@
+@import '../../vars';
+
 .details {
     display: none;
-    max-width: 30rem;
+    max-width: $detailsWidth;
     width: 100%;
 }

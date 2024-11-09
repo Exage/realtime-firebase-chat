@@ -1,0 +1,38 @@
+.message {
+
+    padding-right: 3rem;
+
+    &__inner {
+        max-width: 50rem;
+        background-color: var(--message-companion);
+        color: var(--text-primary-active);
+        padding: 1rem 2rem 0.5rem 2rem;
+    
+        border-radius: 1rem;
+    }
+
+    &.own {
+        padding-right: 0;
+        padding-left: 3rem;
+    }
+
+    &.own > &__inner {
+        margin-left: auto;
+        background-color: var(--accent-primary);
+    
+        & > .time {
+            color: var(--message-user-time);
+        }
+    }
+}
+
+.text {
+
+}
+
+.time {
+    font-size: 1.4rem;
+    text-align: right;
+
+    color: var(--text-secondary);
+}

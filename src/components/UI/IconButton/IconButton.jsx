@@ -1,14 +1,14 @@
 import React from 'react'
 import { ReactSVG } from 'react-svg'
 
-import noIcon from '../../../assets/icons/no-icon.svg'
+import noIcon from '@/assets/icons/no-icon.svg'
 
 import styles from './IconButton.module.scss'
 
-export const IconButton = ({ icon, className = '', filled=false, ...props }) => {
+export const IconButton = ({ icon, className = '', filled = false, ...props }) => {
 
-    const { 
-        ['btn__icon']: btnIcon, 
+    const {
+        ['btn__icon']: btnIcon,
         ['btn__icon-filled']: btnIconFilled
     } = styles
 
@@ -20,8 +20,8 @@ export const IconButton = ({ icon, className = '', filled=false, ...props }) => 
             className={filled ? combinedClassNameFilled : combinedClassName}
             {...props}
         >
-            {icon 
-                ? <ReactSVG src={icon} className='icon' /> 
+            {icon
+                ? <ReactSVG src={icon} className='icon' />
                 : <ReactSVG src={noIcon} className='icon' />
             }
         </button>

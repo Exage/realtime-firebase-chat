@@ -1,12 +1,12 @@
 import React from 'react'
 import styles from './Top.module.scss'
 
-export const Top = () => {
+export const Top = ({ showDetails }) => {
 
     const { top, user, avatar, name } = styles
 
     return (
-        <div className={top}>
+        <div className={top} onClick={showDetails}>
             <div className={user}>
                 <div className={avatar}>
                     <img src="https://placehold.co/54" alt="" />

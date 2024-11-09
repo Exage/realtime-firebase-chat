@@ -1,24 +1,83 @@
 .btn {
     display: inline-flex;
     align-items: center;
-    cursor: pointer;
+    
     padding: 1rem 2rem;
-    color: var(--button-text);
-    background-color: var(--button);
+    border-radius: 2.2rem;
 
-    line-height: 1.2;
+    color: var(--text-primary);
+    fill: var(--text-primary);
+    background-color: transparent;
 
-    border-radius: 3rem;
+    cursor: pointer;
 
-    transition: background-color .2s linear;
+    transition-property: background-color, fill, color;
+    transition-duration: 200ms;
+    transition-timing-function: linear;
 
     &__icon {
         display: inline-block;
-        fill: var(--button-text);
         margin-right: 1rem;
+
+        div {
+            display: flex;
+        }
     }
 
     &:hover {
-        background-color: var(--button-hover);
+        fill: var(--button-transparent-text-hover);
+        background-color: var(--button-transparent-hover);
     }
+
+    &:focus-visible {
+        outline: 1px solid var(--text-primary);
+        fill: var(--button-transparent-text-hover);
+        background-color: var(--button-transparent-hover);
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        color: var(--button-transparent-disabled);
+        fill: var(--button-transparent-disabled);
+
+        &:hover {
+            color: var(--button-transparent-disabled);
+            fill: var(--button-transparent-disabled);
+            background-color: transparent;
+        }
+    }
+
+    &__filled {
+        color: var(--text-secondary-active);
+        fill: var(--text-secondary-active);
+        background-color: var(--button);
+
+        &:hover {
+            color: var(--text-secondary-active);
+            fill: var(--text-secondary-active);
+            background-color: var(--button-hover);
+        }
+
+        &:focus-visible {
+            color: var(--text-secondary-active);
+            fill: var(--text-secondary-active);
+            background-color: var(--button-hover);
+        }
+
+        &:disabled {
+            color: var(--text-secondary-active);
+            fill: var(--text-secondary-active);
+            background-color: var(--button-disabled);
+
+            &:hover {
+                color: var(--text-secondary-active);
+                fill: var(--text-secondary-active);
+                background-color: var(--button-disabled);
+            }
+        }
+    }
+}
+
+.text {
+    flex: 1;
 }

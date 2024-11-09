@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styles from './Search.module.scss'
 
-import { Input } from '../../UI/Input/Input'
+import { Input } from '@/components/UI/Input/Input'
 
 export const Search = () => {
     

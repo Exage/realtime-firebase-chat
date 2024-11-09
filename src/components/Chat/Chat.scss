@@ -12,4 +12,8 @@
     height: 100vh;
 
     z-index: 10;
+
+    &.show-details {
+        padding-right: $detailsWidth;
+    }
 }

@@ -3,12 +3,15 @@ import { ReactSVG } from 'react-svg'
 
 import styles from './Button.module.scss'
 
-export const Button = ({ children, className = '', icon = null, iconGap=null, ...props }) => {
-    const { 
-        btn, 
-        ['btn__icon']: btnIcon 
+export const Button = ({ children, className = '', icon = null, iconGap = null, filled = false, ...props }) => {
+    const {
+        btn,
+        ['btn__filled']: btnFilled,
+        ['btn__icon']: btnIcon,
+        text
     } = styles
     const combinedClassName = `${btn}${Array.isArray(className) ? ' ' + className.join(' ') : className}`
+    const combinedClassNameFilled = `${btn} ${btnFilled}${Array.isArray(className) ? ' ' + className.join(' ') : className}`
 
     const inlineStyles = {
         marginRight: iconGap
@@ -16,7 +19,7 @@ export const Button = ({ children, className = '', icon = null, iconGap=null, ..
 
     return (
         <button
-            className={combinedClassName}
+            className={filled ? combinedClassNameFilled : combinedClassName}
             {...props}
         >
             {icon && (
@@ -24,7 +27,9 @@ export const Button = ({ children, className = '', icon = null, iconGap=null, ..
                     <ReactSVG src={icon} />
                 </span>
             )}
-            {children}
+            <span className={text}>
+                {children}
+            </span>
         </button>
     )
 }

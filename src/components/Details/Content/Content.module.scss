@@ -1,0 +1,44 @@
+.content {
+    flex: 1;
+    overflow: auto;
+    padding: 2rem 0;
+}
+
+.block {
+    display: block;
+    width: 100%;
+
+    margin-top: 2rem;
+
+    & > .btn {
+        margin-top: 0.5rem;
+
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+}
+
+.btn {
+    width: 100%;
+    text-align: left;
+
+    &.ban {
+        color: var(--red);
+        fill: var(--red);
+        background-color: transparent;
+
+        &:hover {
+            color: var(--red);
+            fill: var(--red);
+            background-color: var(--red-secondary);
+        }
+    
+        &:focus-visible {
+            outline: 1px solid var(--text-primary);
+            color: var(--red);
+            fill: var(--red);
+            background-color: var(--red-secondary);
+        }
+    }
+}

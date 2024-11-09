@@ -2,12 +2,12 @@ import React, { useEffect, useState, useRef } from 'react'
 import EmojiPicker from 'emoji-picker-react'
 import styles from './Bottom.module.scss'
 
-import sendIcon from '../../../assets/icons/send.svg'
-import fileIcon from '../../../assets/icons/file.svg'
-import emojiIcon from '../../../assets/icons/emoji.svg'
+import sendIcon from '@/assets/icons/send.svg'
+import fileIcon from '@/assets/icons/file.svg'
+import emojiIcon from '@/assets/icons/emoji.svg'
 
-import { TextArea } from '../../UI/TextArea/TextArea'
-import { IconButton } from '../../UI/IconButton/IconButton'
+import { TextArea } from '@/components/UI/TextArea/TextArea'
+import { IconButton } from '@/components/UI/IconButton/IconButton'
 
 export const Bottom = () => {
 

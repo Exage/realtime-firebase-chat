@@ -4,6 +4,8 @@
     --text-secondary: #A59D9D;
     --text-secondary-active: #FFFFFF;
 
+    --auth-bg: #7259BE;
+
     --background-primary: #FFFFFF;
 
     --accent-primary: #8D81FF;
@@ -61,6 +63,11 @@ body {
 
     background-color: #fff;
     color: var(--text-primary);
+
+    &.about-bg {
+        background-color: var(--auth-bg);
+        overscroll-behavior: none;
+    }
 }
 
 *,

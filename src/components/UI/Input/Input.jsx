@@ -1,17 +1,15 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
+import classNames from 'classnames'
 import './Input.scss'
 
-export const Input = ({ type = 'text', value = '', onChange, className = '', placeholder="your text", ...props }) => {
-    const combinedClassName = `input${Array.isArray(className) ? ' ' + className.join(' ') : className}`
-
+export const Input = forwardRef(({ type = 'text', className = [], placeholder="your text", error=false, ...props }, ref) => {
     return (
         <input
+            ref={ref}
             type={type}
-            value={value}
-            onChange={onChange}
             placeholder={placeholder}
-            className={combinedClassName}
+            className={classNames('input', ...className)}
             {...props}
         />
     )
-}
+})

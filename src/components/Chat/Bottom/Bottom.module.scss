@@ -12,16 +12,16 @@ $gap: 1rem;
     display: flex;
     align-items: flex-end;
     column-gap: $gap;
+    height: 100%;
 
     flex: 1;
 
     position: relative;
 
     &__input {
-
         width: 100%;
-        line-height: 1.2;
-
+        height: 100%;
+        
         &-error {
             color: var(--error);
             border: 1px solid var(--error);

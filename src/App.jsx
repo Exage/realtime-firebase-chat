@@ -1,29 +1,38 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import './App.scss'
 
-import { Sidebar } from './components/Sidebar/Sidebar'
-import { Chat } from './components/Chat/Chat'
-import { Details } from './components/Details/Details'
+import { Main } from './pages/Main/Main'
+import { Login } from './pages/Login/Login'
+import { Register } from './pages/Register/Register'
+
+import { AuthPageWrapper } from './components/AuthPageWrapper/AuthPageWrapper'
 
 function App() {
 
-	const [details, setDetails] = useState(JSON.parse(localStorage.getItem('displayDetails')) || false)
+	const user = true
+	const location = useLocation()
 
-	const showDetails = () => {
-		localStorage.setItem('displayDetails', JSON.stringify(true))
-		setDetails(true)
-	}
-
-	const hideDetails = () => {
-		localStorage.setItem('displayDetails', JSON.stringify(false))
-		setDetails(false)
-	}
+	useEffect(() => {
+		if (location.pathname.startsWith('/auth')) {
+			document.body.setAttribute('class', 'about-bg')
+		} else {
+			document.body.removeAttribute('class', 'about-bg')
+		}
+	}, [location.pathname])
 
 	return (
 		<div className='App'>
-			<Sidebar />
-			<Chat details={details} showDetails={showDetails} />
-			{details && <Details hideDetails={hideDetails} />}
+			<Routes>
+
+				<Route path='/' element={user ? <Main /> : <Navigate to='/auth/login' />} />
+
+				<Route path='/auth' element={!user ? <AuthPageWrapper /> : <Navigate to='/' />}>
+					<Route path='login' element={<Login />} />
+					<Route path='register' element={<Register />} />
+				</Route>
+
+			</Routes>
 		</div>
 	)
 }

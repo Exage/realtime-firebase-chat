@@ -95,7 +95,7 @@ export const Bottom = () => {
                 <div className={formInputWrapper}>
                     <TextArea
                         placeholder='Type your message'
-                        className={error ? [formInput, formInputError] : [formInput]}
+                        className={[formInput, { formInputError: error}]}
                         value={message}
                         onChange={e => setMessage(e.target.value)}
                         onKeyDown={handleKeyDown}

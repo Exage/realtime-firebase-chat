@@ -1,18 +1,19 @@
 import React from 'react'
+import classNames from 'classnames'
 import TextareaAutosize from 'react-textarea-autosize'
 
 import './TextArea.scss'
 
-export const TextArea = ({ value = '', onChange, className = '', placeholder="your text", ...props }) => {
-    const combinedClassName = `input textarea${Array.isArray(className) ? ' ' + className.join(' ') : className}`
+export const TextArea = ({ className = [], placeholder = "your text", ...props }) => {
 
     return (
-        <TextareaAutosize
-            value={value}
-            onChange={onChange}
-            placeholder={placeholder}
-            className={combinedClassName}
-            {...props}
-        />
+        <div className={classNames('input', 'textarea__wrapper', ...className)}>
+            <TextareaAutosize
+                placeholder={placeholder}
+                className='textarea'
+                {...props}
+            />
+        </div>
     )
+    
 }

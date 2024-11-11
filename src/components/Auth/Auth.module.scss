@@ -1,0 +1,91 @@
+.auth {
+
+    width: 100%;
+    height: 100%;
+
+    padding: 2.5rem 2rem;
+
+    border-radius: 1rem;
+    background-color: var(--background-primary);
+
+    &__container {
+        max-width: 48rem;
+        width: 100%;
+
+        padding: 0 1rem;
+
+        margin: auto;
+    }
+
+    &__title {
+        text-align: center;
+        font-size: 2.4rem;
+    }
+
+    &__form {
+        display: flex;
+        flex-direction: column;
+        margin-top: 1.5rem;
+
+        label {
+            align-self: flex-start;
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+        }
+
+        p {
+            height: 2.1rem;
+            line-height: 1.5;
+            text-align: right;
+        }
+
+        & > label:first-child {
+            margin-top: 0;
+        }
+
+        label + input {
+            margin-top: 0.6rem;
+        }
+
+        label + div[data-type="input-wrapper"] {
+            margin-top: 0.6rem;
+        }
+
+        input {
+            width: 100%;
+            margin-top: 1.5rem;
+
+            &[data-type="password"] {
+                margin-top: 0;
+            }
+        }
+
+        & > input:first-child {
+            margin-top: 0;
+        }
+    }
+
+    &__submit {
+
+        width: 100%;
+
+        &-wrapper {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+    }
+
+    &__link {
+        margin-top: 2rem;
+        text-align: center;
+
+        a {
+            transition: color .2s linear;
+        }
+
+        a:hover {
+            color: var(--accent-primary-darken);
+        }
+    }
+}

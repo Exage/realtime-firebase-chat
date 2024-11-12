@@ -1,0 +1,9 @@
+.top {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0.5rem 1rem;
+
+    &__btn {
+        padding: 0.5rem;
+    }
+}

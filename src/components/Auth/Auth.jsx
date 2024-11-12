@@ -4,7 +4,7 @@ import styles from './Auth.module.scss'
 
 import { Button } from '@/components/UI/Button/Button'
 
-export const Auth = ({ children, onSubmit, handleSubmit, title = 'Title', btnText = 'submit', redirect = '', redirectPath = '' }) => {
+export const Auth = ({ children, onSubmit, handleSubmit, title = 'Title', btnText = 'submit', redirect = '', redirectPath = '', isLoading }) => {
 
     const {
         auth,
@@ -32,8 +32,9 @@ export const Auth = ({ children, onSubmit, handleSubmit, title = 'Title', btnTex
                             onClick={handleSubmit}
                             type="submit"
                             className={[submitClass]}
+                            disabled={isLoading}
                         >
-                            {btnText}
+                            {isLoading ? 'loading...' : btnText}
                         </Button>
                     </div>
 

@@ -1,5 +1,6 @@
 .user__info {
-    padding: 1rem 1.5rem;
+    position: relative;
+    padding: 0.5rem 1.5rem;
 }
 
 .user {
@@ -8,8 +9,18 @@
     align-items: center;
     column-gap: 1.5rem;
 
+    padding: 1rem;
+
     border-radius: 1rem;
-    
+
+    cursor: pointer;
+
+    transition: background-color .2s ease;
+
+    &:hover {
+        background-color: var(--sidebar-user-hover);
+    }
+
     &__photo {
         width: 5.6rem;
         height: 5.6rem;
@@ -19,6 +30,26 @@
 
         user-select: none;
         pointer-events: none;
+
+        &-none {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 100%;
+            height: 100%;
+
+            pointer-events: none;
+            user-select: none;
+
+            font-size: 2.4rem;
+            font-weight: 700;
+
+            background-color: var(--accent-primary);
+            color: var(--text-primary-active);
+
+            text-shadow: 1px 1px 0 #000, 2px 2px 0 #000;
+        }
 
         img {
             width: 100%;
@@ -68,5 +99,56 @@
         overflow: hidden;
         font-size: 1.4rem;
         color: var(--text-secondary);
+    }
+
+    &__menu {
+
+        position: absolute;
+        bottom: 100%;
+
+        left: 0;
+        right: 0;
+        padding-bottom: 1rem;
+
+        z-index: 50;
+
+        &-wrapper {
+            position: relative;
+        }
+
+        &-inner {
+            background-color: var(--background-primary);
+            border-radius: 1rem;
+            padding: 0.5rem 1rem;
+
+            display: flex;
+            flex-direction: column;
+    
+            row-gap: 0.5rem;
+        }
+
+        &-btn {
+            width: 100%;
+            text-align: left;
+
+            &.red {
+                color: var(--red);
+                fill: var(--red);
+                background-color: transparent;
+
+                &:hover {
+                    color: var(--red);
+                    fill: var(--red);
+                    background-color: var(--red-secondary);
+                }
+
+                &:focus-visible {
+                    outline: 1px solid var(--text-primary);
+                    color: var(--red);
+                    fill: var(--red);
+                    background-color: var(--red-secondary);
+                }
+            }
+        }
     }
 }

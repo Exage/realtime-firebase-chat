@@ -1,19 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import { useRegister } from '@/hooks/useRegister'
+
 import { Auth } from '@/components/Auth/Auth'
 import { Input } from '@/components/UI/Input/Input'
 import { InputPassword } from '@/components/UI/InputPassword/InputPassword'
 
 export const Register = () => {
 
-    const { register, handleSubmit, formState: { errors } } = useForm()
+    const { register, handleSubmit, formState: { errors }, setError } = useForm()
+    const { register: registerHook, loading, error } = useRegister()
 
     let FormValidation = {
         Name: {
             required: "Name is required"
-        },
-        Surname: {
-            required: "Surname is required"
         },
         Email: {
             required: "Email is required",
@@ -21,6 +21,9 @@ export const Register = () => {
                 value: /^\S+@\S+$/i,
                 message: "Email is not valid"
             }
+        },
+        Username: {
+            required: "Username is required"
         },
         Password: {
             required: "Password is required",
@@ -31,9 +34,15 @@ export const Register = () => {
         }
     }
 
-    const handleRegister = data => {
-        console.log(data)
+    const handleRegister = async (data) => {
+        await registerHook(data)
     }
+
+    useEffect(() => {
+        if (error && error.field) {
+            setError(error.field, { type: 'server', message: error.message })
+        }
+    }, [error])
 
     return (
         <Auth 
@@ -44,6 +53,8 @@ export const Register = () => {
 
             redirect='to login'
             redirectPath='/auth/login'
+
+            isLoading={loading}
         >
 
             <label htmlFor="register-name">
@@ -51,32 +62,23 @@ export const Register = () => {
             </label>
             <Input
                 id='register-name'
-                placeholder='Name'
+                placeholder='example: Ben'
                 className={[{ invalid: errors.name }]}
                 {...register('name', FormValidation.Name)}
+                disabled={loading}
             />
             <p className='error'>{errors.name && errors.name.message}</p>
-
-            <label htmlFor="register-surname">
-                Surname
-            </label>
-            <Input
-                id='register-surname'
-                placeholder='Surname'
-                className={[{ invalid: errors.surname }]}
-                {...register('surname', FormValidation.Surname)}
-            />
-            <p className='error'>{errors.surname && errors.surname.message}</p>
 
             <label htmlFor="register-email">
                 Email
             </label>
             <Input
                 id='register-email'
-                placeholder='Email'
-                type="email"
+                placeholder='example: ben@gmail.com'
+                type='email'
                 className={[{ invalid: errors.email }]}
                 {...register('email', FormValidation.Email)}
+                disabled={loading}
             />
             <p className='error'>{errors.email && errors.email.message}</p>
 
@@ -85,10 +87,11 @@ export const Register = () => {
             </label>
             <Input
                 id='register-username'
-                placeholder='Username'
+                placeholder='example: ben.kenobi'
                 type="username"
                 className={[{ invalid: errors.username }]}
                 {...register('username', FormValidation.Username)}
+                disabled={loading}
             />
             <p className='error'>{errors.username && errors.username.message}</p>
 
@@ -97,9 +100,10 @@ export const Register = () => {
             </label>
             <InputPassword
                 id="register-password"
-                placeholder='Password'
+                placeholder='your password'
                 className={[{ invalid: errors.password }]}
                 {...register('password', FormValidation.Password)}
+                disabled={loading}
             />
             <p className='error'>{errors.password && errors.password.message}</p>
 

@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import { useLogin } from '@/hooks/useLogin'
+
 import { Auth } from '@/components/Auth/Auth'
 import { Input } from '@/components/UI/Input/Input'
 import { InputPassword } from '@/components/UI/InputPassword/InputPassword'
 
 export const Login = () => {
 
-    const { register, handleSubmit, formState: { errors } } = useForm()
+    const { register, handleSubmit, formState: { errors }, setError } = useForm()
+    const { login: loginHook, loading, error } = useLogin()
 
     let FormValidation = {
         Email: {
@@ -25,9 +28,15 @@ export const Login = () => {
         }
     }
 
-    const handleLogin = data => {
-        console.log(data)
+    const handleLogin = async (data) => {
+        await loginHook(data)
     }
+
+    useEffect(() => {
+        if (error && error.field) {
+            setError(error.field, { type: 'server', message: error.message })
+        }
+    }, [error])
 
     return (
         <Auth 
@@ -49,6 +58,7 @@ export const Login = () => {
                 type="email"
                 className={[{ invalid: errors.email }]}
                 {...register('email', FormValidation.Email)}
+                disabled={loading}
             />
             <p className='error'>{errors.email && errors.email.message}</p>
 
@@ -60,8 +70,11 @@ export const Login = () => {
                 placeholder='Password'
                 className={[{ invalid: errors.password }]}
                 {...register('password', FormValidation.Password)}
+                disabled={loading}
             />
             <p className='error'>{errors.password && errors.password.message}</p>
+
+            <span className='error'>{errors.general && errors.general.message}</span>
             
         </Auth>
     )

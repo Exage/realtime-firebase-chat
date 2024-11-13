@@ -84,7 +84,7 @@ export const UserInfo = () => {
                             {currentUser.name}
                         </h3>
                         <p className={userSubtitle}>
-                            @{currentUser.username}
+                            {currentUser.username}
                         </p>
                     </div>
                 </div>

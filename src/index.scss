@@ -6,6 +6,10 @@
 
     --auth-bg: #7259BE;
 
+    --overlay-rgb: 0, 0, 0;
+    --overlay-active: rgba(var(--overlay-rgb), 0.55); 
+    --overlay-inactive: rgba(var(--overlay-rgb), 0); 
+
     --background-primary: #FFFFFF;
 
     --accent-primary: #8D81FF;

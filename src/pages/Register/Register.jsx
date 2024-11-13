@@ -23,7 +23,39 @@ export const Register = () => {
             }
         },
         Username: {
-            required: "Username is required"
+            required: "This field is required",
+            minLength: {
+                value: 4,
+                message: "Username must be at least 4 characters long"
+            },
+            maxLength: {
+                value: 20,
+                message: "Username must not exceed 20 characters"
+            },
+            validate: {
+                startsWithAt: (value) => {
+                    if (!value.startsWith('@')) {
+                        return "Username must start with @"
+                    }
+                },
+                noSpaces: (value) => {
+                    if (/\s/.test(value)) {
+                        return "Username must not contain spaces"
+                    }
+                },
+                alidChars: (value) => {
+                    const regex = /^[a-zA-Z0-9._@]+$/
+                    if (!regex.test(value)) {
+                        return "The username can only contain letters, numbers, _ and ."
+                    }
+                },
+                onlyEnglishLetters: value => {
+                    const regex = /^[a-zA-Z]+$/
+                    if (!regex.test(value.replace('@', ''))) {
+                        return "Username must contain only English letters"
+                    }
+                }
+            }
         },
         Password: {
             required: "Password is required",

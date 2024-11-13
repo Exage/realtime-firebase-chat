@@ -15,54 +15,54 @@ import { Loader } from './components/UI/Loader/Loader'
 
 function App() {
 
-	const { currentUser, isLoading, fetchUserInfo } = useUserStore()
-	const location = useLocation()
+    const { currentUser, isLoading, fetchUserInfo } = useUserStore()
+    const location = useLocation()
 
-	console.log('Loading', isLoading)
-	console.log('User', currentUser)
+    console.log('Loading', isLoading)
+    console.log('User', currentUser)
 
-	useEffect(() => {
-		const unSub = onAuthStateChanged(auth, (user) => {
-			fetchUserInfo(user?.uid)
-		})
+    useEffect(() => {
+        const unSub = onAuthStateChanged(auth, (user) => {
+            fetchUserInfo(user?.uid)
+        })
 
-		return () => {
-			unSub()
-		}
-	}, [fetchUserInfo])
+        return () => {
+            unSub()
+        }
+    }, [fetchUserInfo])
 
-	// useEffect(() => {
-	// 	if (location.pathname.startsWith('/auth')) {
-	// 		document.body.setAttribute('class', 'about-bg')
-	// 	} else {
-	// 		document.body.removeAttribute('class', 'about-bg')
-	// 	}
-	// }, [location.pathname])
+    // useEffect(() => {
+    // 	if (location.pathname.startsWith('/auth')) {
+    // 		document.body.setAttribute('class', 'about-bg')
+    // 	} else {
+    // 		document.body.removeAttribute('class', 'about-bg')
+    // 	}
+    // }, [location.pathname])
 
-	if (isLoading) {
-		return (
-			<div className='App'>
-				<div className="App__loader">
-					<Loader />
-				</div>
-			</div>
-		)
-	}
+    if (isLoading) {
+        return (
+            <div className='App'>
+                <div className="App__loader">
+                    <Loader />
+                </div>
+            </div>
+        )
+    }
 
-	return (
-		<div className='App'>
-			<Routes>
+    return (
+        <div className='App'>
+            <Routes>
 
-				<Route path='/' element={currentUser ? <Main /> : <Navigate to='/auth/login' />} />
+                <Route path='/' element={currentUser ? <Main /> : <Navigate to='/auth/login' />} />
 
-				<Route path='/auth' element={!currentUser ? <AuthPageWrapper /> : <Navigate to='/' />}>
-					<Route path='login' element={<Login />} />
-					<Route path='register' element={<Register />} />
-				</Route>
+                <Route path='/auth' element={!currentUser ? <AuthPageWrapper /> : <Navigate to='/' />}>
+                    <Route path='login' element={<Login />} />
+                    <Route path='register' element={<Register />} />
+                </Route>
 
-			</Routes>
-		</div>
-	)
+            </Routes>
+        </div>
+    )
 }
 
 export default App

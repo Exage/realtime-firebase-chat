@@ -26,7 +26,7 @@ export const Register = () => {
             required: "This field is required",
             minLength: {
                 value: 4,
-                message: "Username must be at least 4 characters long"
+                message: "Username must be at least 3 characters long"
             },
             maxLength: {
                 value: 20,
@@ -49,12 +49,12 @@ export const Register = () => {
                         return "The username can only contain letters, numbers, _ and ."
                     }
                 },
-                onlyEnglishLetters: value => {
-                    const regex = /^[a-zA-Z]+$/
-                    if (!regex.test(value.replace('@', ''))) {
-                        return "Username must contain only English letters"
-                    }
-                }
+                // onlyEnglishLetters: value => {
+                //     const regex = /^[a-zA-Z]+$/
+                //     if (!regex.test(value.replace('@', ''))) {
+                //         return "Username must contain only English letters"
+                //     }
+                // }
             }
         },
         Password: {

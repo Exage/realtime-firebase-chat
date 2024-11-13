@@ -47,6 +47,8 @@ export const Login = () => {
 
             redirect='to register'
             redirectPath='/auth/register'
+
+            isLoading={loading}
         >
 
             <label htmlFor="login-email">

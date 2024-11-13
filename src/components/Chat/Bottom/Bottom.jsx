@@ -9,6 +9,8 @@ import emojiIcon from '@/assets/icons/emoji.svg'
 import { TextArea } from '@/components/UI/TextArea/TextArea'
 import { IconButton } from '@/components/UI/IconButton/IconButton'
 
+import { useSendMessage } from '@/hooks/useSendMessage'
+
 export const Bottom = () => {
 
     const emojiRef = useRef(null)
@@ -29,6 +31,8 @@ export const Bottom = () => {
     const [message, setMessage] = useState('')
     const [sendDisabled, setSendDisabled] = useState(true)
     const [error, setError] = useState(null)
+
+    const { sendMessage } = useSendMessage()
 
     const maxSymbols = 500
     const maxRows = 4
@@ -68,7 +72,7 @@ export const Bottom = () => {
             return
         }
 
-        console.log(message)
+        sendMessage(message)
         setMessage('')
     }
 

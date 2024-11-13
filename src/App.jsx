@@ -18,8 +18,8 @@ function App() {
     const { currentUser, isLoading, fetchUserInfo } = useUserStore()
     const location = useLocation()
 
-    console.log('Loading', isLoading)
-    console.log('User', currentUser)
+    // console.log('Loading', isLoading)
+    // console.log('User', currentUser)
 
     useEffect(() => {
         const unSub = onAuthStateChanged(auth, (user) => {

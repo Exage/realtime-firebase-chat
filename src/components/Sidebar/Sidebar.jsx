@@ -3,7 +3,7 @@ import './Sidebar.scss'
 
 import { Top } from './Top/Top'
 import { Search } from './Search/Search'
-import { UserList } from './UsersList/UserList'
+import { ChatList } from './ChatList/ChatList'
 import { UserInfo } from './UserInfo/UserInfo'
 
 export const Sidebar = () => {
@@ -12,7 +12,7 @@ export const Sidebar = () => {
         <div className='sidebar'>
             <Top />
             <Search />
-            <UserList />
+            <ChatList />
             <UserInfo />
         </div>
     )

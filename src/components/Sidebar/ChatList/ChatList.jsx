@@ -2,19 +2,19 @@ import React, { useEffect, useState } from 'react'
 import { doc, getDoc, onSnapshot } from 'firebase/firestore'
 import { useUserStore } from '@/lib/userStore'
 import { db } from '@/lib/firebase'
-import styles from './UserList.module.scss'
+import styles from './ChatList.module.scss'
 
-import { User } from './User/User'
+import { Chat } from './Chat/Chat'
 
 import { Loader } from '@/components/UI/Loader/Loader'
 
-export const UserList = () => {
+export const ChatList = () => {
 
     const {
-        users,
-        ['users__overflow']: usersOverflow,
-        ['users__nochat']: noChat,
-        ['users__loading']: loading,
+        chats: chatsClass,
+        ['chats__overflow']: chatsOverflow,
+        ['chats__nochat']: noChat,
+        ['chats__loading']: loading,
     } = styles
 
     const [chats, setChats] = useState(null)
@@ -48,7 +48,7 @@ export const UserList = () => {
     }, [currentUser.id])
 
     return (
-        <div className={users}>
+        <div className={chatsClass}>
             {isLoading && (
                 <div className={loading}>
                     <Loader />
@@ -59,11 +59,11 @@ export const UserList = () => {
                     Your chat list is empty. <br /> Try to find someone!
                 </div>
             )}
-            {chats && chats.map((data) => (
-                <div className={usersOverflow}>
-                    <User data={data} key={data.id} />
+            {chats && (
+                <div className={chatsOverflow}>
+                    {chats.map((data) => <Chat data={data} key={data.chatId} />)}
                 </div>
-            ))}
+            )}
         </div>
     )
 }

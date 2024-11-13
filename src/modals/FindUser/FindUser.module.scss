@@ -1,3 +1,5 @@
+$photoSize: 5.6rem;
+
 .find-user {
     &__form {
         display: flex;
@@ -34,8 +36,8 @@
     width: 100%;
 
     &__photo {
-        width: 5.6rem;
-        height: 5.6rem;
+        width: $photoSize;
+        height: $photoSize;
 
         border-radius: 50%;
         overflow: hidden;
@@ -54,7 +56,7 @@
             pointer-events: none;
             user-select: none;
 
-            font-size: 2.4rem;
+            font-size: calc($photoSize * 0.4);
             font-weight: 700;
 
             background-color: var(--accent-primary);

@@ -6,6 +6,8 @@ import { Button } from '@/components/UI/Button/Button'
 
 import logoutIcon from '@/assets/icons/logout.svg'
 import userSettings from '@/assets/icons/user-pen.svg'
+import copy from '@/assets/icons/copy.svg'
+import check from '@/assets/icons/check.svg'
 
 export const UserInfo = () => {
 
@@ -25,12 +27,23 @@ export const UserInfo = () => {
     } = styles
 
     const menuRef = useRef(null)
-    const [openMenu, setOpenMenu] = useState(false)
     const { currentUser, logout } = useUserStore()
+
+    const [openMenu, setOpenMenu] = useState(false)
+    const [isCopied, setIsCopied] = useState(false)
 
     const handleOpenMenu = (e) => {
         e.stopPropagation()
         setOpenMenu(true)
+    }
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(currentUser.username)
+            .then(() => {
+                setIsCopied(true)
+                setTimeout(() => setIsCopied(false), 1500)
+            })
+            .catch((error) => console.error('Copy username error:', error))
     }
 
     useEffect(() => {
@@ -66,6 +79,13 @@ export const UserInfo = () => {
                                 icon={userSettings}
                             >
                                 User Settings
+                            </Button>
+                            <Button
+                                onClick={handleCopy}
+                                className={[menuBtn]}
+                                icon={isCopied ? check : copy}
+                            >
+                                {isCopied ? 'Copied!' : 'Copy username'}
                             </Button>
                         </div>
                     </div>

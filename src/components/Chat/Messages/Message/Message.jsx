@@ -2,10 +2,10 @@ import React from 'react'
 import classNames from 'classnames'
 import styles from './Message.module.scss'
 
-export const Message = ({ isUser=false }) => {
+export const Message = ({ message, isUser=false }) => {
 
     const {
-        message,
+        messageClass,
         ["message__inner"]: messageInner,
         own,
         text,
@@ -13,10 +13,10 @@ export const Message = ({ isUser=false }) => {
     } = styles
 
     return (
-        <div className={classNames(message, { [own]: isUser })}>
+        <div className={classNames(messageClass, { [own]: isUser })}>
             <div className={messageInner}>
                 <div className={text}>
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquid culpa ipsa soluta quas molestiae autem iure modi, esse pariatur beatae ut, et dolores, vero doloremque quam dolorem ullam fuga voluptas.
+                    {message.text}
                 </div>
                 <div className={time}>1 min ago</div>
             </div>

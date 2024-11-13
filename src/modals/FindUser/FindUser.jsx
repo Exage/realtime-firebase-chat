@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import classNames from 'classnames'
 import { useForm } from 'react-hook-form'
 import { useFetchUser } from '@/hooks/useFetchUser'
+import { useStartChat } from '@/hooks/useStartChat'
 import styles from './FindUser.module.scss'
 
 import { Modal } from '@/components/Modal/Modal'
@@ -29,7 +30,9 @@ export const FindUser = () => {
         ['user__controls']: resultsUserControls,
     } = styles
 
-    const { fetchUser, error, loading } = useFetchUser()
+    const { fetchUser, error: fetchError, loading: fetchLoading } = useFetchUser()
+    const { startChat, error: chatError, loading: chatLoading } = useStartChat()
+    // const { fetchUser, error, loading } = useFetchUser()
     const { register, handleSubmit, formState: { errors }, reset } = useForm()
 
     const [user, setUser] = useState(null)
@@ -82,6 +85,10 @@ export const FindUser = () => {
         }
     }
 
+    const handleStartNewChat = () => {
+        startChat(user.id)
+    }
+
     return (
         <Modal
             modalId='findUser'
@@ -105,7 +112,7 @@ export const FindUser = () => {
 
                 <div className={results}>
 
-                    {loading ? (
+                    {fetchLoading ? (
                         <Loader />
                     ) : (
                         <>
@@ -136,6 +143,7 @@ export const FindUser = () => {
                                     <div className={resultsUserControls}>
                                         <IconButton 
                                             icon={chatIcon}
+                                            onClick={handleStartNewChat}
                                         />
                                     </div>
                                 </div>

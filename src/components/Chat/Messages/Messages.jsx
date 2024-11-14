@@ -10,6 +10,7 @@ export const Messages = () => {
     
     const { messages } = styles
 
+    const messagesRef = useRef(null)
     const { chatId } = useChatStore()
     const [chat, setChat] = useState(null)
     const endRef = useRef(null)
@@ -32,9 +33,9 @@ export const Messages = () => {
     }, [chatId])
 
     return (
-        <div className={messages}>
+        <div className={messages} ref={messagesRef}>
             {chat?.messages.map((message) => (
-                <Message message={message} key={message?.createdAt} />
+                <Message message={message} messagesRef={messagesRef} key={message?.createdAt} />
             ))}
             <div ref={endRef}></div>
         </div>

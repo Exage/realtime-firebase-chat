@@ -1,32 +1,57 @@
 import React from 'react'
+import classNames from 'classnames'
+import { doc, updateDoc } from 'firebase/firestore'
+import { db } from '@/lib/firebase'
 import styles from './Chat.module.scss'
 
 import { useUserStore } from '@/lib/userStore'
 import { useChatStore } from '@/lib/chatStore'
 
-export const Chat = ({ data }) => {
+export const Chat = ({ chat, chats }) => {
 
     const {
-        chat,
+        ['chat']: chatClass,
         ['chat__photo']: chatPhoto,
         ['chat__photo-none']: chatPhotoNone,
         ['chat__text']: chatText,
         ['chat__name']: chatName,
         ['chat__subtitle']: chatSubtitle,
-        active
+        active,
+        seen
     } = styles
 
+    const { currentUser } = useUserStore()
     const { changeChat } = useChatStore()
 
-    const { avatar, name } = data.user
-    const { chatId, lastMessage } = data
+    const { avatar, name } = chat.user
+    const { chatId, lastMessage, isSeen } = chat
 
-    const handleSelect = async (chatId) => {
-        changeChat(chatId, data.user)
+    const handleSelect = async () => {
+
+        const userChats = chats.map(item => {
+            const {user, ...rest} = item
+            return rest
+        })
+
+        const chatIndex = userChats.findIndex(item => item.chatId === chatId)
+
+        userChats[chatIndex].isSeen = true
+
+        const userChatRef = doc(db, 'userchats', currentUser.id)
+
+        try {
+            await updateDoc(userChatRef, {
+                chats: userChats
+            })
+            changeChat(chatId, chat.user)
+        } catch (error) {
+            console.log(error)
+        }
+
     }
 
     return (
-        <div className={chat} onClick={() => handleSelect(chatId)}>
+        <div className={classNames(chatClass, { [seen]: !isSeen })} onClick={() => handleSelect()}>
             <div className={chatPhoto}>
                 {avatar.photo || (
                     <div className={chatPhotoNone}>

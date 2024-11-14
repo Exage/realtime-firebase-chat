@@ -61,7 +61,7 @@ export const ChatList = () => {
             )}
             {chats && (
                 <div className={chatsOverflow}>
-                    {chats.map((data) => <Chat data={data} key={data.chatId} />)}
+                    {chats.map((chat) => <Chat chat={chat} chats={chats} key={chat.chatId} />)}
                 </div>
             )}
         </div>

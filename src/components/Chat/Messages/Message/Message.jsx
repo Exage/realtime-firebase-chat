@@ -1,19 +1,42 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import classNames from 'classnames'
 import styles from './Message.module.scss'
 
-export const Message = ({ message, isUser=false }) => {
+import { useUserStore } from '@/lib/userStore'
+
+export const Message = ({ message, messagesRef }) => {
 
     const {
-        messageClass,
+        ["message"]: messageClass,
         ["message__inner"]: messageInner,
         own,
         text,
         time
     } = styles
 
+    const messageRef = useRef(null)
+    const { currentUser } = useUserStore()
+
+    useEffect(() => {
+        if (!messagesRef) return
+
+        const checkView = () => {
+            const scrollY = messageRef.current.getBoundingClientRect().y
+            console.log(message, scrollY)
+        }
+
+        messagesRef.current.addEventListener('scroll', checkView)
+
+        return () => {
+            messagesRef.current.removeEventListener('scroll', checkView)
+        }
+    }, [])
+
     return (
-        <div className={classNames(messageClass, { [own]: isUser })}>
+        <div
+            className={classNames(messageClass, { [own]: message.senderId === currentUser.id })}
+            ref={messageRef}
+        >
             <div className={messageInner}>
                 <div className={text}>
                     {message.text}

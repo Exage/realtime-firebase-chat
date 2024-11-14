@@ -60,22 +60,6 @@ export const Bottom = () => {
         }
     }, [message])
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-
-        if (!message.trim()) {
-            return
-        }
-
-        if (message.trim().length > maxSymbols) {
-            setError(`Message must be less then ${maxSymbols} symbols`)
-            return
-        }
-
-        sendMessage(message)
-        setMessage('')
-    }
-
     const handleEmojiButton = (e) => {
         e.preventDefault()
         setEmojiPickerShow(prev => !prev)
@@ -90,6 +74,22 @@ export const Bottom = () => {
             e.preventDefault()
             handleSubmit(e)
         }
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+
+        if (!message.trim()) {
+            return
+        }
+
+        if (message.trim().length > maxSymbols) {
+            setError(`Message must be less then ${maxSymbols} symbols`)
+            return
+        }
+
+        sendMessage(message)
+        setMessage('')
     }
 
     return (

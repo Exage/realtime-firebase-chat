@@ -33,9 +33,9 @@ export const Chat = ({ chat, chats }) => {
             return rest
         })
 
-        const chatIndex = userChats.findIndex(item => item.chatId === chatId)
+        // const chatIndex = userChats.findIndex(item => item.chatId === chatId)
 
-        userChats[chatIndex].isSeen = true
+        // userChats[chatIndex].isSeen = true
 
         const userChatRef = doc(db, 'userchats', currentUser.id)
 
@@ -51,7 +51,7 @@ export const Chat = ({ chat, chats }) => {
     }
 
     return (
-        <div className={classNames(chatClass, { [seen]: !isSeen })} onClick={() => handleSelect()}>
+        <div className={classNames(chatClass, /*{ [seen]: !isSeen }*/)} onClick={() => handleSelect()}>
             <div className={chatPhoto}>
                 {avatar.photo || (
                     <div className={chatPhotoNone}>

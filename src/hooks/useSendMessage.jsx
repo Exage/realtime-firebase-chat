@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { arrayUnion, doc, getDoc, updateDoc } from 'firebase/firestore'
 import { db } from '@/lib/firebase'
+import { v4 as uuidv4 } from 'uuid'
 
 import { useUserStore } from '@/lib/userStore'
 import { useChatStore } from '@/lib/chatStore'
@@ -16,8 +17,10 @@ export const useSendMessage = () => {
         try {
             await updateDoc(doc(db, 'chats', chatId), {
                 messages: arrayUnion({
+                    id: uuidv4(),
                     senderId: currentUser.id,
                     text,
+                    isSeen: false,
                     createdAt: new Date()
                 })
             })
@@ -33,7 +36,6 @@ export const useSendMessage = () => {
                     const chatIndex = userChatsData.chats.findIndex(c => c.chatId === chatId)
 
                     userChatsData.chats[chatIndex].lastMessage = text
-                    userChatsData.chats[chatIndex].isSeen = id === currentUser.id ? true : false
                     userChatsData.chats[chatIndex].updatedAt = Date.now()
 
                     await updateDoc(userChatRef, {

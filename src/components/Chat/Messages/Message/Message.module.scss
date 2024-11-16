@@ -1,9 +1,11 @@
 .message {
 
     padding-right: 3rem;
+    display: flex;
 
     &__inner {
         max-width: 50rem;
+        min-width: 15rem;
         background-color: var(--message-companion);
         color: var(--text-primary-active);
         padding: 1rem 2rem 0.5rem 2rem;

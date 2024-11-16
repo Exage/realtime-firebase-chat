@@ -40,7 +40,6 @@ export const useStartChat = () => {
                 })
             })
 
-            console.log(newChatRef.id)
         } catch (error) {
             console.error(error)
             setError(error.message)

@@ -12,7 +12,7 @@ export const Chat = ({ details, showDetails }) => {
     const { chatId } = useChatStore()
 
     return (
-        <div className={classNames('chat', { ['show-details']: details })}>
+        <div className={classNames('chat', { ['show-details']: chatId && details })}>
             {chatId && (
                 <>
                     <Top showDetails={showDetails} />

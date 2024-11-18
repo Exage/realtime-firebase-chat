@@ -2,8 +2,9 @@ import { create } from "zustand"
 import { auth, db } from "./firebase"
 import { getDoc, doc } from "firebase/firestore"
 import { signOut } from "firebase/auth"
+import { devtools } from 'zustand/middleware'
 
-export const useUserStore = create((set) => ({
+export const useUserStore = create(devtools((set) => ({
     currentUser: null,
     isLoading: true,
     fetchUserInfo: async (uid) => {
@@ -37,4 +38,4 @@ export const useUserStore = create((set) => ({
             console.error(error)
         }
     }
-}))
+})))

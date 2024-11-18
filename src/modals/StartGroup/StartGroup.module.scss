@@ -1,0 +1,136 @@
+@import '@/mixins';
+
+.start-group {
+    &__form {
+        display: flex;
+        align-items: stretch;
+
+        column-gap: 1rem;
+
+        &-input {
+            flex: 1;
+        }
+    }
+
+    &__error {
+        margin-top: 0.5rem;
+        height: 2rem;
+        line-height: 1.3;
+        height: 1.82rem;
+    }
+
+    &__results {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        height: 6rem;
+        margin-top: 1rem;
+    }
+
+    &__bottom {
+        
+        display: flex;
+        margin-top: 2rem;
+
+        &-btn {
+            width: 100%;
+        }
+    }
+}
+
+.selected {
+
+    display: flex;
+    column-gap: 0.4rem;
+    row-gap: 0.4rem;
+    flex-wrap: wrap;
+
+    &__user {
+        display: flex;
+        align-items: center;
+        border: 1px solid var(--border);
+        padding: 0.5rem 1.5rem;
+        border-radius: 2rem;
+
+        $photoSize: 2.4rem;
+
+        &-photo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: $photoSize;
+            height: $photoSize;
+
+            border-radius: 50%;
+            overflow: hidden;
+
+            &__none {
+                @include photoPlaceholder($photoSize)
+            }
+        }
+
+        &-name {
+            font-weight: 700;
+            font-size: 1.6rem;
+            margin-left: 0.5rem;
+        }
+
+        &-close {
+
+            margin-left: 1rem;
+            cursor: pointer;
+
+            &>.icon {
+                width: 1.6rem;
+                height: 1.6rem;
+
+                div {
+                    display: flex;
+                    height: 1.6rem;
+                }
+            }
+        }
+    }
+}
+
+.user {
+    display: flex;
+    column-gap: 1rem;
+    align-items: center;
+    width: 100%;
+
+    $photoSize: 4.8rem;
+
+    &__photo {
+        width: $photoSize;
+        height: $photoSize;
+
+        border-radius: 50%;
+        overflow: hidden;
+
+        user-select: none;
+        pointer-events: none;
+
+        &-none {
+            @include photoPlaceholder($photoSize);
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+        }
+    }
+
+    &__name {
+        font-size: 1.8rem;
+        font-weight: 700;
+        text-wrap: nowrap;
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}

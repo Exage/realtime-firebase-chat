@@ -8,25 +8,24 @@ import { Message } from './Message/Message'
 
 export const Messages = () => {
 
-    const { messages } = styles
+    const { messages: messagesClass } = styles
 
     const messagesRef = useRef(null)
-    const { chatId } = useChatStore()
-    const [chat, setChat] = useState(null)
+    const { chatId, messages, setMessages } = useChatStore()
     const endRef = useRef(null)
 
     useEffect(() => {
-        // endRef.current?.scrollIntoView()
-    }, [])
-
-    console.log(chat)
+        endRef?.current.scrollIntoView()
+    }, [messages])
 
     useEffect(() => {
         const unSub = onSnapshot(
             doc(db, 'chats', chatId),
             (res) => {
-                setChat(res.data())
-                // endRef.current?.scrollIntoView()
+                const data = res.data()
+                const messages = data.messages
+
+                setMessages(messages)
             }
         )
 
@@ -34,37 +33,19 @@ export const Messages = () => {
             unSub()
         }
     }, [chatId])
-
-    const setSeen = async (message) => {
-        const chatRef = doc(db, 'chats', chatId)
-        const chatSnap = await getDoc(chatRef)
-
-        if (chatSnap.exists()) {
-            const data = chatSnap.data()
-            const updatedMessages = data.messages.map(m => {
-                if (m.id === message.id && m.isSeen !== true) {
-                    m.isSeen = true
-                }
-
-                return m
-            })
-
-            await updateDoc(chatRef, {
-                messages: updatedMessages
-            })
-        }
-    }
-
+    
     return (
-        <div className={messages} ref={messagesRef}>
+        <div className={messagesClass} ref={messagesRef}>
 
-            {/* <div style={{ width: '100%', minHeight: '2000px' }}></div> */}
-
-            {chat?.messages.map((message) => (
-                <Message message={message} setSeen={setSeen} messagesRef={messagesRef} key={message?.createdAt} />
+            {messages?.map((message) => (
+                <Message 
+                    message={message}
+                    messagesRef={messagesRef}
+                    chat={messages}
+                    key={message?.createdAt}
+                />
             ))}
 
-            {/* <div style={{ width: '100%', minHeight: '2000px' }}></div> */}
             <div ref={endRef}></div>
         </div>
     )

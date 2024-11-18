@@ -11,21 +11,26 @@ export const useSendMessage = () => {
     const [error, setError] = useState(null)
 
     const { currentUser } = useUserStore()
-    const { chatId, user } = useChatStore()
+    const { chatId, users } = useChatStore()
 
     const sendMessage = async (text) => {
         try {
-            await updateDoc(doc(db, 'chats', chatId), {
-                messages: arrayUnion({
-                    id: uuidv4(),
-                    senderId: currentUser.id,
-                    text,
-                    isSeen: false,
-                    createdAt: new Date()
-                })
-            })
 
-            const userIDs = [currentUser.id, user.id]
+            const messageId = uuidv4()
+            const messageStructure = {
+                id: messageId,
+                type: 'user',
+                senderId: currentUser.id,
+                text,
+                isSeen: false,
+                createdAt: new Date()
+            }
+
+            await updateDoc(doc(db, 'chats', chatId), {
+                messages: arrayUnion(messageStructure)
+            })
+            
+            const userIDs = [currentUser.id, ...users.map(user => user.id)]
 
             userIDs.forEach(async (id) => {
                 const userChatRef = doc(db, 'userchats', id)
@@ -35,7 +40,9 @@ export const useSendMessage = () => {
                     const userChatsData = userChatsSnapshot.data()
                     const chatIndex = userChatsData.chats.findIndex(c => c.chatId === chatId)
 
-                    userChatsData.chats[chatIndex].lastMessage = text
+                    userChatsData.chats[chatIndex].lastMessage = messageStructure
+                    userChatsData.chats[chatIndex].isSeen = false
+                    userChatsData.chats[chatIndex].unreadedMessages = 1
                     userChatsData.chats[chatIndex].updatedAt = Date.now()
 
                     await updateDoc(userChatRef, {

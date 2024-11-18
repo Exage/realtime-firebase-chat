@@ -6,8 +6,13 @@ import { Details } from '@/components/Details/Details'
 import { Sidebar } from '@/components/Sidebar/Sidebar'
 
 import { FindUser } from '@/modals/FindUser/FindUser'
+import { StartGroup } from '@/modals/StartGroup/StartGroup'
+
+import { useChatStore } from '@/lib/chatStore'
 
 export const Main = () => {
+
+    const { chatId } = useChatStore()
 
     const [details, setDetails] = useState(JSON.parse(localStorage.getItem('displayDetails')) || false)
 
@@ -25,9 +30,10 @@ export const Main = () => {
         <main className='main'>
             <Sidebar />
             <Chat details={details} showDetails={showDetails} />
-            {details && <Details hideDetails={hideDetails} />}
+            {chatId && (details && <Details hideDetails={hideDetails} />)}
 
             <FindUser />
+            <StartGroup />
         </main>
     )
 }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { doc, getDoc, onSnapshot } from 'firebase/firestore'
 import { useUserStore } from '@/lib/userStore'
+import { useChatsStore } from '@/lib/chatsStore'
 import { db } from '@/lib/firebase'
 import styles from './ChatList.module.scss'
 
@@ -17,9 +18,7 @@ export const ChatList = () => {
         ['chats__loading']: loading,
     } = styles
 
-    const [chats, setChats] = useState(null)
-    const [isLoading, setIsLoading] = useState(true)
-
+    const { chats, setChats, setLoading, isLoading } = useChatsStore()
     const { currentUser } = useUserStore()
 
     useEffect(() => {
@@ -28,18 +27,29 @@ export const ChatList = () => {
                 const items = res.data().chats
 
                 const promises = items.map(async (item) => {
-                    const userDocRef = doc(db, 'users', item.receiverId)
-                    const userDocSnap = await getDoc(userDocRef)
-
-                    const user = userDocSnap.data()
-
-                    return { ...item, user }
+                    if (item.type === 'single') {
+                        const userDocRef = doc(db, 'users', item.receiversIDs[0])
+                        const userDocSnap = await getDoc(userDocRef)
+                        const user = userDocSnap.data()
+                        return { ...item, users: [user] }
+                    }
+    
+                    if (item.type === 'group') {
+                        const usersPromises = item.receiversIDs.map(async (userId) => {
+                            const userDocRef = doc(db, 'users', userId)
+                            const userDocSnap = await getDoc(userDocRef)
+                            return userDocSnap.data()
+                        })
+    
+                        const users = await Promise.all(usersPromises)
+                        return { ...item, users }
+                    }
                 })
 
                 const chatData = await Promise.all(promises)
 
                 setChats(chatData.sort((a, b) => b.updatedAt - a.updatedAt))
-                setIsLoading(false)
+                setLoading(false)
             })
 
         return () => {

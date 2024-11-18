@@ -32,7 +32,7 @@ export const Bottom = () => {
     const [sendDisabled, setSendDisabled] = useState(true)
     const [error, setError] = useState(null)
 
-    const { sendMessage } = useSendMessage()
+    const { sendMessage, loading } = useSendMessage()
 
     const maxSymbols = 500
     const maxRows = 4
@@ -104,6 +104,7 @@ export const Bottom = () => {
                         onChange={e => setMessage(e.target.value)}
                         onKeyDown={handleKeyDown}
                         maxRows={maxRows}
+                        disabled={loading}
                     />
                     {error && <span className={`error ${errorClass}`}>{error}</span>}
                 </div>

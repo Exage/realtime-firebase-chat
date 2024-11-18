@@ -1,3 +1,5 @@
+@import '@/mixins';
+
 .top {
     text-align: center;
     margin-top: 4rem;
@@ -5,15 +7,21 @@
     border-bottom: 1px solid var(--border);
 }
 
+$photoSize: 10rem;
+
 .avatar {
-    width: 10rem;
-    height: 10rem;
+    width: $photoSize;
+    height: $photoSize;
 
     margin: 0 auto;
 
     border-radius: 50%;
 
     overflow: hidden;
+
+    &__none {
+        @include photoPlaceholder($photoSize);
+    }
 
     img {
         width: 100%;

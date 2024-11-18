@@ -4,13 +4,13 @@ import { db } from '@/lib/firebase'
 import { useUserStore } from '@/lib/userStore'
 import { v4 as uuidv4 } from 'uuid'
 
-export const useStartChat = () => {
+export const useStartGroup = () => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
 
     const { currentUser } = useUserStore()
 
-    const startChat = async (user) => {
+    const startGroup = async (users) => {
         try {
 
             const chatRef = collection(db, 'chats')
@@ -30,37 +30,40 @@ export const useStartChat = () => {
 
             await setDoc(newChatRef, {
                 createdAt: serverTimestamp(),
-                type: 'single',
-                messages: [
-                    messageStructure
-                ]
+                type: 'group',
+                messages: [messageStructure]
             })
-
-            const userId = user.id
 
             const chatData = {
                 chatId: newChatRef.id,
                 lastMessage: messageStructure,
                 isSeen: false,
                 unreadedMessages: 0,
-                type: 'single',
-                groupData: {},
+                type: 'group',
+                groupData: {
+                    title: "New group",
+                    cover: {
+                        url: null,
+                        hash: null
+                    }
+                },
                 updatedAt: Date.now()
             }
 
-            await updateDoc(doc(userChatRef, userId), {
-                chats: arrayUnion({
-                    ...chatData,
-                    receiversIDs: [currentUser.id]
-                })
-            })
+            const usersIds = users.map(user => user.id)
 
-            await updateDoc(doc(userChatRef, currentUser.id), {
-                chats: arrayUnion({
-                    ...chatData,
-                    receiversIDs: [userId]
+            const allUsersIds = [currentUser.id, ...usersIds]
+
+            await Promise.all(
+                allUsersIds.map(async userId => {
+                    await updateDoc(doc(userChatRef, userId), {
+                        chats: arrayUnion({
+                            ...chatData,
+                            receiversIDs: allUsersIds.filter(id => id !== userId)
+                        })
+                    })
                 })
-            })
+            )
 
         } catch (error) {
             console.error(error)
@@ -70,5 +73,5 @@ export const useStartChat = () => {
         }
     }
 
-    return { loading, error, startChat }
+    return { loading, error, startGroup }
 }

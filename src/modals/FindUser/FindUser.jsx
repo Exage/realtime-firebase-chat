@@ -32,7 +32,6 @@ export const FindUser = () => {
 
     const { fetchUser, error: fetchError, loading: fetchLoading } = useFetchUser()
     const { startChat, error: chatError, loading: chatLoading } = useStartChat()
-    // const { fetchUser, error, loading } = useFetchUser()
     const { register, handleSubmit, formState: { errors }, reset } = useForm()
 
     const [user, setUser] = useState(null)
@@ -45,6 +44,10 @@ export const FindUser = () => {
     const resetData = () => {
         reset()
         setUser(null)
+    }
+
+    const handleStartNewChat = () => {
+        startChat(user)
     }
 
     const FormValidation = {
@@ -74,19 +77,9 @@ export const FindUser = () => {
                     if (!regex.test(value)) {
                         return "The username can only contain letters, numbers, _ and ."
                     }
-                },
-                // onlyEnglishLetters: value => {
-                //     const regex = /^[a-zA-Z]+$/
-                //     if (!regex.test(value.replace('@', ''))) {
-                //         return "Username must contain only English letters"
-                //     }
-                // }
+                }
             }
         }
-    }
-
-    const handleStartNewChat = () => {
-        startChat(user.id)
     }
 
     return (

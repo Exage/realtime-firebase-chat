@@ -1,13 +1,14 @@
 import React, { useEffect, useRef } from 'react'
 import classNames from 'classnames'
 import styles from './Message.module.scss'
-
-import { useUserStore } from '@/lib/userStore'
-import { useChatStore } from '@/lib/chatStore'
 import { doc, getDoc, updateDoc } from 'firebase/firestore'
 import { db } from '@/lib/firebase'
 
-export const Message = ({ message, messagesRef }) => {
+import { useUserStore } from '@/lib/userStore'
+import { useChatStore } from '@/lib/chatStore'
+import { useChatsStore } from '@/lib/chatsStore'
+
+export const Message = ({ message, messagesRef, chat }) => {
 
     const {
         ["message"]: messageClass,
@@ -19,54 +20,83 @@ export const Message = ({ message, messagesRef }) => {
 
     const messageRef = useRef(null)
     const { currentUser } = useUserStore()
-    const { chatId } = useChatStore()
+    const { chatId, messages, users, type } = useChatStore()
+    const { chats } = useChatsStore()
 
-    useEffect(() => {
-        if (!messagesRef) return
+    const messageSender = users?.find(user => user.id === message.senderId)
 
-        const checkView = () => {
+    const totalSeconds = new Date(message.createdAt.seconds * 1000)
 
-            const parentHeight = messagesRef.current.clientHeight
-            const scrollBottom = messagesRef.current.getBoundingClientRect().bottom - messageRef.current.getBoundingClientRect().bottom
-            console.log(message, parentHeight, scrollBottom)
+    const hours = totalSeconds.getHours() < 10 ? `0${totalSeconds.getHours()}` : totalSeconds.getHours()
+    const minutes = totalSeconds.getMinutes() < 10 ? `0${totalSeconds.getMinutes()}` : totalSeconds.getMinutes()
+    const seconds = totalSeconds.getSeconds() < 10 ? `0${totalSeconds.getSeconds()}` : totalSeconds.getSeconds()
 
-            if (currentUser.id !== message.senderId) {
-                if (scrollBottom > 0 && scrollBottom < parentHeight) {
-                    console.log('fixed seen')
-                    setSeen()
-                }
-            }
-        }
+    // useEffect(() => {
+    //     if (!messagesRef) return
 
-        checkView()
-        messagesRef?.current.addEventListener('scroll', checkView)
+    //     const checkView = () => {
 
-        return () => {
-            messagesRef?.current.removeEventListener('scroll', checkView)
-        }
-    }, [])
+    //         const parentHeight = messagesRef.current.clientHeight
+    //         const scrollBottom = messagesRef.current.getBoundingClientRect().bottom - messageRef.current.getBoundingClientRect().bottom
 
-    const setSeen = async () => {
-        const chatRef = doc(db, 'chats', chatId)
-        const chatSnap = await getDoc(chatRef)
+    //         if (currentUser.id !== message.senderId) {
+    //             if (scrollBottom > 0 && scrollBottom < parentHeight) {
+    //                 setSeen()
+    //             }
+    //         }
+    //     }
 
-        if (chatSnap.exists()) {
-            const data = chatSnap.data()
-            const updatedMessages = data.messages.map(m => {
-                if (m.id === message.id && m.isSeen !== true) {
-                    m.isSeen = true
-                }
+    //     checkView()
+    //     messagesRef?.current.addEventListener('scroll', checkView)
 
-                return m
-            })
+    //     return () => {
+    //         messagesRef?.current.removeEventListener('scroll', checkView)
+    //     }
+    // }, [])
 
-            console.log(updatedMessages)
+    // const setSeen = async () => {
 
-            await updateDoc(chatRef, {
-                messages: updatedMessages
-            })
-        }
-    }
+    //     const unseenItems = messages.find(item => !item.isSeen)
+
+    //     if (unseenItems) {
+    //         const updatedMessages = messages.map((m, index) => {
+    //             if (m.id === message.id && m.isSeen !== true) {
+    //                 console.log('fixed seen')
+    //                 m.isSeen = true
+    //             }
+
+    //             return m
+    //         })
+
+    //         const chatRef = doc(db, 'chats', chatId)
+
+    //         await updateDoc(chatRef, {
+    //             messages: updatedMessages
+    //         })
+    //     }
+
+    // }
+
+    // const setLastMessageSeen = async () => {
+    //     const userChats = chats.map(item => {
+    //         const {user, ...rest} = item
+    //         return rest
+    //     })
+
+    //     const chatIndex = userChats.findIndex(item => item.chatId === chatId)
+
+    //     userChats[chatIndex].isSeen = true
+
+    //     const userChatRef = doc(db, 'userchats', currentUser.id)
+
+    //     try {
+    //         await updateDoc(userChatRef, {
+    //             chats: userChats
+    //         })
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
 
     return (
         <div
@@ -78,8 +108,16 @@ export const Message = ({ message, messagesRef }) => {
                     {message.text}
                 </div>
                 <div className={time}>
-                    1 min ago
+                    <span title={`${hours}:${minutes}:${seconds}`}>
+                        {hours}:{minutes}
+                    </span>
                     {message.isSeen && ` | viewed`}
+                    {type === 'group' && (
+                        <>
+                            {messageSender && ` | ${messageSender.name}`}
+                            {currentUser.id === message.senderId && ' | you'}
+                        </>
+                    )}
                 </div>
             </div>
         </div>

@@ -30,6 +30,7 @@ export const useUserStore = create(devtools((set) => ({
             set({ isLoading: false })
         }
     },
+    setUser: (currentUser) => set({ currentUser }),
     logout: () => {
         try {
             signOut(auth)

@@ -13,6 +13,16 @@
     transition-duration: 200ms;
     transition-timing-function: linear;
 
+    & > .icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        div {
+            display: flex;
+        }
+    }
+
     &:hover {
         fill: var(--button-transparent-text-hover);
         background-color: var(--button-transparent-hover);

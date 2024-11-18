@@ -9,7 +9,8 @@ export const Top = () => {
         top,
         avatar,
         ["avatar__none"]: avatarNone,
-        name
+        name,
+        username
     } = styles
 
     const { users, type, groupData } = useChatStore()
@@ -47,6 +48,11 @@ export const Top = () => {
                 {type === 'single' && users[0].name}
                 {type === 'group' && groupData.title}
             </h3>
+            {type === 'single' && (
+                <h4 className={username}>
+                    {users[0].username}
+                </h4>
+            )}
         </div>
     )
 }

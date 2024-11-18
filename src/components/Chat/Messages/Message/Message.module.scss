@@ -26,6 +26,27 @@
             color: var(--message-user-time);
         }
     }
+
+    &.system {
+        padding: 0.5rem;
+        justify-content: center;
+        text-align: center;
+    }
+
+    &.system > &__inner {
+        border-radius: 2rem;
+        padding: 0.5rem 2rem;
+        min-width: auto;
+
+        color: var(--text-primary-active);
+        background-color: var(--message-system-bg);
+
+        backdrop-filter: blur(20px);
+    
+        & > .time {
+            color: var(--message-user-time);
+        }
+    }
 }
 
 .text {

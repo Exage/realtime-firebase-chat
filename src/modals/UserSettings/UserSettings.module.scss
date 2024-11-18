@@ -1,0 +1,131 @@
+@import '@/mixins';
+
+.user-settings {
+
+    display: flex;
+    align-items: center;
+    margin-top: 3rem;
+
+    $photoSize: 7.8rem;
+
+    &__photo {
+        width: $photoSize;
+        height: $photoSize;
+
+        border-radius: 50%;
+        overflow: hidden;
+
+        user-select: none;
+        pointer-events: none;
+
+        &-none {
+            @include photoPlaceholder($photoSize);
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+        }
+    }
+
+    &__text {
+        display: flex;
+        flex-direction: column;
+        row-gap: 0.5rem;
+        align-items: flex-start;
+        flex: 1;
+
+        padding-left: 2rem;
+
+        &-name {
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 2.4rem;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            word-break: break-all;
+
+            &__input {
+                width: 100%;
+            }
+        }
+
+        &-username {
+            color: var(--text-secondary);
+            font-weight: 400;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            word-break: break-all;
+        }
+    }
+}
+
+.pen {
+    padding: 0.5rem;
+    margin-left: 1rem;
+}
+
+.editing {
+
+    margin-top: 2.4rem;
+
+    &__title {
+        font-size: 2.4rem;
+        font-weight: 700;
+
+        text-align: center;
+    }
+
+    &__form {
+
+        margin-top: 1rem;
+
+        &-input {
+            width: 100%;
+        }
+
+        &-error {
+            margin-top: 0.5rem;
+        }
+    }
+}
+
+.logout {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+
+    &__button {
+        color: var(--red);
+        fill: var(--red);
+        background-color: transparent;
+
+        &:hover {
+            color: var(--red);
+            fill: var(--red);
+            background-color: var(--red-secondary);
+        }
+
+        &:focus-visible {
+            outline: 1px solid var(--text-primary);
+            color: var(--red);
+            fill: var(--red);
+            background-color: var(--red-secondary);
+        }
+    }
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.5rem;
+    margin-top: 3rem;
+}
+
+.button {
+    width: 100%;
+}

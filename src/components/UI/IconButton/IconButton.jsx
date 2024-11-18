@@ -10,7 +10,8 @@ export const IconButton = ({ icon, className = '', filled = false, size=null, ..
 
     const {
         ['btn__icon']: btnIcon,
-        ['btn__icon-filled']: btnIconFilled
+        ['btn__icon-filled']: btnIconFilled,
+        ['icon']: iconClass
     } = styles
 
     const iconSize = size ? `${size}px` : null
@@ -21,8 +22,8 @@ export const IconButton = ({ icon, className = '', filled = false, size=null, ..
             {...props}
         >
             {icon
-                ? <ReactSVG src={icon} style={{ width: iconSize, height: iconSize }} className='icon' />
-                : <ReactSVG src={noIcon} style={{ width: iconSize, height: iconSize }} className='icon' />
+                ? <ReactSVG src={icon} style={{ width: iconSize, height: iconSize }} className={`icon ${iconClass}`} />
+                : <ReactSVG src={noIcon} style={{ width: iconSize, height: iconSize }} className={`icon ${iconClass}`} />
             }
         </button>
     )

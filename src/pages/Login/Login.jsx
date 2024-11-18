@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import { FormValidation } from '@/validation/formValidation'
 import { useLogin } from '@/hooks/useLogin'
 
 import { Auth } from '@/components/Auth/Auth'
@@ -10,23 +11,6 @@ export const Login = () => {
 
     const { register, handleSubmit, formState: { errors }, setError } = useForm()
     const { login: loginHook, loading, error } = useLogin()
-
-    let FormValidation = {
-        Email: {
-            required: "Email is required",
-            pattern: {
-                value: /^\S+@\S+$/i,
-                message: "Email is not valid"
-            }
-        },
-        Password: {
-            required: "Password is required",
-            minLength: {
-                value: 8,
-                message: "Password sholud be minimum 8 characters"
-            }
-        }
-    }
 
     const handleLogin = async (data) => {
         await loginHook(data)

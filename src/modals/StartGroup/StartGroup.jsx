@@ -107,7 +107,7 @@ export const StartGroup = () => {
                         {selectedUsers.map(user => (
                             <div className={selectedUser} key={user.id}>
                                 <div className={selectedUserPhoto}>
-                                    {user.avatar.photo || (
+                                    {user.avatar.url || (
                                         <div className={selectedUserPhotoNone}>
                                             {user.name[0]}
                                         </div>

@@ -1,8 +1,9 @@
 .loader {
-    width: 50px;
-    height: 50px;
+    font-size: 5rem;
+    width: 1em;
+    height: 1em;
     border-radius: 50%;
-    border: 8px solid var(--accent-primary-darken);
+    border: 0.16em solid var(--accent-primary-darken);
     animation:
         l20-1 0.8s infinite linear alternate,
         l20-2 1.6s infinite linear;

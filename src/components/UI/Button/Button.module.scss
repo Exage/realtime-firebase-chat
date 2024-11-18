@@ -1,6 +1,8 @@
 .btn {
     display: inline-flex;
     align-items: center;
+
+    font-size: 1.6rem;
     
     padding: 1rem 2rem;
     border-radius: 2.2rem;
@@ -21,6 +23,7 @@
 
         div {
             display: flex;
+            height: 100%;
         }
     }
 
@@ -45,6 +48,20 @@
             fill: var(--button-transparent-disabled);
             background-color: transparent;
         }
+    }
+
+    &__loading {
+        text-align: center;
+        background-color: var(--button-transparent-hover);
+
+        &:disabled:hover {
+            background-color: var(--button-transparent-hover);
+        }
+    }
+
+    &__loading > .text {
+        display: flex;
+        justify-content: center;
     }
 
     &__filled {
@@ -76,8 +93,20 @@
             }
         }
     }
+
+    &__loading > &__text > .loader {
+        border-color: var(--text-primary-active);
+    }
 }
 
 .text {
     flex: 1;
+}
+
+.loader {
+    font-size: 2.2rem !important;
+
+    &__filled {
+        border-color: var(--text-primary-active) !important;
+    }
 }

@@ -4,14 +4,19 @@ import { ReactSVG } from 'react-svg'
 
 import styles from './Button.module.scss'
 
-export const Button = ({ children, className = [], icon = null, iconGap = null, filled = false, ...props }) => {
+import { Loader } from '@/components/UI/Loader/Loader'
+
+export const Button = ({ children, className = [], icon = null, iconGap = null, filled = false, loading = false, disabled = false, ...props }) => {
     const {
         btn,
         ['btn__filled']: btnFilled,
         ['btn__icon']: btnIcon,
-        text
+        ['btn__loading']: btnLoading,
+        text,
+        loader,
+        ['loader__filled']: isFilled
     } = styles
-    
+
 
     const inlineStyles = {
         marginRight: iconGap
@@ -19,17 +24,29 @@ export const Button = ({ children, className = [], icon = null, iconGap = null, 
 
     return (
         <button
-            className={classNames(btn, { [btnFilled]: filled }, ...className)}
+            className={classNames(btn, { [btnFilled]: filled }, { [btnLoading]: loading }, ...className)}
+            disabled={loading || disabled}
             {...props}
         >
-            {icon && (
-                <span className={classNames('icon', btnIcon)} style={inlineStyles}>
-                    <ReactSVG src={icon} />
+            {loading && (
+                <span className={text}>
+                    <Loader
+                        className={[loader, { [isFilled]: filled }]}
+                    />
                 </span>
             )}
-            <span className={text}>
-                {children}
-            </span>
+            {!loading && (
+                <>
+                    {icon && (
+                        <span className={classNames('icon', btnIcon)} style={inlineStyles}>
+                            <ReactSVG src={icon} />
+                        </span>
+                    )}
+                    <span className={text}>
+                        {children}
+                    </span>
+                </>
+            )}
         </button>
     )
 }

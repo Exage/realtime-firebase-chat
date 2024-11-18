@@ -14,6 +14,7 @@ export const Message = ({ message, messagesRef, chat }) => {
         ["message"]: messageClass,
         ["message__inner"]: messageInner,
         own,
+        system,
         text,
         time
     } = styles
@@ -98,9 +99,24 @@ export const Message = ({ message, messagesRef, chat }) => {
     //     }
     // }
 
+    if (message.type === 'system') {
+        return (
+            <div
+                className={classNames(messageClass, system)}
+                ref={messageRef}
+            >
+                <div className={messageInner}>
+                    <div className={text}>
+                        {message.text}
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
     return (
         <div
-            className={classNames(messageClass, { [own]: message.senderId === currentUser.id })}
+            className={classNames(messageClass, { [own]: message.senderId === currentUser.id }, { [system]: message.type === 'system' })}
             ref={messageRef}
         >
             <div className={messageInner}>

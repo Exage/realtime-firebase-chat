@@ -1,14 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import styles from './AuthPageWrapper.module.scss'
 
 import { Blurhash } from 'react-blurhash'
 
 import bgPhoto from '@/assets/auth/auth-bg.jpg'
+import bgPhotoDark from '@/assets/auth/auth-bg-dark.jpg'
 
 export const AuthPageWrapper = () => {
 
     const [bgLoading, setBgLoading] = useState(true)
+    const [isDarkMode, setIsDarkMode] = useState(false)
 
     const {
         ['auth-page__wrapper']: wrapper,
@@ -19,6 +21,18 @@ export const AuthPageWrapper = () => {
     const handleBgLoading = () => {
         setBgLoading(false)
     }
+
+    const updateTheme = (e) => {
+        setIsDarkMode(e.matches)
+    }
+
+    useEffect(() => {
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+        setIsDarkMode(mediaQuery.matches)
+        mediaQuery.addEventListener('change', updateTheme)
+
+        return () => mediaQuery.removeEventListener('change', updateTheme)
+    }, [])
 
     return (
         <div className={wrapper}>
@@ -31,7 +45,7 @@ export const AuthPageWrapper = () => {
                     />
                 )}
                 <img
-                    src={bgPhoto}
+                    src={isDarkMode ? bgPhotoDark : bgPhoto}
                     alt="something went wrong :("
                     style={{
                         display: bgLoading ? 'none' : 'block'

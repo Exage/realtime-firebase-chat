@@ -8,6 +8,7 @@ import { Sidebar } from '@/components/Sidebar/Sidebar'
 import { FindUser } from '@/modals/FindUser/FindUser'
 import { StartGroup } from '@/modals/StartGroup/StartGroup'
 import { UserSettings } from '@/modals/UserSettings/UserSettings'
+import { Settings } from '@/modals/Settings/Settings'
 
 import { useChatStore } from '@/lib/chatStore'
 
@@ -36,6 +37,7 @@ export const Main = () => {
             <FindUser />
             <StartGroup />
             <UserSettings />
+            <Settings />
         </main>
     )
 }

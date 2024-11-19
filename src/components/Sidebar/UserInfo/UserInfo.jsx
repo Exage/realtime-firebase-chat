@@ -51,6 +51,10 @@ export const UserInfo = () => {
         openModal('userSettings')
     }
 
+    const handleOpenSettings = () => {
+        openModal('settings')
+    }
+
     return (
         <div className={userInfo}>
 
@@ -85,7 +89,11 @@ export const UserInfo = () => {
                         className={[userButton]} 
                         onClick={handleOpenUserSettings} 
                     />
-                    <IconButton icon={gear} className={[userButton]} />
+                    <IconButton 
+                        icon={gear} 
+                        className={[userButton]}
+                        onClick={handleOpenSettings} 
+                    />
                 </div>
             </div>
 

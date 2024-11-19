@@ -24,9 +24,7 @@ export const useLogin = () => {
                 throw new Error('auth/user-not-found')
             }
 
-            const res = await signInWithEmailAndPassword(auth, email, password)
-
-            console.log(res)
+            await signInWithEmailAndPassword(auth, email, password)
 
         } catch (error) {
             console.error(error)

@@ -7,8 +7,8 @@
     --auth-bg: #7259BE;
 
     --overlay-rgb: 0, 0, 0;
-    --overlay-active: rgba(var(--overlay-rgb), 0.55); 
-    --overlay-inactive: rgba(var(--overlay-rgb), 0); 
+    --overlay-active: rgba(var(--overlay-rgb), 0.55);
+    --overlay-inactive: rgba(var(--overlay-rgb), 0);
 
     --background-primary: #FFFFFF;
 
@@ -43,7 +43,6 @@
     --error-secondary: var(--red-secondary);
 
     --button: var(--accent-primary);
-
     --button-hover: var(--accent-primary-darken);
     --button-transparent-hover: var(--accent-primary-transparent);
     --button-transparent-text-hover: var(--text-primary);
@@ -51,8 +50,76 @@
     --button-disabled: var(--accent-primary-disabled);
     --button-transparent-disabled: #dddada;
 
-    --button-text: #FFFFFF; 
-    --button-transparent-text: #BFBFBF; 
+    --button-text: #FFFFFF;
+    --button-transparent-text: #BFBFBF;
+
+    // Dark
+    --text-primary-dark: #FFFFFF;
+    --text-secondary-dark: #b9b9b9;
+
+    --background-primary-dark: #141414;
+
+    --message-companion-dark: #242424;
+    --message-user-dark: #8D81FF;
+
+    --sidebar-background-dark: #181818;
+    --sidebar-border-dark: #1b1b1b;
+    --sidebar-user-border-dark: #2f2f2f;
+
+    --accent-primary-dark: #8D81FF;
+    --accent-primary-darken-dark: #564e9c;
+    --accent-primary-transparent-dark: rgba(103, 97, 156, 0.3);
+    --accent-primary-disabled-dark: #39355e;
+
+    --button-transparent-text-dark: #474747;
+
+    --border-dark: #2f2f2f;
+
+    --input-inactive-dark: #474747;
+    --input-active-dark: #dadada;
+
+    --icon-inactive-dark: #474747;
+    --icon-active-dark: #dadada;
+
+    --red-secondary-dark: #351e24;
+}
+
+body.dark-theme {
+    --text-primary: var(--text-primary-dark);
+    --text-secondary: var(--text-secondary-dark);
+    --background-primary: var(--background-primary-dark);
+    --message-companion: var(--message-companion-dark);
+    --message-user: var(--message-user-dark);
+    --sidebar-background: var(--sidebar-background-dark);
+    --sidebar-border: var(--sidebar-border-dark);
+    --button: var(--button-dark);
+    --button-hover: var(--button-hover-dark);
+
+    --accent-primary: var(--accent-primary-dark);
+    --accent-primary-darken: var(--accent-primary-darken-dark);
+    --accent-primary-transparent: var(--accent-primary-transparent-dark);
+    --accent-primary-disabled: var(--accent-primary-disabled-dark);
+
+    --button: var(--accent-primary);
+    --button-hover: var(--accent-primary-darken);
+    --button-transparent-hover: var(--accent-primary-transparent);
+    --button-transparent-text-hover: var(--text-primary);
+
+    --button-disabled: var(--accent-primary-disabled);
+    --button-transparent-disabled: #dddada;
+    --button-transparent-text: var(--button-transparent-text-dark);
+
+    --sidebar-user-border: var(--sidebar-user-border-dark);
+
+    --border: var(--border-dark);
+
+    --input-inactive: var(--input-inactive-dark);
+    --input-active: var(--input-active-dark);
+
+    --icon-inactive: var(--icon-inactive-dark);
+    --icon-active: var(--icon-active-dark);
+
+    --red-secondary: var(--red-secondary-dark);
 }
 
 html {
@@ -72,6 +139,11 @@ body {
     &.about-bg {
         background-color: var(--auth-bg);
         overscroll-behavior: none;
+    }
+
+    &.dark-theme {
+        background-color: var(--background-primary);
+        color: var(--text-primary);
     }
 }
 

@@ -3,6 +3,9 @@ import { auth, db } from "./firebase"
 import { getDoc, doc } from "firebase/firestore"
 import { signOut } from "firebase/auth"
 import { devtools } from 'zustand/middleware'
+import { useModals } from "./modalsStore"
+import { useChatStore } from "./chatStore"
+import { useChatsStore } from "./chatsStore"
 
 export const useUserStore = create(devtools((set) => ({
     currentUser: null,
@@ -33,8 +36,22 @@ export const useUserStore = create(devtools((set) => ({
     setUser: (currentUser) => set({ currentUser }),
     logout: () => {
         try {
+            
+            // Clear modals
+            const modalsStore = useModals.getState()
+            modalsStore.clearModals()
+
+            // Clear chat
+            const chatStore = useChatStore.getState()
+            chatStore.clearChat()
+
+            // Clear chat list
+            const chatsStore = useChatsStore.getState()
+            chatsStore.clearChats()
+
             signOut(auth)
             set({ currentUser: null, isLoading: false })
+
         } catch (error) {
             console.error(error)
         }

@@ -11,6 +11,7 @@ export const useChatStore = create(devtools((set) => ({
     isCurrentUserBlocked: null,
     isReceiverBlocked: null,
     messages: null,
+
     setMessages: (messages) => set(state => ({ ...state, messages })),
     setLastMessageId: (lastMessageId) => set(state => ({ ...state, lastMessageId })),
 
@@ -66,5 +67,18 @@ export const useChatStore = create(devtools((set) => ({
 
     changeBlock: () => {
         set(state => ({ ...state, isReceiverBlocked: !state.isReceiverBlocked }))
+    },
+
+    clearChat: () => {
+        set({
+            chatId: null,
+            users: null,
+            type: null,
+            groupData: null,
+            lastMessageId: null,
+            isCurrentUserBlocked: null,
+            isReceiverBlocked: null,
+            messages: null,
+        })
     }
 })))

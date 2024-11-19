@@ -28,7 +28,7 @@ export const InputPassword = forwardRef(({ className = [], placeholder = "your t
                 data-type="password"
                 {...props}
             />
-            <button className='icon' onClick={toggleShow}>
+            <button className='icon' onClick={toggleShow} type='button' tabIndex='-1'>
                 {showPassword ? <ReactSVG src={eye} /> : <ReactSVG src={eyeSlash} />}
             </button>
         </div>

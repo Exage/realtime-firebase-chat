@@ -1,6 +1,7 @@
 import { useState } from 'react'
+import { collection, getDocs, query, where } from 'firebase/firestore'
 import { signInWithEmailAndPassword } from 'firebase/auth'
-import { auth } from '@/lib/firebase'
+import { auth, db } from '@/lib/firebase'
 
 export const useLogin = () => {
     const [loading, setLoading] = useState(false)
@@ -12,6 +13,16 @@ export const useLogin = () => {
             setError(null)
 
             const { email, password } = data
+
+            const usersRef = collection(db, 'users')
+            const emailQuery = query(usersRef, where('email', '==', email))
+            const querySnapshot = await getDocs(emailQuery)
+
+            console.log(querySnapshot.empty)
+
+            if (querySnapshot.empty) {
+                throw new Error('auth/user-not-found')
+            }
 
             const res = await signInWithEmailAndPassword(auth, email, password)
 
@@ -27,8 +38,8 @@ export const useLogin = () => {
 
     const handleError = (error) => {
         console.error('Error code:', error.code)
-    
-        switch (error.code) {
+
+        switch (error.code || error.message) {
             case 'auth/wrong-password':
                 setError({ field: 'password', message: 'Incorrect password' })
                 break
@@ -39,7 +50,7 @@ export const useLogin = () => {
                 setError({ field: 'email', message: 'Invalid email address' })
                 break
             case 'auth/invalid-credential':
-                setError({ field: 'general', message: 'Invalid credentials' })
+                setError({ field: 'password', message: 'Incorrect password' })
                 break
             default:
                 setError({ field: 'general', message: error.message })

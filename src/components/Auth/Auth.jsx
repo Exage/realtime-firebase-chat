@@ -32,9 +32,9 @@ export const Auth = ({ children, onSubmit, handleSubmit, title = 'Title', btnTex
                             onClick={handleSubmit}
                             type="submit"
                             className={[submitClass]}
-                            disabled={isLoading}
+                            loading={isLoading}
                         >
-                            {isLoading ? 'loading...' : btnText}
+                            {btnText}
                         </Button>
                     </div>
 

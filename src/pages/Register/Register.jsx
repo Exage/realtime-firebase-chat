@@ -26,7 +26,7 @@ export const Register = () => {
         <Auth 
             title='Register'
 
-            btnText='register'
+            btnText='Register'
             handleSubmit={handleSubmit(handleRegister)}
 
             redirect='to login'

@@ -22,6 +22,10 @@ export const Content = () => {
         openModal('clearChat')
     }
 
+    const handleDeleteChat = () => {
+        openModal('deleteChat')
+    }
+
     return (
         <div className={content}>
             <div className={block}>
@@ -33,7 +37,7 @@ export const Content = () => {
                 {type === 'single' && (
                     <>
                         <Button icon={eraseIcon} iconGap={20} className={[btn, ban]} onClick={handleClearChat}>Clear chat</Button>
-                        <Button icon={trashIcon} iconGap={20} className={[btn, ban]}>Delete Chat</Button>
+                        <Button icon={trashIcon} iconGap={20} className={[btn, ban]} onClick={handleDeleteChat}>Delete Chat</Button>
                         <Button icon={banIcon} iconGap={20} className={[btn, ban]}>Block user</Button>
                     </>
                 )}

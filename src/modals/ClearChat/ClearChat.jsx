@@ -32,7 +32,7 @@ export const ClearChat = () => {
 
             <div className={buttons}>
                 <Button filled={true} loading={loading} onClick={handleClearMessages}>Clear all data</Button>
-                <Button onClick={() => closeModal('clearChat')}>Cancel</Button>
+                <Button onClick={() => closeModal('clearChat')} disabled={loading}>Cancel</Button>
             </div>
         </Modal>
     )

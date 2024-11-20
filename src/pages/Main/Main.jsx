@@ -10,6 +10,7 @@ import { StartGroup } from '@/modals/StartGroup/StartGroup'
 import { UserSettings } from '@/modals/UserSettings/UserSettings'
 import { Settings } from '@/modals/Settings/Settings'
 import { ClearChat } from '@/modals/ClearChat/ClearChat'
+import { DeleteChat } from '@/modals/DeleteChat/DeleteChat'
 
 import { useChatStore } from '@/lib/chatStore'
 
@@ -40,6 +41,7 @@ export const Main = () => {
             <UserSettings />
             <Settings />
             <ClearChat />
+            <DeleteChat />
         </main>
     )
 }

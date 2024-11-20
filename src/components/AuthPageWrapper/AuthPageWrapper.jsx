@@ -9,14 +9,17 @@ import bgPhotoDark from '@/assets/auth/auth-bg-dark.jpg'
 
 export const AuthPageWrapper = () => {
 
-    const [bgLoading, setBgLoading] = useState(true)
-    const [isDarkMode, setIsDarkMode] = useState(false)
-
     const {
         ['auth-page__wrapper']: wrapper,
         ['auth-page__wrapper-bg']: background,
         ['auth-page__content']: content
     } = styles
+
+    const [bgLoading, setBgLoading] = useState(true)
+    const [isDarkMode, setIsDarkMode] = useState(false)
+
+    const hashLight = 'L8BDC8-i$rM.~T-,RoEN?HtdNFE0'
+    const hashDark = 'L27cOT$%0]5$1Dne}K1C5#Ec^B,t'
 
     const handleBgLoading = () => {
         setBgLoading(false)
@@ -39,7 +42,7 @@ export const AuthPageWrapper = () => {
             <div className={background}>
                 {bgLoading && (
                     <Blurhash
-                        hash='L8BDC8-i$rM.~T-,RoEN?HtdNFE0'
+                        hash={isDarkMode ? hashDark : hashLight}
                         className='placeholder'
                         style={{ width: '100%', height: '100%' }}
                     />

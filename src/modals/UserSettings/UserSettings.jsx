@@ -198,6 +198,7 @@ export const UserSettings = () => {
                             {...register('username', FormValidation.Username)}
                             placeholder='new username'
                             disabled={loading}
+                            maxLength={20}
                         />
                     </div>
                     <p className={classNames('error', editingFormError)}>{errors.username && errors.username.message}</p>

@@ -9,6 +9,7 @@ import { FindUser } from '@/modals/FindUser/FindUser'
 import { StartGroup } from '@/modals/StartGroup/StartGroup'
 import { UserSettings } from '@/modals/UserSettings/UserSettings'
 import { Settings } from '@/modals/Settings/Settings'
+import { ClearChat } from '@/modals/ClearChat/ClearChat'
 
 import { useChatStore } from '@/lib/chatStore'
 
@@ -38,6 +39,7 @@ export const Main = () => {
             <StartGroup />
             <UserSettings />
             <Settings />
+            <ClearChat />
         </main>
     )
 }

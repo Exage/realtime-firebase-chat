@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from './Top.module.scss'
 
 import { useChatStore } from '@/lib/chatStore'
@@ -14,7 +14,7 @@ export const Top = () => {
     } = styles
 
     const { users, type, groupData } = useChatStore()
-
+    
     return (
         <div className={top}>
             <div className={avatar}>

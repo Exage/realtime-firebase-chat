@@ -12,7 +12,7 @@
     display: block;
     width: 100%;
 
-    margin-top: 5rem;
+    margin-top: 1.5rem;
 
     & > .btn {
         margin-top: 0.5rem;
@@ -24,6 +24,10 @@
 
     .title + .btn {
         margin-top: 2rem;
+    }
+
+    &.dangerzone {
+        margin-top: 5rem;
     }
 }
 

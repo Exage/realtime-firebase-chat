@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { doc, getDoc, onSnapshot } from 'firebase/firestore'
+
 import { useUserStore } from '@/lib/userStore'
 import { useChatsStore } from '@/lib/chatsStore'
+import { useChatStore } from '@/lib/chatStore'
+
 import { db } from '@/lib/firebase'
 import styles from './ChatList.module.scss'
 
@@ -19,6 +22,7 @@ export const ChatList = () => {
     } = styles
 
     const { chats, setChats, setLoading, isLoading } = useChatsStore()
+    const { chatId: currentChatID, changeChat, changeGroup } = useChatStore()
     const { currentUser } = useUserStore()
 
     useEffect(() => {
@@ -47,7 +51,19 @@ export const ChatList = () => {
                 })
 
                 const chatData = await Promise.all(promises)
-                console.log(chatData)
+
+                const currentChat = chatData.find(chat => chat.chatId === currentChatID)
+
+                if (currentChat) {
+                    const { chatId, users, lastMessageId, groupData } =  currentChat
+                    if (currentChat.type === 'single') {
+                        changeChat(chatId, users[0], lastMessageId)
+                    }
+
+                    if (currentChat.type === 'group') {
+                        changeGroup(chatId, users, lastMessageId, groupData)
+                    }
+                }
 
                 setChats(chatData.sort((a, b) => b.updatedAt - a.updatedAt))
                 setLoading(false)

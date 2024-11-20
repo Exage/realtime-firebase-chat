@@ -44,7 +44,7 @@ export const useClearChat = () => {
 
         } catch (error) {
             console.error(error)
-            handleError(error)
+            setError(error)
         } finally {
             setLoading(false)
         }

@@ -26,6 +26,10 @@ export const Content = () => {
         openModal('deleteChat')
     }
 
+    const handleLeaveGroup = () => {
+        openModal('leaveGroup')
+    }
+
     return (
         <div className={content}>
             <div className={block}>
@@ -42,7 +46,7 @@ export const Content = () => {
                     </>
                 )}
                 {type === 'group' && (
-                    <Button icon={logoutIcon} iconGap={20} className={[btn, ban]}>Leave group</Button>
+                    <Button icon={logoutIcon} iconGap={20} className={[btn, ban]} onClick={handleLeaveGroup}>Leave group</Button>
                 )}
             </div>
         </div>

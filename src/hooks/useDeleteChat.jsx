@@ -39,7 +39,7 @@ export const useDeleteChat = () => {
 
         } catch (error) {
             console.error(error)
-            handleError(error)
+            setError(error)
         } finally {
             setLoading(false)
         }

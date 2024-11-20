@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import { useForm } from 'react-hook-form'
 import { useFetchUser } from '@/hooks/useFetchUser'
 import { useStartGroup } from '@/hooks/useStartGroup'
+import { FormValidation } from '@/validation/formValidation'
 import styles from './StartGroup.module.scss'
 
 import { Modal } from '@/components/Modal/Modal'
@@ -74,19 +75,6 @@ export const StartGroup = () => {
 
     const handleStartGroup = () => {
         startGroup(selectedUsers)
-    }
-
-    const FormValidation = {
-        Username: {
-            required: "This field is required",
-            minLength: { value: 4, message: "Username must be at least 3 characters long" },
-            maxLength: { value: 20, message: "Username must not exceed 20 characters" },
-            validate: {
-                startsWithAt: value => value.startsWith('@') || "Username must start with @",
-                noSpaces: value => !/\s/.test(value) || "Username must not contain spaces",
-                validChars: value => /^[a-zA-Z0-9._@]+$/.test(value) || "Username can only contain letters, numbers, _ and ."
-            }
-        }
     }
 
     return (

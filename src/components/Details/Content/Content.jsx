@@ -37,6 +37,10 @@ export const Content = () => {
         openModal('leaveGroup')
     }
 
+    const handleAddMember = () => {
+        openModal('addMember')
+    }
+
     return (
         <div className={content}>
             <div className={block}>
@@ -47,7 +51,7 @@ export const Content = () => {
             {type === 'group' && (
                 <div className={block}>
                     <Button icon={membersIcon} iconGap={20} className={[btn]}>{users.length + 1} Members</Button>
-                    <Button icon={memberAdd} iconGap={20} className={[btn]}>Add member</Button>
+                    <Button icon={memberAdd} iconGap={20} className={[btn]} onClick={handleAddMember}>Add member</Button>
                 </div>
             )}
 

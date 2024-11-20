@@ -1,10 +1,15 @@
 import React, { useState } from 'react'
+
 import classNames from 'classnames'
-import { useForm } from 'react-hook-form'
 import { FormValidation } from '@/validation/formValidation'
+import styles from './AddMember.module.scss'
+
+import { useForm } from 'react-hook-form'
 import { useFetchUser } from '@/hooks/useFetchUser'
-import { useStartChat } from '@/hooks/useStartChat'
-import styles from './FindUser.module.scss'
+import { useAddUserToGroup } from '@/hooks/useAddUserToGroup'
+
+import { useChatStore } from '@/lib/chatStore'
+import { useUserStore } from '@/lib/userStore'
 
 import { Modal } from '@/components/Modal/Modal'
 
@@ -13,9 +18,9 @@ import { IconButton } from '@/components/UI/IconButton/IconButton'
 import { Loader } from '@/components/UI/Loader/Loader'
 
 import searchIcon from '@/assets/icons/search.svg'
-import chatIcon from '@/assets/icons/chat.svg'
+import plusIcon from '@/assets/icons/plus.svg'
 
-export const FindUser = () => {
+export const AddMember = () => {
 
     const {
         ['find-user']: findUser,
@@ -32,8 +37,11 @@ export const FindUser = () => {
     } = styles
 
     const { fetchUser, error: fetchError, loading: fetchLoading } = useFetchUser()
-    const { startChat, error: chatError, loading: chatLoading } = useStartChat()
+    const { addUserToGroup, error: chatError, loading: chatLoading } = useAddUserToGroup()
     const { register, handleSubmit, formState: { errors }, reset } = useForm()
+
+    const { currentUser } = useUserStore()
+    const { chatId, groupData, users } = useChatStore()
 
     const [user, setUser] = useState(null)
 
@@ -47,14 +55,15 @@ export const FindUser = () => {
         setUser(null)
     }
 
-    const handleStartNewChat = () => {
-        startChat(user)
+    const handleAddMember = () => {
+        const receiversIDs = [currentUser.id, ...users.map(user => user.id)]
+        addUserToGroup(chatId, user.id, groupData, receiversIDs)
     }
 
     return (
         <Modal
-            modalId='findUser'
-            title='Find user'
+            modalId='addMember'
+            title='Add member'
             resetForms={resetData}
         >
             <div className={findUser}>
@@ -104,8 +113,8 @@ export const FindUser = () => {
                                     </h3>
                                     <div className={resultsUserControls}>
                                         <IconButton 
-                                            icon={chatIcon}
-                                            onClick={handleStartNewChat}
+                                            icon={plusIcon}
+                                            onClick={handleAddMember}
                                         />
                                     </div>
                                 </div>

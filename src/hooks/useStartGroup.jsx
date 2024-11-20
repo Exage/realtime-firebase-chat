@@ -12,6 +12,8 @@ export const useStartGroup = () => {
 
     const startGroup = async (users) => {
         try {
+            setLoading(true)
+            setError(null)
 
             const chatRef = collection(db, 'chats')
             const userChatRef = collection(db, 'userchats')

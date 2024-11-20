@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import classNames from 'classnames'
 import styles from './Message.module.scss'
-import { doc, getDoc, updateDoc } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs, updateDoc } from 'firebase/firestore'
 import { db } from '@/lib/firebase'
 
 import { useUserStore } from '@/lib/userStore'
@@ -24,13 +24,34 @@ export const Message = ({ message, messagesRef, chat }) => {
     const { chatId, messages, users, type, groupData } = useChatStore()
     const { chats } = useChatsStore()
 
-    const messageSender = users?.find(user => user.id === message.senderId)
+    const [messageSender, setMessageSender] = useState({})
 
     const totalSeconds = new Date(message.createdAt.seconds * 1000)
 
     const hours = totalSeconds.getHours() < 10 ? `0${totalSeconds.getHours()}` : totalSeconds.getHours()
     const minutes = totalSeconds.getMinutes() < 10 ? `0${totalSeconds.getMinutes()}` : totalSeconds.getMinutes()
     const seconds = totalSeconds.getSeconds() < 10 ? `0${totalSeconds.getSeconds()}` : totalSeconds.getSeconds()
+
+    const messageType = message.type.split(' ')
+
+    useEffect(() => {
+        const fetchUserDoc = async () => {
+            if (message.senderId) {
+                try {
+                    const userRef = doc(db, 'users', message.senderId)
+                    const userDoc = await getDoc(userRef)
+
+                    if (userDoc.exists()) {
+                        setMessageSender(userDoc.data())
+                    }
+                } catch (error) {
+                    console.error(error)
+                }
+            }
+        }
+
+        fetchUserDoc()
+    }, [])
 
     // useEffect(() => {
     //     if (!messagesRef) return
@@ -99,16 +120,31 @@ export const Message = ({ message, messagesRef, chat }) => {
     //     }
     // }
 
-    if (message.type === 'system') {
+    if (messageType[0] === 'system') {
         return (
             <div
                 className={classNames(messageClass, system)}
                 ref={messageRef}
             >
                 <div className={messageInner}>
-                    <div className={text}>
-                        {message.text}
-                    </div>
+
+                    {messageType[1] === 'left-chat' && (
+                        <div className={text}>
+                            {messageSender.name} leave group
+                        </div>
+                    )}
+
+                    {messageType[1] === 'user-added' && (
+                        <div className={text}>
+                            {messageSender.name} joined chat
+                        </div>
+                    )}
+
+                    {!messageType[1] && (
+                        <div className={text}>
+                            {message.text}
+                        </div>
+                    )}
                 </div>
             </div>
         )
@@ -131,9 +167,8 @@ export const Message = ({ message, messagesRef, chat }) => {
                     {type === 'group' && (
                         <>
                             |
-                            {message.senderId === groupData.owner && '★'}
-                            {messageSender && ` ${messageSender.name}`}
-                            {currentUser.id === message.senderId && ' you'}
+                            {message.senderId === groupData.owner && ' ★'}
+                            {currentUser.id === message.senderId ? ' you' : ` ${messageSender.name}`}
                         </>
                     )}
                 </div>

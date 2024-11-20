@@ -32,7 +32,7 @@ export const LeaveGroup = () => {
 
             <div className={buttons}>
                 <Button filled={true} loading={loading} onClick={handleLeaveGroup}>Leave</Button>
-                <Button onClick={() => closeModal('clearChat')} disabled={loading}>Cancel</Button>
+                <Button onClick={() => closeModal('leaveGroup')} disabled={loading}>Cancel</Button>
             </div>
         </Modal>
     )

@@ -21,9 +21,9 @@ export const useLeaveGroup = () => {
             const messageId = uuidv4()
             const messageStructure = {
                 id: messageId,
-                type: 'system',
+                type: 'system left-chat',
                 senderId: currentUser.id,
-                text: `${currentUser.username} left the chat`,
+                text: 'One member leave group',
                 isSeen: false,
                 createdAt: new Date()
             }

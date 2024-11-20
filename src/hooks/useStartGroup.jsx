@@ -45,7 +45,8 @@ export const useStartGroup = () => {
                     cover: {
                         url: null,
                         hash: null
-                    }
+                    },
+                    owner: currentUser.id
                 },
                 updatedAt: Date.now()
             }

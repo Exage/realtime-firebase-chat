@@ -21,7 +21,7 @@ export const Message = ({ message, messagesRef, chat }) => {
 
     const messageRef = useRef(null)
     const { currentUser } = useUserStore()
-    const { chatId, messages, users, type } = useChatStore()
+    const { chatId, messages, users, type, groupData } = useChatStore()
     const { chats } = useChatsStore()
 
     const messageSender = users?.find(user => user.id === message.senderId)
@@ -130,8 +130,10 @@ export const Message = ({ message, messagesRef, chat }) => {
                     {message.isSeen && ` | viewed`}
                     {type === 'group' && (
                         <>
-                            {messageSender && ` | ${messageSender.name}`}
-                            {currentUser.id === message.senderId && ' | you'}
+                            |
+                            {message.senderId === groupData.owner && '★'}
+                            {messageSender && ` ${messageSender.name}`}
+                            {currentUser.id === message.senderId && ' you'}
                         </>
                     )}
                 </div>

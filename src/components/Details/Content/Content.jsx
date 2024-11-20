@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import styles from './Content.module.scss'
 
 import { useChatStore } from '@/lib/chatStore'
+import { useUserStore } from '@/lib/userStore'
 import { useModals } from '@/lib/modalsStore'
 
 import { Button } from '@/components/UI/Button/Button'
@@ -20,7 +21,8 @@ import memberAdd from '@/assets/icons/user-plus.svg'
 export const Content = () => {
 
     const { content, block, dangerzone, title, btn, ban } = styles
-    const { type, users } = useChatStore()
+    const { currentUser } = useUserStore()
+    const { type, users, groupData } = useChatStore()
     const { openModal } = useModals()
 
     const handleClearChat = () => {
@@ -59,7 +61,14 @@ export const Content = () => {
                     </>
                 )}
                 {type === 'group' && (
-                    <Button icon={logoutIcon} iconGap={20} className={[btn, ban]} onClick={handleLeaveGroup}>Leave group</Button>
+                    <>
+                        <Button icon={logoutIcon} iconGap={20} className={[btn, ban]} onClick={handleLeaveGroup}>Leave group</Button>
+
+                        {currentUser.id === groupData.owner && (
+                            <Button icon={trashIcon} iconGap={20} className={[btn, ban]} onClick={handleDeleteChat}>Delete Chat</Button>
+                        )}
+
+                    </>
                 )}
             </div>
         </div>

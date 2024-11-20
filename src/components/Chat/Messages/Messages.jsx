@@ -23,7 +23,7 @@ export const Messages = () => {
             doc(db, 'chats', chatId),
             (res) => {
                 const data = res.data()
-                const messages = data.messages
+                const messages = data?.messages
 
                 setMessages(messages)
             }

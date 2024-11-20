@@ -22,57 +22,63 @@ export const ChatList = () => {
     } = styles
 
     const { chats, setChats, setLoading, isLoading } = useChatsStore()
-    const { chatId: currentChatID, changeChat, changeGroup } = useChatStore()
+    const { chatId: currentChatID, changeChat, changeGroup, clearChat } = useChatStore()
     const { currentUser } = useUserStore()
 
     useEffect(() => {
-        const unSub = onSnapshot(doc(db, 'userchats', currentUser.id),
-            async (res) => {
-                const items = res.data().chats
-
+        let isMounted = true
+    
+        const unSub = onSnapshot(doc(db, 'userchats', currentUser.id), async (res) => {
+            try {
+                const items = res.data()?.chats || []
+    
                 const promises = items.map(async (item) => {
                     if (item.type === 'single') {
-                        const userDocRef = doc(db, 'users', item.receiversIDs[0])
-                        const userDocSnap = await getDoc(userDocRef)
-                        const user = userDocSnap.data()
-                        return { ...item, users: [user] }
+                        const userDocSnap = await getDoc(doc(db, 'users', item.receiversIDs[0]))
+                        return { ...item, users: [userDocSnap.data()] }
                     }
     
                     if (item.type === 'group') {
-                        const usersPromises = item.receiversIDs.map(async (userId) => {
-                            const userDocRef = doc(db, 'users', userId)
-                            const userDocSnap = await getDoc(userDocRef)
-                            return userDocSnap.data()
-                        })
-    
-                        const users = await Promise.all(usersPromises)
+                        const users = await Promise.all(
+                            item.receiversIDs.map(async (id) => {
+                                const userDocSnap = await getDoc(doc(db, 'users', id))
+                                return userDocSnap.data()
+                            })
+                        )
                         return { ...item, users }
                     }
+                    return item
                 })
-
+    
                 const chatData = await Promise.all(promises)
-
-                const currentChat = chatData.find(chat => chat.chatId === currentChatID)
-
-                if (currentChat) {
-                    const { chatId, users, lastMessageId, groupData } =  currentChat
-                    if (currentChat.type === 'single') {
-                        changeChat(chatId, users[0], lastMessageId)
+    
+                if (isMounted) {
+                    setChats(chatData.sort((a, b) => b.updatedAt - a.updatedAt))
+    
+                    const currentChat = chatData.find(chat => chat.chatId === currentChatID)
+    
+                    if (currentChat) {
+                        if (currentChat.type === 'single') {
+                            changeChat(currentChat.chatId, currentChat.users[0], currentChat.lastMessageId)
+                        } else if (currentChat.type === 'group') {
+                            changeGroup(currentChat.chatId, currentChat.users, currentChat.lastMessageId, currentChat.groupData)
+                        }
+                    } else if (currentChatID) {
+                        clearChat()
                     }
-
-                    if (currentChat.type === 'group') {
-                        changeGroup(chatId, users, lastMessageId, groupData)
-                    }
+    
+                    setLoading(false)
                 }
-
-                setChats(chatData.sort((a, b) => b.updatedAt - a.updatedAt))
-                setLoading(false)
-            })
-
+            } catch (error) {
+                console.error('Error updating chats:', error)
+            }
+        })
+    
         return () => {
+            isMounted = false
             unSub()
         }
-    }, [currentUser.id])
+    }, [currentUser.id, currentChatID])
 
     return (
         <div className={chatsClass}>

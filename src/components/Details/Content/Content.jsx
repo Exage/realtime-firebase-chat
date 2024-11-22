@@ -41,6 +41,10 @@ export const Content = () => {
         openModal('addMember')
     }
 
+    const handleOpenMembersList = () => {
+        openModal('membersList')
+    }
+
     return (
         <div className={content}>
             <div className={block}>
@@ -50,7 +54,7 @@ export const Content = () => {
 
             {type === 'group' && (
                 <div className={block}>
-                    <Button icon={membersIcon} iconGap={20} className={[btn]}>{users.length + 1} Members</Button>
+                    <Button icon={membersIcon} iconGap={20} className={[btn]} onClick={handleOpenMembersList}>{users.length + 1} Members</Button>
                     <Button icon={memberAdd} iconGap={20} className={[btn]} onClick={handleAddMember}>Add member</Button>
                 </div>
             )}

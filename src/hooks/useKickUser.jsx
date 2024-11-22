@@ -6,14 +6,14 @@ import { v4 as uuidv4 } from 'uuid'
 import { arrayUnion, doc, getDoc, updateDoc } from 'firebase/firestore'
 import { db } from '@/lib/firebase'
 
-export const useLeaveGroup = () => {
+export const useKickUser = () => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
 
     const { currentUser } = useUserStore()
-    const { chatId, users, clearChat } = useChatStore()
+    const { chatId, users } = useChatStore()
 
-    const leaveGroup = async () => {
+    const kickUser = async (userId) => {
         try {
             setLoading(true)
             setError(null)
@@ -22,7 +22,7 @@ export const useLeaveGroup = () => {
             const messageStructure = {
                 id: messageId,
                 type: 'system left-chat',
-                senderId: currentUser.id,
+                senderId: userId,
                 text: 'One member leave group',
                 isSeen: false,
                 createdAt: new Date()
@@ -32,31 +32,7 @@ export const useLeaveGroup = () => {
                 messages: arrayUnion(messageStructure)
             })
 
-            const userIDs = users.map(user => user.id)
-
-            userIDs.forEach(async (id) => {
-                const userChatRef = doc(db, 'userchats', id)
-                const userChatsSnapshot = await getDoc(userChatRef)
-
-                if (userChatsSnapshot.exists()) {
-                    const userChatsData = userChatsSnapshot.data()
-                    const chatIndex = userChatsData.chats.findIndex(c => c.chatId === chatId)
-
-                    const receiversIDs = userChatsData.chats[chatIndex].receiversIDs
-
-                    userChatsData.chats[chatIndex].receiversIDs = receiversIDs.filter(id => id !== currentUser.id)
-                    userChatsData.chats[chatIndex].lastMessage = messageStructure
-                    userChatsData.chats[chatIndex].isSeen = false
-                    userChatsData.chats[chatIndex].unreadedMessages = 0
-                    userChatsData.chats[chatIndex].updatedAt = Date.now()
-
-                    await updateDoc(userChatRef, {
-                        chats: userChatsData.chats,
-                    })
-                }
-            })
-
-            const userChatRef = doc(db, 'userchats', currentUser.id)
+            const userChatRef = doc(db, 'userchats', userId)
             const userChatsSnapshot = await getDoc(userChatRef)
 
             if (userChatsSnapshot.exists()) {
@@ -68,7 +44,29 @@ export const useLeaveGroup = () => {
                 })
             }
 
-            clearChat()
+            const userIDs = [currentUser.id, ...users.map(user => user.id)]
+
+            userIDs.forEach(async (id) => {
+                const userChatRef = doc(db, 'userchats', id)
+                const userChatsSnapshot = await getDoc(userChatRef)
+
+                if (userChatsSnapshot.exists()) {
+                    const userChatsData = userChatsSnapshot.data()
+                    const chatIndex = userChatsData.chats.findIndex(c => c.chatId === chatId)
+
+                    const receiversIDs = userChatsData.chats[chatIndex].receiversIDs
+
+                    userChatsData.chats[chatIndex].receiversIDs = receiversIDs.filter(id => id !== userId)
+                    userChatsData.chats[chatIndex].lastMessage = messageStructure
+                    userChatsData.chats[chatIndex].isSeen = false
+                    userChatsData.chats[chatIndex].unreadedMessages = 0
+                    userChatsData.chats[chatIndex].updatedAt = Date.now()
+
+                    await updateDoc(userChatRef, {
+                        chats: userChatsData.chats,
+                    })
+                }
+            })
 
         } catch (error) {
             console.error(error)
@@ -78,5 +76,5 @@ export const useLeaveGroup = () => {
         }
     }
 
-    return { loading, error, leaveGroup }
+    return { loading, error, kickUser }
 }

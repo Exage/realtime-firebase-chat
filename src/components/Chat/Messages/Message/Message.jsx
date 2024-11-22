@@ -35,22 +35,12 @@ export const Message = ({ message, messagesRef, chat }) => {
     const messageType = message.type.split(' ')
 
     useEffect(() => {
-        const fetchUserDoc = async () => {
-            if (message.senderId) {
-                try {
-                    const userRef = doc(db, 'users', message.senderId)
-                    const userDoc = await getDoc(userRef)
-
-                    if (userDoc.exists()) {
-                        setMessageSender(userDoc.data())
-                    }
-                } catch (error) {
-                    console.error(error)
-                }
-            }
+        const getSender = () => {
+            const sender = [...users].find(user => user.id === message.senderId)
+            setMessageSender(sender)
         }
 
-        fetchUserDoc()
+        getSender()
     }, [])
 
     // useEffect(() => {
@@ -130,19 +120,19 @@ export const Message = ({ message, messagesRef, chat }) => {
 
                     {messageType[1] === 'left-chat' && (
                         <div className={text}>
-                            {messageSender.name} leave group
+                            {currentUser.id === message.senderId ? 'You' : messageSender?.name} leave group
                         </div>
                     )}
 
                     {messageType[1] === 'user-added' && (
                         <div className={text}>
-                            {messageSender.name} joined chat
+                            {currentUser.id === message.senderId ? 'You' : messageSender?.name} joined chat
                         </div>
                     )}
 
                     {!messageType[1] && (
                         <div className={text}>
-                            {message.text}
+                            {message?.text}
                         </div>
                     )}
                 </div>
@@ -168,7 +158,7 @@ export const Message = ({ message, messagesRef, chat }) => {
                         <>
                             |
                             {message.senderId === groupData.owner && ' ★'}
-                            {currentUser.id === message.senderId ? ' you' : ` ${messageSender.name}`}
+                            {currentUser.id === message.senderId ? ' you' : ` ${messageSender?.name}`}
                         </>
                     )}
                 </div>

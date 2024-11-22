@@ -13,12 +13,13 @@ import { ClearChat } from '@/modals/ClearChat/ClearChat'
 import { DeleteChat } from '@/modals/DeleteChat/DeleteChat'
 import { LeaveGroup } from '@/modals/LeaveGroup/LeaveGroup'
 import { AddMember } from '@/modals/AddMember/AddMember'
+import { MembersList } from '@/modals/MembersList/MembersList'
 
 import { useChatStore } from '@/lib/chatStore'
 
 export const Main = () => {
 
-    const { chatId } = useChatStore()
+    const { chatId, type } = useChatStore()
 
     const [details, setDetails] = useState(JSON.parse(localStorage.getItem('displayDetails')) || false)
 
@@ -42,10 +43,12 @@ export const Main = () => {
             <StartGroup />
             <UserSettings />
             <Settings />
+
             <ClearChat />
             <DeleteChat />
             <LeaveGroup />
-            <AddMember />
+            {type === 'group' && <AddMember />}
+            {type === 'group' && <MembersList />}
         </main>
     )
 }

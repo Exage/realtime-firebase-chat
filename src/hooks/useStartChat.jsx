@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { arrayUnion, collection, doc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore'
 import { db } from '@/lib/firebase'
 import { useUserStore } from '@/lib/userStore'
+import { useChatsStore } from '@/lib/chatsStore'
 import { v4 as uuidv4 } from 'uuid'
 
 export const useStartChat = () => {
@@ -9,11 +10,24 @@ export const useStartChat = () => {
     const [error, setError] = useState(null)
 
     const { currentUser } = useUserStore()
+    const { chats } = useChatsStore()
 
     const startChat = async (user) => {
         try {
             setLoading(true)
             setError(null)
+
+            const allSingleChats = chats.filter(chat => chat.type === 'single')
+
+            const existingChat = allSingleChats.find(chat => {
+                if (chat.receiversIDs[0] === user.id) {
+                    return { chatId: chat.chatId, user, lastMessageId: chat.lastMessageId }
+                }
+            })
+
+            if (existingChat) {
+                return { chatId: existingChat.chatId, user, lastMessageId: existingChat.lastMessageId }
+            }
 
             const chatRef = collection(db, 'chats')
             const userChatRef = collection(db, 'userchats')
@@ -64,7 +78,7 @@ export const useStartChat = () => {
                 })
             })
 
-            return { chatId: newChatRef.id, user, lastMessageId: messageId,  }
+            return { chatId: newChatRef.id, user, lastMessageId: messageId }
 
         } catch (error) {
             console.error(error)

@@ -44,9 +44,13 @@ export const FormValidation = {
     },
     Password: {
         required: "Password is required",
-        minLength: {
-            value: 8,
-            message: "Password sholud be minimum 8 characters"
-        }
+
+    },
+    GroupTitle: {
+        required: "Group title is required",
+        maxLength: {
+            value: 50,
+            message: "Group title must not exceed 50 characters"
+        },
     }
 }

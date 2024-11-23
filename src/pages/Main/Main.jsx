@@ -14,6 +14,7 @@ import { DeleteChat } from '@/modals/DeleteChat/DeleteChat'
 import { LeaveGroup } from '@/modals/LeaveGroup/LeaveGroup'
 import { AddMember } from '@/modals/AddMember/AddMember'
 import { MembersList } from '@/modals/MembersList/MembersList'
+import { GroupSettings } from '@/modals/GroupSettings/GroupSettings'
 
 import { useChatStore } from '@/lib/chatStore'
 
@@ -49,6 +50,8 @@ export const Main = () => {
             <LeaveGroup />
             {type === 'group' && <AddMember />}
             {type === 'group' && <MembersList />}
+            {type === 'group' && <GroupSettings />}
+            
         </main>
     )
 }

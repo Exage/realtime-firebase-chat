@@ -45,10 +45,16 @@ export const Content = () => {
         openModal('membersList')
     }
 
+    const handleOpenGroupSettings = () => {
+        openModal('groupSettings')
+    }
+
     return (
         <div className={content}>
             <div className={block}>
-                <Button icon={slidersIcon} iconGap={20} className={[btn]}>Chat settings</Button>
+                {type === 'group' && (
+                    <Button icon={slidersIcon} iconGap={20} className={[btn]} onClick={handleOpenGroupSettings}>Group settings</Button>
+                )}
                 <Button icon={mediaIcon} iconGap={20} className={[btn]}>Photos &amp; Video</Button>
             </div>
 

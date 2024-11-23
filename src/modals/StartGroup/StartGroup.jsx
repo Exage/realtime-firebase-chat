@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form'
 import { useFetchUser } from '@/hooks/useFetchUser'
 import { useStartGroup } from '@/hooks/useStartGroup'
 import { FormValidation } from '@/validation/formValidation'
+import { useChatStore } from '@/lib/chatStore'
+import { useModals } from '@/lib/modalsStore'
 import styles from './StartGroup.module.scss'
 
 import { Modal } from '@/components/Modal/Modal'
@@ -44,6 +46,8 @@ export const StartGroup = () => {
     const { fetchUser, error: fetchError, loading: fetchLoading } = useFetchUser()
     const { startGroup, error: chatError, loading: chatLoading } = useStartGroup()
     const { register, handleSubmit, formState: { errors }, reset } = useForm()
+    const { changeGroup } = useChatStore()
+    const { closeModal } = useModals()
 
     const [user, setUser] = useState(null)
     const [selectedUsers, setSelectedUsers] = useState([])
@@ -73,8 +77,14 @@ export const StartGroup = () => {
         setSelectedUsers([])
     }
 
-    const handleStartGroup = () => {
-        startGroup(selectedUsers)
+    const handleStartGroup = async () => {
+        const res = await startGroup(selectedUsers)
+    
+        if (res) {
+            changeGroup(res.chatId, res.users, res.lastMessageId, res.groupData)
+            closeModal('startGroup')
+            resetData()
+        }
     }
 
     return (
@@ -136,7 +146,12 @@ export const StartGroup = () => {
 
                 {selectedUsers.length > 0 && (
                     <div className={bottom}>
-                        <Button filled={true} className={[button]} onClick={() => handleStartGroup()}>
+                        <Button 
+                            filled={true} 
+                            className={[button]} 
+                            onClick={() => handleStartGroup()}
+                            loading={chatLoading}
+                        >
                             Start chat
                         </Button>
                     </div>

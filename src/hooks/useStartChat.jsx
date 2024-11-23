@@ -12,6 +12,8 @@ export const useStartChat = () => {
 
     const startChat = async (user) => {
         try {
+            setLoading(true)
+            setError(null)
 
             const chatRef = collection(db, 'chats')
             const userChatRef = collection(db, 'userchats')
@@ -61,6 +63,8 @@ export const useStartChat = () => {
                     receiversIDs: [userId]
                 })
             })
+
+            return { chatId: newChatRef.id, user, lastMessageId: messageId,  }
 
         } catch (error) {
             console.error(error)

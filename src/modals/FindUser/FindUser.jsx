@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form'
 import { FormValidation } from '@/validation/formValidation'
 import { useFetchUser } from '@/hooks/useFetchUser'
 import { useStartChat } from '@/hooks/useStartChat'
+import { useChatStore } from '@/lib/chatStore'
+import { useModals } from '@/lib/modalsStore'
 import styles from './FindUser.module.scss'
 
 import { Modal } from '@/components/Modal/Modal'
@@ -34,6 +36,8 @@ export const FindUser = () => {
     const { fetchUser, error: fetchError, loading: fetchLoading } = useFetchUser()
     const { startChat, error: chatError, loading: chatLoading } = useStartChat()
     const { register, handleSubmit, formState: { errors }, reset } = useForm()
+    const { changeChat } = useChatStore()
+    const { closeModal } = useModals()
 
     const [user, setUser] = useState(null)
 
@@ -47,8 +51,14 @@ export const FindUser = () => {
         setUser(null)
     }
 
-    const handleStartNewChat = () => {
-        startChat(user)
+    const handleStartNewChat = async () => {
+        const res = await startChat(user)
+
+        if (res) {
+            changeChat(res.chatId, res.user, res.lastMessageId)
+            closeModal('findUser')
+            resetData()
+        }
     }
 
     return (
@@ -106,6 +116,7 @@ export const FindUser = () => {
                                         <IconButton 
                                             icon={chatIcon}
                                             onClick={handleStartNewChat}
+                                            loading={chatLoading}
                                         />
                                     </div>
                                 </div>

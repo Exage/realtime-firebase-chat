@@ -13,7 +13,7 @@
     transition-duration: 200ms;
     transition-timing-function: linear;
 
-    & > .icon {
+    &>.icon {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -21,6 +21,10 @@
         div {
             display: flex;
         }
+    }
+
+    &>.loader {
+        font-size: 2.4rem;
     }
 
     &:hover {
@@ -43,6 +47,10 @@
             background-color: transparent;
         }
     }
+
+    // &:disabled>.loader {
+    //     border-color: var(--button-transparent-text);
+    // }
 
     &-filled {
         fill: var(--button-text);

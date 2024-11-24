@@ -19,3 +19,9 @@
         0.05em 0.05em 0 #000,
         0.1em 0.1em 0 #000;
 }
+
+@mixin response($bp) {
+    @media (max-width: $bp) {
+        @content
+    }
+}

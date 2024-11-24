@@ -3,49 +3,66 @@ import styles from './Top.module.scss'
 
 import { useChatStore } from '@/lib/chatStore'
 
+import { IconButton } from '@/components/UI/IconButton/IconButton'
+
+import chatlistIcon from '@/assets/icons/chatlist.svg'
+
 export const Top = ({ showDetails }) => {
 
     const {
         top,
         user: userClass,
+        ['user__wrapper']: userWrapper,
         avatar,
         ["avatar__none"]: avatarNone,
-        name
+        name,
+        chatlist,
+        ['chatlist__wrapper']: chatlistWrapper
     } = styles
 
     const { users, type, groupData } = useChatStore()
-    
+
     return (
-        <div className={top} onClick={showDetails}>
-            <div className={userClass}>
-                <div className={avatar}>
-                    {type === 'single' && (
-                        <>
-                            {users[0].avatar.url && <img src={users[0].avatar.url} alt="" />}
+        <div className={top} >
 
-                            {!users[0].avatar.url && (
-                                <div className={avatarNone}>
-                                    {users[0].name[0]}
-                                </div>
-                            )}
-                        </>
-                    )}
+            <div className={chatlistWrapper}>
+                <IconButton
+                    icon={chatlistIcon}
+                    className={[chatlist]}
+                />
+            </div>
 
-                    {type === 'group' && (
-                        <>
-                            {groupData.cover.url && <img src={groupData.cover.url} alt="" />}
+            <div className={userWrapper} onClick={showDetails}>
+                <div className={userClass}>
+                    <div className={avatar}>
+                        {type === 'single' && (
+                            <>
+                                {users[0].avatar.url && <img src={users[0].avatar.url} alt="" />}
 
-                            {!groupData.cover.url && (
-                                <div className={avatarNone}>
-                                    {groupData.title[0]}
-                                </div>
-                            )}
-                        </>
-                    )}
-                </div>
-                <div className={name}>
-                    {type === 'single' && users[0].name}
-                    {type === 'group' && groupData.title}
+                                {!users[0].avatar.url && (
+                                    <div className={avatarNone}>
+                                        {users[0].name[0]}
+                                    </div>
+                                )}
+                            </>
+                        )}
+
+                        {type === 'group' && (
+                            <>
+                                {groupData.cover.url && <img src={groupData.cover.url} alt="" />}
+
+                                {!groupData.cover.url && (
+                                    <div className={avatarNone}>
+                                        {groupData.title[0]}
+                                    </div>
+                                )}
+                            </>
+                        )}
+                    </div>
+                    <div className={name}>
+                        {type === 'single' && users[0].name}
+                        {type === 'group' && groupData.title}
+                    </div>
                 </div>
             </div>
         </div>

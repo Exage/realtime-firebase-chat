@@ -1,13 +1,27 @@
 @import '@/mixins';
+@import '@/vars';
 
 .top {
-    padding: 1rem;
     box-shadow: 0 5px 20px rgba(#000, 0.13);
-    cursor: pointer;
+
+    @include response($sidebar-response) {
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
 }
 
 .user {
     text-align: center;
+
+    &__wrapper {
+        padding: 1rem;
+        cursor: pointer;
+
+        @include response($sidebar-response) {
+            flex: 1;
+        }
+    }
 }
 
 $photoSize: 5.4rem;
@@ -41,4 +55,19 @@ $photoSize: 5.4rem;
 
     font-size: 1.8rem;
     font-weight: 700;
+}
+
+.chatlist {
+    display: none !important;
+
+    @include response($sidebar-response) {
+        display: block !important;
+    }
+
+    &__wrapper {
+        position: absolute;
+        top: 50%;
+        left: 1rem;
+        transform: translateY(-50%);
+    }
 }

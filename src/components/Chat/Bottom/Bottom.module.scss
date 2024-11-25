@@ -1,3 +1,6 @@
+@import '@/vars';
+@import '@/mixins';
+
 $gap: 1rem;
 
 .bottom {
@@ -62,6 +65,10 @@ $gap: 1rem;
 
 .emoji {
     position: relative;
+
+    @include response($sidebar-response) {
+        display: none;
+    }
 
     &__picker {
         position: absolute;

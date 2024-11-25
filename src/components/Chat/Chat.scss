@@ -1,4 +1,5 @@
-@import '../../vars';
+@import '@/vars';
+@import '@/mixins';
 
 .chat {
     display: flex;
@@ -6,14 +7,47 @@
     flex: 1;
 
     padding-left: $sidebarWidth;
-    
+
     position: relative;
 
-    height: 100vh;
+    height: 100dvh;
 
     z-index: 10;
 
+    @include response($sidebar-response) {
+        padding-left: 0;
+    }
+
     &.show-details {
         padding-right: $detailsWidth;
+
+        @include response($sidebar-response) {
+            padding-right: 0;
+        }
+    }
+
+    &__placeholder {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        row-gap: 1rem;
+
+        &-response {
+            display: none;
+
+            @include response($sidebar-response) {
+                display: flex;
+            }
+        }
+
+        &-desktop {
+            display: flex;
+
+            @include response($sidebar-response) {
+                display: none;
+            }
+        }
     }
 }

@@ -72,7 +72,8 @@ export const UserInfo = () => {
                     </h3>
                     <button 
                         className={classNames(userSubtitle, { [userCopied]: isCopied })} 
-                        onClick={handleCopy} 
+                        onClick={handleCopy}
+                        onTouchStart={handleCopy}
                         onMouseLeave={handleMouseLeave}
                     >
                         <div className={userSubtitleIcon}>

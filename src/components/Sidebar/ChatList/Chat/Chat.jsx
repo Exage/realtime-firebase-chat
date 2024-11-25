@@ -6,6 +6,7 @@ import styles from './Chat.module.scss'
 
 import { useUserStore } from '@/lib/userStore'
 import { useChatStore } from '@/lib/chatStore'
+import { useResponseMenus } from '@/lib/responseMenus'
 
 export const Chat = ({ chat, chats }) => {
 
@@ -22,6 +23,7 @@ export const Chat = ({ chat, chats }) => {
 
     const { currentUser } = useUserStore()
     const { chatId: currentChatId, changeChat, changeGroup } = useChatStore()
+    const { setSidebarOpened } = useResponseMenus()
 
     const { chatId, lastMessage, isSeen, receiverId, type, groupData, users } = chat
 
@@ -32,6 +34,8 @@ export const Chat = ({ chat, chats }) => {
             } else if (type === 'group') {
                 changeGroup(chatId, chat.users, chat.lastMessageId, groupData)
             }
+
+            setSidebarOpened(false)
         }
     }
 

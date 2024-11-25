@@ -1,3 +1,4 @@
+@import '@/vars';
 @import '@/mixins';
 
 .user__info {
@@ -90,6 +91,10 @@
         cursor: pointer;
 
         transition: padding-left .2s ease;
+
+        @include response($sidebar-response) {
+
+        }
 
         &-copied {
             width: 100%;

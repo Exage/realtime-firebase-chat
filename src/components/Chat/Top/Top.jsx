@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './Top.module.scss'
 
 import { useChatStore } from '@/lib/chatStore'
+import { useResponseMenus } from '@/lib/responseMenus'
 
 import { IconButton } from '@/components/UI/IconButton/IconButton'
 
@@ -21,6 +22,7 @@ export const Top = ({ showDetails }) => {
     } = styles
 
     const { users, type, groupData } = useChatStore()
+    const { setSidebarOpened } = useResponseMenus()
 
     return (
         <div className={top} >
@@ -29,6 +31,7 @@ export const Top = ({ showDetails }) => {
                 <IconButton
                     icon={chatlistIcon}
                     className={[chatlist]}
+                    onClick={() => setSidebarOpened(true)}
                 />
             </div>
 

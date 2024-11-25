@@ -17,11 +17,11 @@ export const Details = ({ details, hideDetails }) => {
     const { detailsOpened, setDetailsOpened } = useResponseMenus()
 
     return (
-        <div 
+        <div
             className={classNames("details__wrapper", { show: details }, { 'response-show': detailsOpened })}
             onClick={hideDetails}
         >
-            <div 
+            <div
                 className="details"
                 onClick={e => e.stopPropagation()}
             >
@@ -34,8 +34,10 @@ export const Details = ({ details, hideDetails }) => {
                     <IconButton icon={xmark} className={['details__head-icon']} onClick={hideDetails} />
                 </div>
 
-                <Top />
-                <Content />
+                <div className="details__overflow">
+                    <Top />
+                    <Content />
+                </div>
             </div>
         </div>
     )

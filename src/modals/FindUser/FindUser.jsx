@@ -72,6 +72,7 @@ export const FindUser = () => {
                     <Input
                         placeholder="@username"
                         className={[formInput, { invalid: errors.username }]}
+                        autoComplete="off"
                         {...register('username', FormValidation.Username)}
                     />
                     <IconButton

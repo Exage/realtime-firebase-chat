@@ -55,7 +55,7 @@ export const Content = () => {
                 {type === 'group' && (
                     <Button icon={slidersIcon} iconGap={20} className={[btn]} onClick={handleOpenGroupSettings}>Group settings</Button>
                 )}
-                <Button icon={mediaIcon} iconGap={20} className={[btn]}>Photos &amp; Video</Button>
+                <Button icon={mediaIcon} iconGap={20} className={[btn]} disabled={true}>Photos &amp; Video</Button>
             </div>
 
             {type === 'group' && (

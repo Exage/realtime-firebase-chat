@@ -94,6 +94,7 @@ export const StartGroup = () => {
                     <Input
                         placeholder="@username"
                         className={[formInput, { invalid: errors.username }]}
+                        autoComplete="off"
                         {...register('username', FormValidation.Username)}
                     />
                     <IconButton icon={searchIcon} className={formBtn} />

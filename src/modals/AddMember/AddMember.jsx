@@ -71,6 +71,7 @@ export const AddMember = () => {
                     <Input
                         placeholder="@username"
                         className={[formInput, { invalid: errors.username }]}
+                        autoComplete="off"
                         {...register('username', FormValidation.Username)}
                     />
                     <IconButton

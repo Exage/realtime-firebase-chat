@@ -94,7 +94,7 @@ export const Bottom = () => {
 
     return (
         <div className={bottom}>
-            <IconButton icon={fileIcon} />
+            <IconButton icon={fileIcon} disabled={true} />
             <form onSubmit={handleSubmit} className={form}>
                 <div className={formInputWrapper}>
                     <TextArea

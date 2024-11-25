@@ -3,12 +3,12 @@
 
 .details {
     width: 100%;
-    height: 100vh;
+    height: 100dvh;
 
     display: flex;
     flex-direction: column;
 
-    padding: 1.5rem 1rem;
+    // padding: 1.5rem 1rem;
 
     background-color: var(--background-primary);
 
@@ -19,7 +19,7 @@
 
         transition: transform .2s ease;
 
-        &__wrapper.show > & {
+        &__wrapper.show>& {
             transform: translateX(0);
         }
     }
@@ -37,7 +37,7 @@
         z-index: 20;
 
         @include response($sidebar-response) {
-            display: flex !important;
+            display: flex;
             justify-content: flex-end;
             max-width: 100%;
 
@@ -48,10 +48,6 @@
             transition-duration: 200ms;
             transition-timing-function: ease;
 
-            &.show {
-                display: flex;
-            }
-
             &.response-show {
                 visibility: visible;
                 background-color: var(--overlay-active);
@@ -60,6 +56,10 @@
 
         &.show {
             display: block;
+
+            @include response($sidebar-response) {
+                display: flex;
+            }
         }
     }
 
@@ -67,6 +67,8 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+
+        padding: 1rem 1.5rem 1rem 1rem;
 
         &-title {
             display: flex;
@@ -100,5 +102,6 @@
     &__overflow {
         overflow: auto;
         flex: 1;
+        padding: 0 1rem;
     }
 }

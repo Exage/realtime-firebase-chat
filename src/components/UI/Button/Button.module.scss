@@ -3,7 +3,7 @@
     align-items: center;
 
     font-size: 1.6rem;
-    
+
     padding: 1rem 2rem;
     border-radius: 2.2rem;
 
@@ -27,9 +27,18 @@
         }
     }
 
-    &:hover {
-        fill: var(--button-transparent-text-hover);
-        background-color: var(--button-transparent-hover);
+    @media (hover: hover) {
+        &:hover {
+            fill: var(--button-transparent-text-hover);
+            background-color: var(--button-transparent-hover);
+        }
+    }
+
+    @media (hover: none) {
+        &:active {
+            fill: var(--button-transparent-text-hover);
+            background-color: var(--button-transparent-hover);
+        }
     }
 
     &:focus-visible {
@@ -59,7 +68,7 @@
         }
     }
 
-    &__loading > .text {
+    &__loading>.text {
         display: flex;
         justify-content: center;
     }
@@ -94,7 +103,7 @@
         }
     }
 
-    &__loading > &__text > .loader {
+    &__loading>&__text>.loader {
         border-color: var(--text-primary-active);
     }
 }

@@ -1,11 +1,7 @@
-@import '../../vars';
+@import '@/vars';
+@import '@/mixins';
 
 .details {
-    position: fixed;
-    top: 0;
-    right: 0;
-
-    max-width: $detailsWidth;
     width: 100%;
     height: 100vh;
 
@@ -16,7 +12,56 @@
 
     background-color: var(--background-primary);
 
-    z-index: 20;
+    @include response($sidebar-response) {
+        max-width: $detailsWidth;
+
+        transform: translateX($detailsWidth);
+
+        transition: transform .2s ease;
+
+        &__wrapper.show > & {
+            transform: translateX(0);
+        }
+    }
+
+    &__wrapper {
+        display: none;
+
+        position: fixed;
+        top: 0;
+        right: 0;
+
+        max-width: $detailsWidth;
+        width: 100%;
+
+        z-index: 20;
+
+        @include response($sidebar-response) {
+            display: flex !important;
+            justify-content: flex-end;
+            max-width: 100%;
+
+            visibility: hidden;
+            background-color: var(--overlay-inactive);
+
+            transition-property: visibility, background-color;
+            transition-duration: 200ms;
+            transition-timing-function: ease;
+
+            &.show {
+                display: flex;
+            }
+
+            &.response-show {
+                visibility: visible;
+                background-color: var(--overlay-active);
+            }
+        }
+
+        &.show {
+            display: block;
+        }
+    }
 
     &__head {
         display: flex;

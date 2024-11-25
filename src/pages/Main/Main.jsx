@@ -17,28 +17,32 @@ import { MembersList } from '@/modals/MembersList/MembersList'
 import { GroupSettings } from '@/modals/GroupSettings/GroupSettings'
 
 import { useChatStore } from '@/lib/chatStore'
+import { useResponseMenus } from '@/lib/responseMenus'
 
 export const Main = () => {
 
     const { chatId, type } = useChatStore()
 
+    const { detailsOpened, setDetailsOpened } = useResponseMenus()
     const [details, setDetails] = useState(JSON.parse(localStorage.getItem('displayDetails')) || false)
 
     const showDetails = () => {
         localStorage.setItem('displayDetails', JSON.stringify(true))
         setDetails(true)
+        setDetailsOpened(true)
     }
 
     const hideDetails = () => {
         localStorage.setItem('displayDetails', JSON.stringify(false))
         setDetails(false)
+        setDetailsOpened(false)
     }
 
     return (
         <main className='main'>
             <Sidebar />
             <Chat details={details} showDetails={showDetails} />
-            {chatId && (details && <Details hideDetails={hideDetails} />)}
+            {chatId && <Details details={details} hideDetails={hideDetails} />}
 
             <FindUser />
             <StartGroup />
@@ -51,7 +55,7 @@ export const Main = () => {
             {type === 'group' && <AddMember />}
             {type === 'group' && <MembersList />}
             {type === 'group' && <GroupSettings />}
-            
+
         </main>
     )
 }

@@ -24,7 +24,6 @@ export const useLeaveGroup = () => {
                 type: 'system left-chat',
                 senderId: currentUser.id,
                 text: 'One member leave group',
-                isSeen: false,
                 createdAt: new Date()
             }
 
@@ -46,8 +45,6 @@ export const useLeaveGroup = () => {
 
                     userChatsData.chats[chatIndex].receiversIDs = receiversIDs.filter(id => id !== currentUser.id)
                     userChatsData.chats[chatIndex].lastMessage = messageStructure
-                    userChatsData.chats[chatIndex].isSeen = false
-                    userChatsData.chats[chatIndex].unreadedMessages = 0
                     userChatsData.chats[chatIndex].updatedAt = Date.now()
 
                     await updateDoc(userChatRef, {

@@ -13,20 +13,24 @@ export const Top = () => {
         username
     } = styles
 
-    const { users, type, groupData } = useChatStore()
-    
+    const { users, type, groupData, isCurrentUserBlocked, isReceiverBlocked } = useChatStore()
+
     return (
         <div className={top}>
             <div className={avatar}>
 
                 {type === 'single' && (
                     <>
-                        {users[0].avatar.url && <img src={users[0].avatar.url} alt="" />}
+                        {!isCurrentUserBlocked && (
+                            <>
+                                {users[0].avatar.url && <img src={users[0].avatar.url} alt="" />}
 
-                        {!users[0].avatar.url && (
-                            <div className={avatarNone}>
-                                {users[0].name[0]}
-                            </div>
+                                {!users[0].avatar.url && (
+                                    <div className={avatarNone}>
+                                        {users[0].name[0]}
+                                    </div>
+                                )}
+                            </>
                         )}
                     </>
                 )}
@@ -45,12 +49,14 @@ export const Top = () => {
 
             </div>
             <h3 className={name}>
-                {type === 'single' && users[0].name}
+                {type === 'single' && (
+                    isCurrentUserBlocked ? 'Unknown' : users[0].name
+                )}
                 {type === 'group' && groupData.title}
             </h3>
             {type === 'single' && (
                 <h4 className={username}>
-                    {users[0].username}
+                    {isCurrentUserBlocked ? 'Unknown' : users[0].username}
                 </h4>
             )}
         </div>

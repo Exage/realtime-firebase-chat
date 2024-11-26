@@ -82,3 +82,25 @@ $gap: 1rem;
         padding-bottom: 1rem;
     }
 }
+
+.blocked {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 2rem 1rem;
+
+    color: var(--text-primary);
+    fill: var(--text-primary);
+
+    &__icon {
+        display: inline-block;
+    }
+
+    &__text {
+        font-size: 1.8rem;
+        line-height: 1;
+        font-weight: 400;
+        margin-left: 1rem;
+    }
+}

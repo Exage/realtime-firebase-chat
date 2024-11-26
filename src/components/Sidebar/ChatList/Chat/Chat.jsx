@@ -1,14 +1,12 @@
 import React from 'react'
 import classNames from 'classnames'
-import { doc, updateDoc } from 'firebase/firestore'
-import { db } from '@/lib/firebase'
 import styles from './Chat.module.scss'
 
 import { useUserStore } from '@/lib/userStore'
 import { useChatStore } from '@/lib/chatStore'
 import { useResponseMenus } from '@/lib/responseMenus'
 
-export const Chat = ({ chat, chats }) => {
+export const Chat = ({ chat }) => {
 
     const {
         ['chat']: chatClass,
@@ -25,7 +23,7 @@ export const Chat = ({ chat, chats }) => {
     const { chatId: currentChatId, changeChat, changeGroup } = useChatStore()
     const { setSidebarOpened } = useResponseMenus()
 
-    const { chatId, lastMessage, isSeen, receiverId, type, groupData, users } = chat
+    const { chatId, lastMessage, type, groupData, users } = chat
 
     const handleSelect = async () => {
         if (chatId !== currentChatId) {
@@ -41,7 +39,7 @@ export const Chat = ({ chat, chats }) => {
 
     return (
         <div
-            className={classNames(chatClass, /*{ [seen]: !isSeen },*/ { [active]: chatId === currentChatId })}
+            className={classNames(chatClass, { [active]: chatId === currentChatId })}
             onClick={() => handleSelect()}
         >
             <div className={chatPhoto}>

@@ -1,6 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react' 
-import EmojiPicker from 'emoji-picker-react'
+import React, { useEffect, useState, useRef } from 'react'
+import { ReactSVG } from 'react-svg'
+
 import styles from './Bottom.module.scss'
+
+import EmojiPicker from 'emoji-picker-react'
 
 import sendIcon from '@/assets/icons/send.svg'
 import fileIcon from '@/assets/icons/file.svg'
@@ -11,10 +14,11 @@ import { IconButton } from '@/components/UI/IconButton/IconButton'
 
 import { useSendMessage } from '@/hooks/useSendMessage'
 
-export const Bottom = () => {
+import { useChatStore } from '@/lib/chatStore'
 
-    const emojiRef = useRef(null)
-    const [emojiPickerShow, setEmojiPickerShow] = useState(false)
+import banIcon from '@/assets/icons/ban.svg'
+
+export const Bottom = () => {
 
     const {
         bottom,
@@ -25,14 +29,21 @@ export const Bottom = () => {
         ['emoji']: emoji, 
         ['emoji__icon']: emojiIconClass,
         ['emoji__picker']: emojiPicker,
-        ['error']: errorClass
+        ['error']: errorClass,
+        blocked,
+        ['blocked__icon']: blockedIcon,
+        ['blocked__text']: blockedText,
     } = styles
+
+    const emojiRef = useRef(null)
+    const [emojiPickerShow, setEmojiPickerShow] = useState(false)
 
     const [message, setMessage] = useState('')
     const [sendDisabled, setSendDisabled] = useState(true)
     const [error, setError] = useState(null)
 
     const { sendMessage, loading } = useSendMessage()
+    const { isCurrentUserBlocked, isReceiverBlocked } = useChatStore()
 
     const maxSymbols = 500
     const maxRows = 4
@@ -90,6 +101,26 @@ export const Bottom = () => {
 
         sendMessage(message)
         setMessage('')
+    }
+
+    if (isCurrentUserBlocked || isReceiverBlocked) {
+        return (
+            <div className={blocked}>
+
+                <ReactSVG
+                    src={banIcon}
+                    className={blockedIcon}
+                />
+
+                {isCurrentUserBlocked && (
+                    <h3 className={blockedText}>You are blocked</h3>
+                )}
+
+                {isReceiverBlocked && (
+                    <h3 className={blockedText}>The interlocutor is blocked</h3>
+                )}
+            </div>
+        )
     }
 
     return (

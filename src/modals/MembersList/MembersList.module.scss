@@ -40,8 +40,8 @@
         }
 
         &-current {
-            padding: 0 1rem;
-            color: var(--text-secondary);
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
         }
     
         &-name {

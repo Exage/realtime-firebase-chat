@@ -22,7 +22,6 @@ export const useSendMessage = () => {
                 type: 'user',
                 senderId: currentUser.id,
                 text,
-                isSeen: false,
                 createdAt: new Date()
             }
 
@@ -41,8 +40,6 @@ export const useSendMessage = () => {
                     const chatIndex = userChatsData.chats.findIndex(c => c.chatId === chatId)
 
                     userChatsData.chats[chatIndex].lastMessage = messageStructure
-                    userChatsData.chats[chatIndex].isSeen = false
-                    userChatsData.chats[chatIndex].unreadedMessages = 1
                     userChatsData.chats[chatIndex].updatedAt = Date.now()
 
                     await updateDoc(userChatRef, {

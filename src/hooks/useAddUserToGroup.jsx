@@ -18,15 +18,12 @@ export const useAddUserToGroup = () => {
                 type: 'system user-added',
                 senderId: userId,
                 text: "One memeber has joined",
-                isSeen: false,
                 createdAt: new Date()
             }
 
             const chatData = {
                 chatId,
                 lastMessage: messageStructure,
-                isSeen: false,
-                unreadedMessages: 0,
                 type: 'group',
                 groupData: groupData,
                 updatedAt: Date.now(),
@@ -53,12 +50,8 @@ export const useAddUserToGroup = () => {
                     const chatIndex = userChatsData.chats.findIndex(c => c.chatId === chatId)
 
                     if (chatIndex >= 0) {
-                        console.log(allIDs)
-                        console.log(allIDs.filter(uid => uid !== id))
                         userChatsData.chats[chatIndex].receiversIDs = allIDs.filter(uid => uid !== id)
                         userChatsData.chats[chatIndex].lastMessage = messageStructure
-                        userChatsData.chats[chatIndex].isSeen = false
-                        userChatsData.chats[chatIndex].unreadedMessages = 0
                         userChatsData.chats[chatIndex].updatedAt = Date.now()
 
                         await updateDoc(userChatRef, {

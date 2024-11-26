@@ -32,8 +32,6 @@ export const useClearChat = () => {
                     const chatIndex = userChatsData.chats.findIndex(c => c.chatId === chatId)
 
                     userChatsData.chats[chatIndex].lastMessage = ""
-                    userChatsData.chats[chatIndex].isSeen = true
-                    userChatsData.chats[chatIndex].unreadedMessages = 0
                     userChatsData.chats[chatIndex].updatedAt = Date.now()
 
                     await updateDoc(userChatRef, {

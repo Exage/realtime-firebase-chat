@@ -55,8 +55,14 @@ export const useRegister = () => {
             case 'auth/email-already-in-use':
                 setError({ field: 'email', message: 'Email is already taken' })
                 break
+            case 'auth/invalid-email':
+                setError({ field: 'email', message: 'Invalid email' })
+                break
             case 'auth/username-already-in-use':
                 setError({ field: 'username', message: 'Username is already in use' })
+                break
+            case 'auth/weak-password':
+                setError({ field: 'password', message: 'Password should be at least 6 characters' })
                 break
             default:
                 setError({ field: 'general', message: error.message })

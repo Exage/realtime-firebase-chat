@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { doc, getDoc, onSnapshot } from 'firebase/firestore'
 
 import { useUserStore } from '@/lib/userStore'

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import classNames from 'classnames'
 import styles from './MembersList.module.scss'
 
 import { Modal } from '@/components/Modal/Modal'
@@ -51,7 +52,7 @@ export const MembersList = () => {
 
                 {users && (
                     <div className={usersList}>
-                        <div className={userClass}>
+                        <div className={classNames(userClass, userCurrent)}>
                             <div className={userPhoto}>
                                 {currentUser.avatar.photo || (
                                     <div className={userPhotoNone}>
@@ -62,9 +63,9 @@ export const MembersList = () => {
                             <h3 className={userPhotoName}>
                                 {currentUser.name} {currentUser.id === groupData.owner && '★'}
                             </h3>
-                            <div className={userCurrent}>
+                            {/* <div className={userCurrent}>
                                 You
-                            </div>
+                            </div> */}
                         </div>
                         {users.map(user => (
                             <div className={userClass} key={user.id}>

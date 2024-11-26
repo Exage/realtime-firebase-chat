@@ -40,7 +40,6 @@ export const useStartChat = () => {
                 type: 'system',
                 senderId: "",
                 text: "Chat started",
-                isSeen: false,
                 createdAt: new Date()
             }
 
@@ -57,8 +56,6 @@ export const useStartChat = () => {
             const chatData = {
                 chatId: newChatRef.id,
                 lastMessage: messageStructure,
-                isSeen: false,
-                unreadedMessages: 0,
                 type: 'single',
                 groupData: {},
                 updatedAt: Date.now()

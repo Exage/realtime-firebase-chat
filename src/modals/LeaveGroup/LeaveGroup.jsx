@@ -4,12 +4,9 @@ import styles from './LeaveGroup.module.scss'
 import { useModals } from '@/lib/modalsStore'
 import { useLeaveGroup } from '@/hooks/useLeaveGroup'
 
-import { Modal } from '@/components/Modal/Modal'
-import { Button } from '@/components/UI/Button/Button'
+import { ModalConfirm } from '@/components/ModalConfirm/ModalConfirm'
 
 export const LeaveGroup = () => {
-
-    const { disclaimer, buttons } = styles
 
     const { closeModal } = useModals()
 
@@ -21,19 +18,14 @@ export const LeaveGroup = () => {
     }
 
     return (
-        <Modal
-            title='Confirm your action'
+        <ModalConfirm
             modalId='leaveGroup'
+            confirmText='Leave'
+
+            handleConfirm={handleLeaveGroup}
+            loading={loading}
         >
-
-            <p className={disclaimer}>
-                Are you sure you want to leave the group?
-            </p>
-
-            <div className={buttons}>
-                <Button filled={true} loading={loading} onClick={handleLeaveGroup}>Leave</Button>
-                <Button onClick={() => closeModal('leaveGroup')} disabled={loading}>Cancel</Button>
-            </div>
-        </Modal>
+            Are you sure you want to leave the group?
+        </ModalConfirm>
     )
 }

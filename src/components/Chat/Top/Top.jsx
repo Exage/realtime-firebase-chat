@@ -21,7 +21,7 @@ export const Top = ({ showDetails }) => {
         ['chatlist__wrapper']: chatlistWrapper
     } = styles
 
-    const { users, type, groupData } = useChatStore()
+    const { users, type, groupData, isCurrentUserBlocked, isReceiverBlocked } = useChatStore()
     const { setSidebarOpened } = useResponseMenus()
 
     return (
@@ -63,7 +63,9 @@ export const Top = ({ showDetails }) => {
                         )}
                     </div>
                     <div className={name}>
-                        {type === 'single' && users[0].name}
+                        {type === 'single' && (
+                            isCurrentUserBlocked ? 'Unknown' : users[0].name
+                        )}
                         {type === 'group' && groupData.title}
                     </div>
                 </div>

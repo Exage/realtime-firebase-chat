@@ -26,7 +26,6 @@ export const useStartGroup = () => {
                 type: 'system',
                 senderId: "",
                 text: "Chat started",
-                isSeen: false,
                 createdAt: new Date()
             }
 
@@ -39,8 +38,6 @@ export const useStartGroup = () => {
             const chatData = {
                 chatId: newChatRef.id,
                 lastMessage: messageStructure,
-                isSeen: false,
-                unreadedMessages: 0,
                 type: 'group',
                 groupData: {
                     title: "New group",
@@ -69,10 +66,9 @@ export const useStartGroup = () => {
             )
 
             return { 
-                chatId: chatData.chatId, 
-                users, 
-                lastMessageId: chatData.lastMessage.id, 
-                groupData: chatData.groupData  
+                ...chatData,
+                receiversIDs: usersIds,
+                users
             }
 
         } catch (error) {

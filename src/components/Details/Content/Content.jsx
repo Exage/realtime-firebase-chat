@@ -22,7 +22,7 @@ export const Content = () => {
 
     const { content, block, dangerzone, title, btn, ban } = styles
     const { currentUser } = useUserStore()
-    const { type, users, groupData } = useChatStore()
+    const { type, users, groupData, isReceiverBlocked, isCurrentUserBlocked } = useChatStore()
     const { openModal } = useModals()
 
     const handleClearChat = () => {
@@ -49,6 +49,14 @@ export const Content = () => {
         openModal('groupSettings')
     }
 
+    const handleBlockModal = async () => {
+        if (isReceiverBlocked) {
+            openModal('unblockUser')
+        } else {
+            openModal('blockUser')
+        }
+    }
+
     return (
         <div className={content}>
             <div className={block}>
@@ -69,17 +77,25 @@ export const Content = () => {
                 <h3 className={title}>Danger Zone</h3>
                 {type === 'single' && (
                     <>
-                        <Button icon={eraseIcon} iconGap={20} className={[btn, ban]} onClick={handleClearChat}>Clear chat</Button>
-                        <Button icon={trashIcon} iconGap={20} className={[btn, ban]} onClick={handleDeleteChat}>Delete Chat</Button>
-                        <Button icon={banIcon} iconGap={20} className={[btn, ban]}>Block user</Button>
+                        {!(isReceiverBlocked || isCurrentUserBlocked) && (
+                            <Button icon={eraseIcon} iconGap={20} className={[btn, ban]} onClick={handleClearChat}>Clear chat</Button>
+                        )}
+                        {!(isReceiverBlocked || isCurrentUserBlocked) && (
+                            <Button icon={trashIcon} iconGap={20} className={[btn, ban]} onClick={handleDeleteChat}>Delete Chat</Button>
+                        )}
+                        <Button icon={banIcon} iconGap={20} className={[btn, ban]} onClick={handleBlockModal}>
+                            {isReceiverBlocked ? 'Unblock user' : 'Block user'}
+                        </Button>
                     </>
                 )}
                 {type === 'group' && (
                     <>
-                        <Button icon={logoutIcon} iconGap={20} className={[btn, ban]} onClick={handleLeaveGroup}>Leave group</Button>
+                        {currentUser.id !== groupData.owner && (
+                            <Button icon={logoutIcon} iconGap={20} className={[btn, ban]} onClick={handleLeaveGroup}>Leave group</Button>
+                        )}
 
                         {currentUser.id === groupData.owner && (
-                            <Button icon={trashIcon} iconGap={20} className={[btn, ban]} onClick={handleDeleteChat}>Delete Chat</Button>
+                            <Button icon={trashIcon} iconGap={20} className={[btn, ban]} onClick={handleDeleteChat}>Delete Group</Button>
                         )}
 
                     </>

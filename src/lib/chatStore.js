@@ -1,8 +1,6 @@
 import { create } from "zustand"
-import { useUserStore } from "./userStore"
-import { devtools } from "zustand/middleware"
 
-export const useChatStore = create(devtools((set) => ({
+export const useChatStore = create((set) => ({
     chatId: null,
     users: null,
     type: null,
@@ -15,53 +13,30 @@ export const useChatStore = create(devtools((set) => ({
     setMessages: (messages) => set(state => ({ ...state, messages })),
     setLastMessageId: (lastMessageId) => set(state => ({ ...state, lastMessageId })),
 
-    changeChat: (chatId, user, lastMessageId) => {
-        const currentUser = useUserStore.getState().currentUser
-
-        if (user.blocked.includes(currentUser.id)) {
-            return set({
-                chatId,
-                users: null,
-                type: 'single',
-                groupData: null,
-                lastMessageId: null,
-                isCurrentUserBlocked: true,
-                isReceiverBlocked: false,
-            })
-        }
-
-        if (currentUser.blocked.includes(user.id)) {
-            return set({
-                chatId,
-                users: [user],
-                type: 'single',
-                groupData: null,
-                lastMessageId: null,
-                isCurrentUserBlocked: false,
-                isReceiverBlocked: true,
-            })
-        }
+    changeChat: (chat) => {
+        const { chatId, users, lastMessageId, isCurrentUserBlocked, isReceiverBlocked } = chat
 
         set({
             chatId,
-            users: [user],
+            users,
             type: 'single',
             groupData: null,
             lastMessageId,
-            isCurrentUserBlocked: false,
-            isReceiverBlocked: false,
+            isCurrentUserBlocked,
+            isReceiverBlocked,
         })
     },
 
-    changeGroup: (chatId, users, lastMessageId, groupData) => {
+    changeGroup: (chat) => {
+
+        const { chatId, users, lastMessageId, groupData } = chat
+
         set({
             chatId,
             users,
             type: 'group',
             groupData,
             lastMessageId,
-            isCurrentUserBlocked: false,
-            isReceiverBlocked: false,
         })
     },
 
@@ -81,4 +56,4 @@ export const useChatStore = create(devtools((set) => ({
             messages: null,
         })
     }
-})))
+}))

@@ -4,12 +4,9 @@ import styles from './DeleteChat.module.scss'
 import { useModals } from '@/lib/modalsStore'
 import { useDeleteChat } from '@/hooks/useDeleteChat'
 
-import { Modal } from '@/components/Modal/Modal'
-import { Button } from '@/components/UI/Button/Button'
+import { ModalConfirm } from '@/components/ModalConfirm/ModalConfirm'
 
 export const DeleteChat = () => {
-
-    const { disclaimer, buttons } = styles
 
     const { closeModal } = useModals()
 
@@ -21,19 +18,14 @@ export const DeleteChat = () => {
     }
 
     return (
-        <Modal
-            title='Confirm your action'
+        <ModalConfirm
             modalId='deleteChat'
+            confirmText='Delete Chat'
+
+            handleConfirm={handleDeleteChat}
+            loading={loading}
         >
-
-            <p className={disclaimer}>
-                Are you sure you want to delete the entire chat?
-            </p>
-
-            <div className={buttons}>
-                <Button filled={true} loading={loading} onClick={handleDeleteChat}>Delete Chat</Button>
-                <Button onClick={() => closeModal('deleteChat')} disabled={loading}>Cancel</Button>
-            </div>
-        </Modal>
+            Are you sure you want to delete the entire chat?
+        </ModalConfirm>
     )
 }

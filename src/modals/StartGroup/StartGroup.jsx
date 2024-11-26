@@ -49,7 +49,7 @@ export const StartGroup = () => {
     const { changeGroup } = useChatStore()
     const { closeModal } = useModals()
 
-    const [user, setUser] = useState(null)
+    const [user, setUser] = useState({})
     const [selectedUsers, setSelectedUsers] = useState([])
 
     const isUserSelected = (userId) => selectedUsers.some(u => u.id === userId)
@@ -62,7 +62,7 @@ export const StartGroup = () => {
     const handleSelectUser = () => {
         if (!isUserSelected(user.id)) {
             setSelectedUsers(prev => [...prev, user])
-            setUser(null)
+            setUser({})
             reset()
         }
     }
@@ -73,7 +73,7 @@ export const StartGroup = () => {
 
     const resetData = () => {
         reset()
-        setUser(null)
+        setUser({})
         setSelectedUsers([])
     }
 
@@ -81,7 +81,7 @@ export const StartGroup = () => {
         const res = await startGroup(selectedUsers)
     
         if (res) {
-            changeGroup(res.chatId, res.users, res.lastMessageId, res.groupData)
+            changeGroup(res)
             closeModal('startGroup')
             resetData()
         }
@@ -106,13 +106,13 @@ export const StartGroup = () => {
                         {selectedUsers.map(user => (
                             <div className={selectedUser} key={user.id}>
                                 <div className={selectedUserPhoto}>
-                                    {user.avatar.url || (
+                                    {user?.avatar.url || (
                                         <div className={selectedUserPhotoNone}>
-                                            {user.name[0]}
+                                            {user?.name[0]}
                                         </div>
                                     )}
                                 </div>
-                                <div className={selectedUserName}>{user.name}</div>
+                                <div className={selectedUserName}>{user?.name}</div>
                                 <button className={selectedUserClose} onClick={() => removeUser(user.id)}>
                                     <ReactSVG src={xmarkIcon} className={icon} />
                                 </button>
@@ -124,14 +124,14 @@ export const StartGroup = () => {
                 <div className={results}>
                     {fetchLoading ? (
                         <Loader />
-                    ) : user ? (
+                    ) : Object.keys(user).length > 0 ? (
                         <div className={resultsUser}>
                             <div className={resultsUserPhoto}>
-                                {user.avatar.photo || (
-                                    <div className={resultsUserPhotoNone}>{user.name[0]}</div>
+                                {user?.avatar.photo || (
+                                    <div className={resultsUserPhotoNone}>{user?.name[0]}</div>
                                 )}
                             </div>
-                            <h3 className={resultsUserName}>{user.name}</h3>
+                            <h3 className={resultsUserName}>{user?.name}</h3>
                             <div className={resultsUserControls}>
                                 <IconButton
                                     icon={plusIcon}

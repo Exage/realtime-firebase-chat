@@ -11,7 +11,7 @@ export const Messages = () => {
     const { messages: messagesClass } = styles
 
     const messagesRef = useRef(null)
-    const { chatId, messages, setMessages } = useChatStore()
+    const { chatId, messages, setMessages, isCurrentUserBlocked, isReceiverBlocked } = useChatStore()
     const endRef = useRef(null)
 
     useEffect(() => {
@@ -33,12 +33,12 @@ export const Messages = () => {
             unSub()
         }
     }, [chatId])
-    
+
     return (
         <div className={messagesClass} ref={messagesRef}>
 
             {messages?.map((message) => (
-                <Message 
+                <Message
                     message={message}
                     messagesRef={messagesRef}
                     chat={messages}

@@ -13,8 +13,8 @@ export const Top = () => {
         username
     } = styles
 
-    const { users, type, groupData } = useChatStore()
-    
+    const { users, type, groupData, isCurrentUserBlocked, isReceiverBlocked } = useChatStore()
+
     return (
         <div className={top}>
             <div className={avatar}>
@@ -45,12 +45,14 @@ export const Top = () => {
 
             </div>
             <h3 className={name}>
-                {type === 'single' && users[0].name}
+                {type === 'single' && (
+                    isCurrentUserBlocked ? 'Unknown' : users[0].name
+                )}
                 {type === 'group' && groupData.title}
             </h3>
             {type === 'single' && (
                 <h4 className={username}>
-                    {users[0].username}
+                    {isCurrentUserBlocked ? 'Unknown' : users[0].username}
                 </h4>
             )}
         </div>

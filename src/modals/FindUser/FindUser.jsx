@@ -55,7 +55,7 @@ export const FindUser = () => {
         const res = await startChat(user)
 
         if (res) {
-            changeChat(res.chatId, res.user, res.lastMessageId)
+            changeChat(res)
             closeModal('findUser')
             resetData()
         }

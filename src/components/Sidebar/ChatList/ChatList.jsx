@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { doc, getDoc, onSnapshot } from 'firebase/firestore'
 
 import { useUserStore } from '@/lib/userStore'
@@ -59,9 +59,9 @@ export const ChatList = () => {
     
                     if (currentChat) {
                         if (currentChat.type === 'single') {
-                            changeChat(currentChat.chatId, currentChat.users[0], currentChat.lastMessageId)
+                            changeChat(currentChat)
                         } else if (currentChat.type === 'group') {
-                            changeGroup(currentChat.chatId, currentChat.users, currentChat.lastMessageId, currentChat.groupData)
+                            changeGroup(currentChat)
                         }
                     } else if (currentChatID) {
                         clearChat()

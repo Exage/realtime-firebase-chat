@@ -15,13 +15,17 @@ import { LeaveGroup } from '@/modals/LeaveGroup/LeaveGroup'
 import { AddMember } from '@/modals/AddMember/AddMember'
 import { MembersList } from '@/modals/MembersList/MembersList'
 import { GroupSettings } from '@/modals/GroupSettings/GroupSettings'
+import { BlockUser } from '@/modals/BlockUser/BlockUser'
+import { UnblockUser } from '@/modals/UnblockUser/UnblockUser'
 
+import { useUserStore } from '@/lib/userStore'
 import { useChatStore } from '@/lib/chatStore'
 import { useResponseMenus } from '@/lib/responseMenus'
 
 export const Main = () => {
 
-    const { chatId, type } = useChatStore()
+    const { currentUser } = useUserStore()
+    const { chatId, type, groupData } = useChatStore()
 
     const { detailsOpened, setDetailsOpened } = useResponseMenus()
     const [details, setDetails] = useState(JSON.parse(localStorage.getItem('displayDetails')) || false)
@@ -48,13 +52,19 @@ export const Main = () => {
             <StartGroup />
             <UserSettings />
             <Settings />
+            
+            {/* Single Modals */}
+            {type === 'single' && <ClearChat />}
+            {type === 'single' && <DeleteChat />}
+            {type === 'single' && <BlockUser />}
+            {type === 'single' && <UnblockUser />}
 
-            <ClearChat />
-            <DeleteChat />
-            <LeaveGroup />
+            {/* Group Modals */}
+            {type === 'group' && <GroupSettings />}
             {type === 'group' && <AddMember />}
             {type === 'group' && <MembersList />}
-            {type === 'group' && <GroupSettings />}
+            {type === 'group' && <LeaveGroup />}
+            {(type === 'group' && currentUser.id === groupData.owner) && <DeleteChat />}
 
         </main>
     )

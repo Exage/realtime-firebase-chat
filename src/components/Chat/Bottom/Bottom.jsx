@@ -26,7 +26,7 @@ export const Bottom = () => {
         ['form__input']: formInput,
         ['form__input-error']: formInputError,
         ['form__input-wrapper']: formInputWrapper,
-        ['emoji']: emoji, 
+        ['emoji']: emoji,
         ['emoji__icon']: emojiIconClass,
         ['emoji__picker']: emojiPicker,
         ['error']: errorClass,
@@ -103,7 +103,7 @@ export const Bottom = () => {
         setMessage('')
     }
 
-    if (isCurrentUserBlocked || isReceiverBlocked) {
+    if (isReceiverBlocked) {
         return (
             <div className={blocked}>
 
@@ -112,13 +112,21 @@ export const Bottom = () => {
                     className={blockedIcon}
                 />
 
-                {isCurrentUserBlocked && (
-                    <h3 className={blockedText}>You are blocked</h3>
-                )}
+                <h3 className={blockedText}>The interlocutor is blocked</h3>
+            </div>
+        )
+    }
 
-                {isReceiverBlocked && (
-                    <h3 className={blockedText}>The interlocutor is blocked</h3>
-                )}
+    if (isCurrentUserBlocked) {
+        return (
+            <div className={blocked}>
+
+                <ReactSVG
+                    src={banIcon}
+                    className={blockedIcon}
+                />
+
+                <h3 className={blockedText}>You are blocked</h3>
             </div>
         )
     }
@@ -130,7 +138,7 @@ export const Bottom = () => {
                 <div className={formInputWrapper}>
                     <TextArea
                         placeholder='Type your message'
-                        className={[formInput, { formInputError: error}]}
+                        className={[formInput, { formInputError: error }]}
                         value={message}
                         onChange={e => setMessage(e.target.value)}
                         onKeyDown={handleKeyDown}

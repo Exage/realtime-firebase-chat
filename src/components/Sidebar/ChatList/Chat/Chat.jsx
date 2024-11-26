@@ -28,9 +28,9 @@ export const Chat = ({ chat }) => {
     const handleSelect = async () => {
         if (chatId !== currentChatId) {
             if (type === 'single') {
-                changeChat(chatId, chat.users[0], chat.lastMessageId)
+                changeChat(chat)
             } else if (type === 'group') {
-                changeGroup(chatId, chat.users, chat.lastMessageId, groupData)
+                changeGroup(chat)
             }
 
             setSidebarOpened(false)

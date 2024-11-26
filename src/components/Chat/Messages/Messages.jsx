@@ -37,16 +37,14 @@ export const Messages = () => {
     return (
         <div className={messagesClass} ref={messagesRef}>
 
-            {!isCurrentUserBlocked &&
-                messages?.map((message) => (
-                    <Message
-                        message={message}
-                        messagesRef={messagesRef}
-                        chat={messages}
-                        key={message?.createdAt}
-                    />
-                ))
-            }
+            {messages?.map((message) => (
+                <Message
+                    message={message}
+                    messagesRef={messagesRef}
+                    chat={messages}
+                    key={message?.createdAt}
+                />
+            ))}
 
             <div ref={endRef}></div>
         </div>

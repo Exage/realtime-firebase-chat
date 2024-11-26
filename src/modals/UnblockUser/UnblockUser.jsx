@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './BlockUser.module.scss'
+import styles from './UnblockUser.module.scss'
 
 import { ModalConfirm } from '@/components/ModalConfirm/ModalConfirm'
 
@@ -7,7 +7,7 @@ import { useModals } from '@/lib/modalsStore'
 
 import { useBlockUser } from '@/hooks/useBlockUser'
 
-export const BlockUser = () => {
+export const UnblockUser = () => {
 
     const { closeModal } = useModals()
 
@@ -15,18 +15,18 @@ export const BlockUser = () => {
 
     const handleBlock = async () => {
         await blockUser()
-        closeModal('blockUser')
+        closeModal('unblockUser')
     }
 
     return (
         <ModalConfirm
-            modalId='blockUser'
-            confirmText='Block user'
+            modalId='unblockUser'
+            confirmText='Unblock user'
 
             handleConfirm={handleBlock}
             loading={loading}
         >
-            Are you sure you want to block the user?
+            Are you sure you want to unblock the user?
         </ModalConfirm>
     )
 }

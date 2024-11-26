@@ -81,7 +81,7 @@ export const StartGroup = () => {
         const res = await startGroup(selectedUsers)
     
         if (res) {
-            changeGroup(res.chatId, res.users, res.lastMessageId, res.groupData)
+            changeGroup(res)
             closeModal('startGroup')
             resetData()
         }

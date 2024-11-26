@@ -19,14 +19,10 @@ export const useStartChat = () => {
 
             const allSingleChats = chats.filter(chat => chat.type === 'single')
 
-            const existingChat = allSingleChats.find(chat => {
-                if (chat.receiversIDs[0] === user.id) {
-                    return { chatId: chat.chatId, user, lastMessageId: chat.lastMessageId }
-                }
-            })
+            const existingChat = allSingleChats.find(chat => chat.receiversIDs[0] === user.id)
 
             if (existingChat) {
-                return { chatId: existingChat.chatId, user, lastMessageId: existingChat.lastMessageId }
+                return existingChat
             }
 
             const chatRef = collection(db, 'chats')
@@ -58,6 +54,8 @@ export const useStartChat = () => {
                 lastMessage: messageStructure,
                 type: 'single',
                 groupData: {},
+                isReceiverBlocked: false,
+                isCurrentUserBlocked: false,
                 updatedAt: Date.now()
             }
 
@@ -75,7 +73,7 @@ export const useStartChat = () => {
                 })
             })
 
-            return { chatId: newChatRef.id, user, lastMessageId: messageId }
+            return { ...chatData, receiversIDs: [userId], users: [user] }
 
         } catch (error) {
             console.error(error)

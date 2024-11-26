@@ -16,6 +16,7 @@ import { AddMember } from '@/modals/AddMember/AddMember'
 import { MembersList } from '@/modals/MembersList/MembersList'
 import { GroupSettings } from '@/modals/GroupSettings/GroupSettings'
 import { BlockUser } from '@/modals/BlockUser/BlockUser'
+import { UnblockUser } from '@/modals/UnblockUser/UnblockUser'
 
 import { useUserStore } from '@/lib/userStore'
 import { useChatStore } from '@/lib/chatStore'
@@ -56,6 +57,7 @@ export const Main = () => {
             {type === 'single' && <ClearChat />}
             {type === 'single' && <DeleteChat />}
             {type === 'single' && <BlockUser />}
+            {type === 'single' && <UnblockUser />}
 
             {/* Group Modals */}
             {type === 'group' && <GroupSettings />}

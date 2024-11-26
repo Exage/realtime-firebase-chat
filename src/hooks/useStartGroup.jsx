@@ -66,10 +66,9 @@ export const useStartGroup = () => {
             )
 
             return { 
-                chatId: chatData.chatId, 
-                users, 
-                lastMessageId: chatData.lastMessage.id, 
-                groupData: chatData.groupData  
+                ...chatData,
+                receiversIDs: usersIds,
+                users
             }
 
         } catch (error) {

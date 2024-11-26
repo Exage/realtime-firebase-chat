@@ -59,9 +59,9 @@ export const ChatList = () => {
     
                     if (currentChat) {
                         if (currentChat.type === 'single') {
-                            changeChat(currentChat.chatId, currentChat.users[0], currentChat.lastMessageId)
+                            changeChat(currentChat)
                         } else if (currentChat.type === 'group') {
-                            changeGroup(currentChat.chatId, currentChat.users, currentChat.lastMessageId, currentChat.groupData)
+                            changeGroup(currentChat)
                         }
                     } else if (currentChatID) {
                         clearChat()

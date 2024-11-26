@@ -21,16 +21,12 @@ export const Top = () => {
 
                 {type === 'single' && (
                     <>
-                        {!isCurrentUserBlocked && (
-                            <>
-                                {users[0].avatar.url && <img src={users[0].avatar.url} alt="" />}
+                        {users[0].avatar.url && <img src={users[0].avatar.url} alt="" />}
 
-                                {!users[0].avatar.url && (
-                                    <div className={avatarNone}>
-                                        {users[0].name[0]}
-                                    </div>
-                                )}
-                            </>
+                        {!users[0].avatar.url && (
+                            <div className={avatarNone}>
+                                {users[0].name[0]}
+                            </div>
                         )}
                     </>
                 )}

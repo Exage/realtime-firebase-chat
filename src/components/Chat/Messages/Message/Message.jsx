@@ -1,14 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import classNames from 'classnames'
 import styles from './Message.module.scss'
-import { collection, doc, getDoc, getDocs, updateDoc } from 'firebase/firestore'
-import { db } from '@/lib/firebase'
 
 import { useUserStore } from '@/lib/userStore'
 import { useChatStore } from '@/lib/chatStore'
-import { useChatsStore } from '@/lib/chatsStore'
 
-export const Message = ({ message, messagesRef, chat }) => {
+export const Message = ({ message }) => {
 
     const {
         ["message"]: messageClass,
@@ -21,8 +18,7 @@ export const Message = ({ message, messagesRef, chat }) => {
 
     const messageRef = useRef(null)
     const { currentUser } = useUserStore()
-    const { chatId, messages, users, type, groupData } = useChatStore()
-    const { chats } = useChatsStore()
+    const { type, groupData, allSenders } = useChatStore()
 
     const [messageSender, setMessageSender] = useState({})
 
@@ -36,79 +32,12 @@ export const Message = ({ message, messagesRef, chat }) => {
 
     useEffect(() => {
         const getSender = () => {
-            const sender = [...users].find(user => user.id === message.senderId)
+            const sender = allSenders[message.senderId]
             setMessageSender(sender)
         }
 
         getSender()
-    }, [])
-
-    // useEffect(() => {
-    //     if (!messagesRef) return
-
-    //     const checkView = () => {
-
-    //         const parentHeight = messagesRef.current.clientHeight
-    //         const scrollBottom = messagesRef.current.getBoundingClientRect().bottom - messageRef.current.getBoundingClientRect().bottom
-
-    //         if (currentUser.id !== message.senderId) {
-    //             if (scrollBottom > 0 && scrollBottom < parentHeight) {
-    //                 setSeen()
-    //             }
-    //         }
-    //     }
-
-    //     checkView()
-    //     messagesRef?.current.addEventListener('scroll', checkView)
-
-    //     return () => {
-    //         messagesRef?.current.removeEventListener('scroll', checkView)
-    //     }
-    // }, [])
-
-    // const setSeen = async () => {
-
-    //     const unseenItems = messages.find(item => !item.isSeen)
-
-    //     if (unseenItems) {
-    //         const updatedMessages = messages.map((m, index) => {
-    //             if (m.id === message.id && m.isSeen !== true) {
-    //                 console.log('fixed seen')
-    //                 m.isSeen = true
-    //             }
-
-    //             return m
-    //         })
-
-    //         const chatRef = doc(db, 'chats', chatId)
-
-    //         await updateDoc(chatRef, {
-    //             messages: updatedMessages
-    //         })
-    //     }
-
-    // }
-
-    // const setLastMessageSeen = async () => {
-    //     const userChats = chats.map(item => {
-    //         const {user, ...rest} = item
-    //         return rest
-    //     })
-
-    //     const chatIndex = userChats.findIndex(item => item.chatId === chatId)
-
-    //     userChats[chatIndex].isSeen = true
-
-    //     const userChatRef = doc(db, 'userchats', currentUser.id)
-
-    //     try {
-    //         await updateDoc(userChatRef, {
-    //             chats: userChats
-    //         })
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
+    }, [allSenders])
 
     if (messageType[0] === 'system') {
         return (

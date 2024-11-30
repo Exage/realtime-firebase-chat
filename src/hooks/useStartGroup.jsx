@@ -24,7 +24,7 @@ export const useStartGroup = () => {
             const messageStructure = {
                 id: messageId,
                 type: 'system',
-                senderId: "",
+                senderId: currentUser.id,
                 text: "Chat started",
                 createdAt: new Date()
             }

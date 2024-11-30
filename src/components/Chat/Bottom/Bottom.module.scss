@@ -30,10 +30,8 @@ $gap: 1rem;
         height: 100%;
         
         &-error {
-            color: var(--error);
-            border: 1px solid var(--error);
-            background-color: var(--error-secondary);
-        
+            border: 1px solid var(--error) !important;
+
             &::placeholder {
                 color: var(--error);
             }

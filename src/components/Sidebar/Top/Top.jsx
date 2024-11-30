@@ -9,26 +9,26 @@ import userGroup from '@/assets/icons/user-group.svg'
 import { useModals } from '@/lib/modalsStore'
 
 export const Top = () => {
-    
-    const { 
+
+    const {
         top,
-        ['top__btn']: topBtn 
+        ['top__btn']: topBtn
     } = styles
 
     const { openModal } = useModals()
-    
+
     return (
         <div className={top}>
-            <IconButton 
-                icon={userGroup} 
+            <IconButton
+                icon={userAdd}
                 className={[topBtn]}
-                onClick={() => openModal('startGroup')} 
+                onClick={() => openModal('findUser')}
             />
 
-            <IconButton 
-                icon={userAdd} 
+            <IconButton
+                icon={userGroup}
                 className={[topBtn]}
-                onClick={() => openModal('findUser')} 
+                onClick={() => openModal('startGroup')}
             />
         </div>
     )

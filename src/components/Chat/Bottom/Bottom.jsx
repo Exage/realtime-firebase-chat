@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { ReactSVG } from 'react-svg'
+import { useForm } from 'react-hook-form'
+import { FormValidation } from '@/validation/formValidation'
 
 import styles from './Bottom.module.scss'
 
@@ -38,14 +40,15 @@ export const Bottom = () => {
     const emojiRef = useRef(null)
     const [emojiPickerShow, setEmojiPickerShow] = useState(false)
 
-    const [message, setMessage] = useState('')
-    const [sendDisabled, setSendDisabled] = useState(true)
-    const [error, setError] = useState(null)
-
     const { sendMessage, loading } = useSendMessage()
-    const { isCurrentUserBlocked, isReceiverBlocked } = useChatStore()
+    const { isCurrentUserBlocked, isReceiverBlocked, isLoading: isMessagesLoading } = useChatStore()
 
-    const maxSymbols = 500
+    const { register, handleSubmit, formState: { errors }, watch, reset, setValue } = useForm({
+        mode: 'onChange'
+    })
+
+    const message = watch('messageSend')
+
     const maxRows = 4
 
     useEffect(() => {
@@ -62,22 +65,14 @@ export const Bottom = () => {
         }
     }, [])
 
-    useEffect(() => {
-        setError(false)
-        if (message.trim()) {
-            setSendDisabled(false)
-        } else {
-            setSendDisabled(true)
-        }
-    }, [message])
-
     const handleEmojiButton = (e) => {
         e.preventDefault()
         setEmojiPickerShow(prev => !prev)
     }
 
     const handleEmojiPicker = (e) => {
-        setMessage(prev => prev + e.emoji)
+        const currentMessage = message || ''
+        setValue('messageSend', currentMessage + emojiObject.emoji)
     }
 
     const handleKeyDown = (e) => {
@@ -87,20 +82,16 @@ export const Bottom = () => {
         }
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
+    const handleSendMessage = async () => {
 
         if (!message.trim()) {
             return
         }
 
-        if (message.trim().length > maxSymbols) {
-            setError(`Message must be less then ${maxSymbols} symbols`)
-            return
-        }
+        console.log(message.trim())
 
-        sendMessage(message)
-        setMessage('')
+        await sendMessage(message.trim())
+        reset({ messageSend: '' })
     }
 
     if (isReceiverBlocked) {
@@ -133,25 +124,30 @@ export const Bottom = () => {
 
     return (
         <div className={bottom}>
-            <IconButton icon={fileIcon} disabled={true} />
-            <form onSubmit={handleSubmit} className={form}>
+            <IconButton
+                icon={fileIcon}
+                disabled={true}
+            />
+            <form onSubmit={handleSubmit(handleSendMessage)} className={form}>
                 <div className={formInputWrapper}>
                     <TextArea
                         placeholder='Type your message'
-                        className={[formInput, { formInputError: error }]}
-                        value={message}
-                        onChange={e => setMessage(e.target.value)}
+                        className={[formInput, { [formInputError]: errors.messageSend }]}
                         onKeyDown={handleKeyDown}
                         maxRows={maxRows}
-                        disabled={loading}
+
+                        disabled={isMessagesLoading || loading}
+
+                        {...register('messageSend', FormValidation.MessageForm)}
                     />
-                    {error && <span className={`error ${errorClass}`}>{error}</span>}
+                    {errors.messageSend && <span className={`error ${errorClass}`}>{errors.messageSend.message}</span>}
                 </div>
                 <div className={emoji} ref={emojiRef}>
                     <IconButton
                         icon={emojiIcon}
                         className={emojiIconClass}
                         onClick={handleEmojiButton}
+                        disabled={isMessagesLoading || loading}
                     />
                     {emojiPickerShow && (
                         <div className={emojiPicker}>
@@ -159,7 +155,13 @@ export const Bottom = () => {
                         </div>
                     )}
                 </div>
-                <IconButton icon={sendIcon} filled={true} type="submit" disabled={sendDisabled} />
+                <IconButton
+                    icon={sendIcon}
+                    filled={true}
+                    onClick={handleSubmit(handleSendMessage)}
+                    disabled={isMessagesLoading || errors.messageSend}
+                    loading={loading}
+                />
             </form>
         </div>
     )

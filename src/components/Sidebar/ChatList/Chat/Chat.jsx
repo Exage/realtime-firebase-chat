@@ -15,18 +15,18 @@ export const Chat = ({ chat }) => {
         ['chat__text']: chatText,
         ['chat__name']: chatName,
         ['chat__subtitle']: chatSubtitle,
-        active,
-        seen
+        active
     } = styles
 
-    const { currentUser } = useUserStore()
-    const { chatId: currentChatId, changeChat, changeGroup } = useChatStore()
+    const { chatId: currentChatId, changeChat, changeGroup, setLoading } = useChatStore()
     const { setSidebarOpened } = useResponseMenus()
 
     const { chatId, lastMessage, type, groupData, users } = chat
 
     const handleSelect = async () => {
         if (chatId !== currentChatId) {
+            setLoading(true)
+
             if (type === 'single') {
                 changeChat(chat)
             } else if (type === 'group') {

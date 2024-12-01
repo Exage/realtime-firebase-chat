@@ -9,6 +9,11 @@ export const useChatStore = create((set) => ({
     isCurrentUserBlocked: null,
     isReceiverBlocked: null,
     messages: null,
+    allSenders: {},
+    isLoading: true,
+
+    setAllSenders: (users) => set(state => ({...state, allSenders: users})),
+    setLoading: (isLoading) => set(state => ({...state, isLoading })),
 
     setMessages: (messages) => set(state => ({ ...state, messages })),
     setLastMessageId: (lastMessageId) => set(state => ({ ...state, lastMessageId })),

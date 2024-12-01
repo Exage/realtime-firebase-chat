@@ -1,31 +1,57 @@
 import React, { useEffect, useRef, useState } from 'react'
+import classNames from 'classnames'
+
 import styles from './Messages.module.scss'
+
 import { useChatStore } from '@/lib/chatStore'
-import { doc, onSnapshot } from 'firebase/firestore'
+import { doc, getDoc, onSnapshot } from 'firebase/firestore'
 import { db } from '@/lib/firebase'
 
 import { Message } from './Message/Message'
+import { Loader } from '@/components/UI/Loader/Loader'
 
 export const Messages = () => {
 
-    const { messages: messagesClass } = styles
+    const { messages: messagesClass, ['messages__loading']: messagesLoading } = styles
 
     const messagesRef = useRef(null)
-    const { chatId, messages, setMessages, isCurrentUserBlocked, isReceiverBlocked } = useChatStore()
+    const { chatId, messages, setMessages, setAllSenders, isLoading, setLoading } = useChatStore()
     const endRef = useRef(null)
 
-    useEffect(() => {
-        endRef?.current.scrollIntoView()
-    }, [messages])
+    const allSendersLocal = {}
 
     useEffect(() => {
         const unSub = onSnapshot(
             doc(db, 'chats', chatId),
-            (res) => {
-                const data = res.data()
-                const messages = data?.messages
+            async (res) => {
+                try {
+                    setLoading(true)
 
-                setMessages(messages)
+                    const data = res.data()
+                    const messages = data?.messages
+
+                    if (messages) {
+                        const uniqueSenderIds = [...new Set(messages.map(msg => msg.senderId))]
+                            .filter(id => !allSendersLocal[id])
+
+                        if (uniqueSenderIds.length > 0) {
+                            const userDocs = await Promise.all(
+                                uniqueSenderIds.map(id => getDoc(doc(db, 'users', id)))
+                            )
+
+                            userDocs.forEach((userDoc, index) => {
+                                allSendersLocal[uniqueSenderIds[index]] = userDoc.data()
+                            })
+                        }
+                    }
+
+                    setAllSenders(allSendersLocal)
+                    setMessages(messages)
+                } catch (error) {
+                    console.error('Error during loading messages', error)
+                } finally {
+                    setLoading(false)
+                }
             }
         )
 
@@ -33,6 +59,14 @@ export const Messages = () => {
             unSub()
         }
     }, [chatId])
+
+    if (isLoading) {
+        return (
+            <div className={classNames(messagesClass, messagesLoading)}>
+                <Loader />
+            </div>
+        )
+    }
 
     return (
         <div className={messagesClass} ref={messagesRef}>

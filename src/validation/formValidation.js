@@ -55,5 +55,11 @@ export const FormValidation = {
             value: 50,
             message: "Group title must not exceed 50 characters"
         },
+    },
+    MessageForm: {
+        maxLength: {
+            value: 500,
+            message: 'Message must be less then 500 symbols'
+        }
     }
 }

@@ -5,7 +5,8 @@ import { FormValidation } from '@/validation/formValidation'
 
 import styles from './Bottom.module.scss'
 
-import EmojiPicker from 'emoji-picker-react'
+import data from '@emoji-mart/data'
+import Picker from '@emoji-mart/react'
 
 import sendIcon from '@/assets/icons/send.svg'
 import fileIcon from '@/assets/icons/file.svg'
@@ -58,10 +59,10 @@ export const Bottom = () => {
             }
         }
 
-        window.addEventListener('click', handleClickOutside)
+        window.addEventListener('mousedown', handleClickOutside)
 
         return () => {
-            window.removeEventListener('click', handleClickOutside)
+            window.removeEventListener('mousedown', handleClickOutside)
         }
     }, [])
 
@@ -72,7 +73,7 @@ export const Bottom = () => {
 
     const handleEmojiPicker = (emojiObject) => {
         const currentMessage = message || ''
-        setValue('messageSend', currentMessage + emojiObject.emoji)
+        setValue('messageSend', currentMessage + emojiObject.native)
     }
 
     const handleKeyDown = (e) => {
@@ -150,7 +151,7 @@ export const Bottom = () => {
                     />
                     {emojiPickerShow && (
                         <div className={emojiPicker}>
-                            <EmojiPicker onEmojiClick={handleEmojiPicker} />
+                            <Picker data={data} onEmojiSelect={handleEmojiPicker} />
                         </div>
                     )}
                 </div>

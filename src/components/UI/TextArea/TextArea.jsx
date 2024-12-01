@@ -4,7 +4,7 @@ import TextareaAutosize from 'react-textarea-autosize'
 
 import './TextArea.scss'
 
-export const TextArea = forwardRef(({ className = [], placeholder = "your text", ...props }, ref) => {
+export const TextArea = forwardRef(({ className = [], placeholder = "your text", isInvalid = false, ...props }, ref) => {
 
     const [isFocused, setIsFocused] = useState(false)
 
@@ -17,11 +17,24 @@ export const TextArea = forwardRef(({ className = [], placeholder = "your text",
     }
 
     return (
-        <div className={classNames('input', 'textarea__wrapper', { ['textarea__wrapper-focused']: isFocused }, ...className)}>
+        <div 
+            className={classNames('input', 
+                'textarea__wrapper', 
+                { 
+                    ['textarea__wrapper-focused']: isFocused 
+                }, { 
+                    ['textarea__wrapper-invalid']: isInvalid 
+                }, ...className)
+            }
+            onFocus={onFocus}
+            onBlur={onBlur}
+        >
             <TextareaAutosize
                 ref={ref}
                 placeholder={placeholder}
                 className='textarea'
+                onFocus={onFocus}
+                onBlur={onBlur}
                 {...props}
             />
         </div>

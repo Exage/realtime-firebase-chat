@@ -70,7 +70,7 @@ export const Bottom = () => {
         setEmojiPickerShow(prev => !prev)
     }
 
-    const handleEmojiPicker = (e) => {
+    const handleEmojiPicker = (emojiObject) => {
         const currentMessage = message || ''
         setValue('messageSend', currentMessage + emojiObject.emoji)
     }
@@ -78,7 +78,7 @@ export const Bottom = () => {
     const handleKeyDown = (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault()
-            handleSubmit(e)
+            handleSendMessage()
         }
     }
 
@@ -87,8 +87,6 @@ export const Bottom = () => {
         if (!message.trim()) {
             return
         }
-
-        console.log(message.trim())
 
         await sendMessage(message.trim())
         reset({ messageSend: '' })
@@ -132,7 +130,8 @@ export const Bottom = () => {
                 <div className={formInputWrapper}>
                     <TextArea
                         placeholder='Type your message'
-                        className={[formInput, { [formInputError]: errors.messageSend }]}
+                        className={[formInput]}
+                        isInvalid={errors.messageSend}
                         onKeyDown={handleKeyDown}
                         maxRows={maxRows}
 

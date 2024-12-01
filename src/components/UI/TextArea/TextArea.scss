@@ -25,5 +25,9 @@
         &-focused {
             border: 1px solid var(--input-active) !important;
         }
+
+        &-invalid {
+            border: 1px solid var(--error) !important;
+        }
     }
 }

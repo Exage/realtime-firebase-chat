@@ -35,7 +35,6 @@ export const Messages = () => {
                             .filter(id => !allSendersLocal[id])
 
                         if (uniqueSenderIds.length > 0) {
-                            console.log('Fetching unique users in batch...')
                             const userDocs = await Promise.all(
                                 uniqueSenderIds.map(id => getDoc(doc(db, 'users', id)))
                             )

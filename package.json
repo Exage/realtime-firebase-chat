@@ -1,5 +1,5 @@
 {
-    "name": "react-template",
+    "name": "realtime-firebase-chat",
     "private": true,
     "version": "0.0.0",
     "type": "module",
@@ -11,8 +11,10 @@
         "host": "vite --host"
     },
     "dependencies": {
+        "@emoji-mart/data": "^1.2.1",
+        "@emoji-mart/react": "^1.1.1",
         "classnames": "^2.5.1",
-        "emoji-picker-react": "^4.12.0",
+        "emoji-mart": "^5.6.0",
         "firebase": "^11.0.1",
         "react": "^18.3.1",
         "react-blurhash": "^0.3.0",

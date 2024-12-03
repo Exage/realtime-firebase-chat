@@ -18,107 +18,71 @@ import { Modal } from '@/components/Modal/Modal'
 import pen from '@/assets/icons/pen.svg'
 import logoutIcon from '@/assets/icons/logout.svg'
 
+import { NameEdit } from './NameEdit/NameEdit'
+import { UsernameEditing } from './UsernameEditing/UsernameEditing'
+
 export const UserSettings = () => {
 
     const {
         ['user-settings']: userSettings,
-        ['user-settings__photo']: photo,
+        ['user-settings__photo']: photoClass,
         ['user-settings__photo-none']: photoNone,
         ['user-settings__text']: text,
         ['user-settings__text-name']: title,
-        ['user-settings__text-name__input']: titleInput,
         ['user-settings__text-row']: row,
         ['user-settings__text-username']: usernameClass,
-        ['user-settings__text-username__input']: usernameInput,
         ['pen']: penClass,
-        ['editing']: editing,
-        ['editing__title']: editingTitle,
-        ['editing__form']: editingForm,
-        ['editing__form-input']: editingFormInput,
-        ['editing__form-error']: editingFormError,
         ['logout']: logoutWrapper,
-        ['logout__button']: logoutBtn,
-        buttons,
-        button
+        ['logout__button']: logoutBtn
     } = styles
 
-    const { register, watch, handleSubmit, formState: { errors, isValid }, setError, reset } = useForm({
-        mode: 'onChange'
-    })
+    const [displayedName, setNameDisplayed] = useState('')
+    const [displayedUsername, setUsernameDisplayed] = useState('')
 
     const { currentUser, logout } = useUserStore()
-    const { updateUser, loading, error } = useUpdateUser()
-
-    const name = watch('name')
-    const username = watch('username')
 
     const [nameEditing, setNameEditing] = useState(false)
     const [usernameEditing, setUsernameEditing] = useState(false)
-    const [editingOpen, setEditingOpen] = useState(false)
-    const [disableSave, setDisableSave] = useState(true)
+    const [photoEditing, setPhotoEditing] = useState(false)
 
-    useEffect(() => {
-        const isNameChanged = name && name !== currentUser.name
-        const isUsernameChanged = username && username !== currentUser.username
-
-        setDisableSave(!(isValid && (isNameChanged || isUsernameChanged)))
-    }, [name, username, currentUser.name, currentUser.username])
+    const [showBottom, setShowBottom] = useState(false)
 
     const handleNameEdit = () => {
-        setEditingOpen(true)
         setNameEditing(true)
         setUsernameEditing(false)
+        setPhotoEditing(false)
     }
 
     const handleUsernameEdit = () => {
-        setEditingOpen(true)
         setNameEditing(false)
         setUsernameEditing(true)
+        setPhotoEditing(false)
     }
 
-    const handleCancelBtn = () => {
-        setEditingOpen(false)
+    const handlePhotoEdit = () => {
         setNameEditing(false)
         setUsernameEditing(false)
-        reset()
+        setPhotoEditing(true)
+    }
+
+    const handleSetFile = (e) => {
+        console.log(e.target.files[0])
+        setFile(e.target.files[0])
     }
 
     const resetData = () => {
-        setEditingOpen(false)
         setNameEditing(false)
         setUsernameEditing(false)
-        reset()
-    }
-
-    const handleSave = async () => {
-
-        const updatedName = name
-        const updatedUsername = username
-
-        const updatedData = {}
-
-        if (updatedName && updatedName !== currentUser.name) {
-            updatedData.name = updatedName
-        }
-
-        if (updatedUsername && updatedUsername !== currentUser.username) {
-            updatedData.username = updatedUsername
-        }
-
-        if (Object.keys(updatedData).length === 0) {
-            return
-        }
-
-        await updateUser(updatedData)
-        resetData()
-    
+        setPhotoEditing(false)
     }
 
     useEffect(() => {
-        if (error && error.field) {
-            setError(error.field, { type: 'server', message: error.message })
+        if (nameEditing || usernameEditing || photoEditing) {
+            setShowBottom(false)
+        } else {
+            setShowBottom(true)
         }
-    }, [error])
+    }, [nameEditing, usernameEditing, photoEditing])
 
     return (
         <Modal
@@ -128,18 +92,21 @@ export const UserSettings = () => {
         >
             <div className={userSettings}>
 
-                <div className={photo}>
-                    {currentUser.avatar.photo || (
-                        <div className={photoNone}>
-                            {currentUser.name[0]}
-                        </div>
-                    )}
-                </div>
+                <button onClick={handlePhotoEdit} >
+                    <div className={photoClass}>
+                        {currentUser.avatar.photo || (
+                            <div className={photoNone}>
+                                {displayedName ? displayedName[0] : currentUser.name[0]}
+                            </div>
+                        )}
+                    </div>
+                </button>
+
                 <div className={text}>
                     <div className={row}>
                         <h3 className={title}>
                             <span>
-                                {name || currentUser.name}
+                                {displayedName || currentUser.name}
                             </span>
 
                             <IconButton
@@ -153,7 +120,7 @@ export const UserSettings = () => {
                     <div className={row}>
                         <h4 className={usernameClass}>
                             <span>
-                                {username || currentUser.username}
+                                {displayedUsername ? `@${displayedUsername}` : currentUser.username}
                             </span>
 
                             <IconButton
@@ -170,62 +137,19 @@ export const UserSettings = () => {
             </div>
 
             {nameEditing && (
-                <div className={editing}>
-                    <h3 className={editingTitle}>
-                        Change Name
-                    </h3>
-                    <div className={editingForm}>
-                        <Input
-                            className={[editingFormInput, { invalid: errors.name }]}
-                            {...register('name', FormValidation.Name)}
-                            placeholder='new name'
-                            disabled={loading}
-                            maxLength={50}
-                        />
-                    </div>
-                    <p className={classNames('error', editingFormError)}>{errors.name && errors.name.message}</p>
-                </div>
+                <NameEdit
+                    setNameDisplayed={setNameDisplayed}
+                    editing={nameEditing}
+                    setEditing={setNameEditing} />
             )}
-
             {usernameEditing && (
-                <div className={editing}>
-                    <h3 className={editingTitle}>
-                        Change username
-                    </h3>
-                    <div className={editingForm}>
-                        <Input
-                            className={[editingFormInput, { invalid: errors.username }]}
-                            {...register('username', FormValidation.Username)}
-                            placeholder='new username'
-                            disabled={loading}
-                            maxLength={20}
-                        />
-                    </div>
-                    <p className={classNames('error', editingFormError)}>{errors.username && errors.username.message}</p>
-                </div>
+                <UsernameEditing
+                    setUsernameDisplayed={setUsernameDisplayed}
+                    editing={usernameEditing}
+                    setEditing={setUsernameEditing} />
             )}
 
-            {editingOpen && (
-                <div className={buttons}>
-                    <Button
-                        filled={true}
-                        className={[button]}
-                        loading={loading}
-                        disabled={disableSave}
-                        onClick={handleSave}
-                    >
-                        Save
-                    </Button>
-                    <Button
-                        className={[button]}
-                        onClick={handleCancelBtn}
-                    >
-                        Cancel
-                    </Button>
-                </div>
-            )}
-
-            {!editingOpen && (
+            {showBottom && (
                 <div className={logoutWrapper}>
                     <Button
                         className={[logoutBtn]}

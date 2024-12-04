@@ -19,7 +19,8 @@ import pen from '@/assets/icons/pen.svg'
 import logoutIcon from '@/assets/icons/logout.svg'
 
 import { NameEdit } from './NameEdit/NameEdit'
-import { UsernameEditing } from './UsernameEditing/UsernameEditing'
+import { UsernameEdit } from './UsernameEdit/UsernameEdit'
+import { PhotoEdit } from './PhotoEdit/PhotoEdit'
 
 export const UserSettings = () => {
 
@@ -38,6 +39,7 @@ export const UserSettings = () => {
 
     const [displayedName, setNameDisplayed] = useState('')
     const [displayedUsername, setUsernameDisplayed] = useState('')
+    const [displayedPhoto, setPhotoDisplayed] = useState(null)
 
     const { currentUser, logout } = useUserStore()
 
@@ -45,44 +47,40 @@ export const UserSettings = () => {
     const [usernameEditing, setUsernameEditing] = useState(false)
     const [photoEditing, setPhotoEditing] = useState(false)
 
-    const [showBottom, setShowBottom] = useState(false)
+    const [showBottom, setShowBottom] = useState(true)
 
     const handleNameEdit = () => {
+        setShowBottom(false)
         setNameEditing(true)
         setUsernameEditing(false)
         setPhotoEditing(false)
     }
 
     const handleUsernameEdit = () => {
+        setShowBottom(false)
         setNameEditing(false)
         setUsernameEditing(true)
         setPhotoEditing(false)
     }
 
     const handlePhotoEdit = () => {
+        setShowBottom(false)
         setNameEditing(false)
         setUsernameEditing(false)
         setPhotoEditing(true)
+    }
+
+    const resetData = () => {
+        setShowBottom(true)
+        setNameEditing(false)
+        setUsernameEditing(false)
+        setPhotoEditing(false)
     }
 
     const handleSetFile = (e) => {
         console.log(e.target.files[0])
         setFile(e.target.files[0])
     }
-
-    const resetData = () => {
-        setNameEditing(false)
-        setUsernameEditing(false)
-        setPhotoEditing(false)
-    }
-
-    useEffect(() => {
-        if (nameEditing || usernameEditing || photoEditing) {
-            setShowBottom(false)
-        } else {
-            setShowBottom(true)
-        }
-    }, [nameEditing, usernameEditing, photoEditing])
 
     return (
         <Modal
@@ -139,14 +137,32 @@ export const UserSettings = () => {
             {nameEditing && (
                 <NameEdit
                     setNameDisplayed={setNameDisplayed}
+
                     editing={nameEditing}
-                    setEditing={setNameEditing} />
+                    setEditing={setNameEditing}
+
+                    resetData={resetData}
+                />
             )}
             {usernameEditing && (
-                <UsernameEditing
+                <UsernameEdit
                     setUsernameDisplayed={setUsernameDisplayed}
+
                     editing={usernameEditing}
-                    setEditing={setUsernameEditing} />
+                    setEditing={setUsernameEditing}
+
+                    resetData={resetData}
+                />
+            )}
+            {photoEditing && (
+                <PhotoEdit
+                    setPhotoDisplayed={setPhotoDisplayed}
+
+                    editing={photoEditing}
+                    setEditing={setPhotoEditing}
+
+                    resetData={resetData}
+                />
             )}
 
             {showBottom && (

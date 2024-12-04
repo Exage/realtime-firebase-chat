@@ -5,7 +5,7 @@ import modules from './FormWrapper.module.scss'
 
 import { Button } from '@/components/UI/Button/Button'
 
-export const FormWrapper = ({ title = '', errors, setEditing, children }) => {
+export const FormWrapper = ({ title = '', errors, saveText = 'Save', handleCancel, children }) => {
 
     const {
         ['editing']: editing,
@@ -34,10 +34,10 @@ export const FormWrapper = ({ title = '', errors, setEditing, children }) => {
                     <Button
                         filled={true}
                     >
-                        Save
+                        {saveText}
                     </Button>
                     <Button
-                        onClick={() => setEditing(false)}
+                        onClick={handleCancel}
                     >
                         Cancel
                     </Button>

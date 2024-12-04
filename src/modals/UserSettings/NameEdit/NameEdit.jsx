@@ -8,7 +8,7 @@ import { FormValidation } from '@/validation/formValidation'
 import { Input } from '@/components/UI/Input/Input'
 import { FormWrapper } from '../FormWrapper/FormWrapper'
 
-export const NameEdit = ({ setNameDisplayed, editing, setEditing }) => {
+export const NameEdit = ({ setNameDisplayed, editing, setEditing, resetData }) => {
 
     const { input } = modules
 
@@ -22,13 +22,19 @@ export const NameEdit = ({ setNameDisplayed, editing, setEditing }) => {
         setNameDisplayed(name ? name.trim() : '')
     }, [name])
 
+    const handleCancel = (e) => {
+        e.preventDefault()
+        setEditing(false)
+        resetData()
+    }
+
     return (
         <FormWrapper
             title='Name Edit'
             errors={errors.name}
-
-            editing={editing}
-            setEditing={setEditing}
+            
+            saveText='Save new name'
+            handleCancel={handleCancel}
         >
             <Input
                 className={[input, { invalid: errors.name }]}

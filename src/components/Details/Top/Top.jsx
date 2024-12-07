@@ -52,7 +52,7 @@ export const Top = () => {
             </h3>
             {type === 'single' && (
                 <h4 className={username}>
-                    {isCurrentUserBlocked ? 'Unknown' : users[0].username}
+                    {isCurrentUserBlocked ? 'Unknown' : `@${users[0].username}`}
                 </h4>
             )}
         </div>

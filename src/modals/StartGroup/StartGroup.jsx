@@ -92,7 +92,7 @@ export const StartGroup = () => {
             <div className={startGroupClass}>
                 <form className={form} onSubmit={handleSubmit(handleSearch)}>
                     <Input
-                        placeholder="@username"
+                        placeholder="username"
                         className={[formInput, { invalid: errors.username }]}
                         autoComplete="off"
                         {...register('username', FormValidation.Username)}

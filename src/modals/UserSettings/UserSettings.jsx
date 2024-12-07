@@ -27,6 +27,7 @@ export const UserSettings = () => {
     const {
         ['user-settings']: userSettings,
         ['user-settings__photo']: photoClass,
+        ['user-settings__photo-btn']: photoBtn,
         ['user-settings__photo-none']: photoNone,
         ['user-settings__text']: text,
         ['user-settings__text-name']: title,
@@ -77,11 +78,6 @@ export const UserSettings = () => {
         setPhotoEditing(false)
     }
 
-    const handleSetFile = (e) => {
-        console.log(e.target.files[0])
-        setFile(e.target.files[0])
-    }
-
     return (
         <Modal
             // title='User settings'
@@ -90,9 +86,9 @@ export const UserSettings = () => {
         >
             <div className={userSettings}>
 
-                <button onClick={handlePhotoEdit} >
+                <button onClick={handlePhotoEdit} className={photoBtn}>
                     <div className={photoClass}>
-                        {currentUser.avatar.photo || (
+                        {!currentUser.avatar.photo && (
                             <div className={photoNone}>
                                 {displayedName ? displayedName[0] : currentUser.name[0]}
                             </div>
@@ -118,7 +114,7 @@ export const UserSettings = () => {
                     <div className={row}>
                         <h4 className={usernameClass}>
                             <span>
-                                {displayedUsername ? `@${displayedUsername}` : currentUser.username}
+                                @{displayedUsername ? displayedUsername : currentUser.username}
                             </span>
 
                             <IconButton

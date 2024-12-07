@@ -55,12 +55,15 @@ export const UserInfo = () => {
         openModal('settings')
     }
 
+    console.log(currentUser)
+
     return (
         <div className={userInfo}>
 
             <div className={user}>
                 <div className={userPhoto}>
-                    {currentUser.avatar.photo || (
+                    {currentUser.avatar.url && <img src={currentUser.avatar.url} alt="" />}
+                    {!currentUser.avatar.url && (
                         <div className={userPhotoNone}>
                             {currentUser.name[0]}
                         </div>
@@ -70,8 +73,8 @@ export const UserInfo = () => {
                     <h3 className={userName}>
                         {currentUser.name}
                     </h3>
-                    <button 
-                        className={classNames(userSubtitle, { [userCopied]: isCopied })} 
+                    <button
+                        className={classNames(userSubtitle, { [userCopied]: isCopied })}
                         onClick={handleCopy}
                         onTouchStart={handleCopy}
                         onMouseLeave={handleMouseLeave}
@@ -80,20 +83,20 @@ export const UserInfo = () => {
                             {isCopied ? <ReactSVG src={check} /> : <ReactSVG src={copy} />}
                         </div>
                         <span className={userSubtitleText}>
-                            {isCopied ? 'copied!' : currentUser.username }
+                            {isCopied ? 'copied!' : `@${currentUser.username}`}
                         </span>
                     </button>
                 </div>
                 <div className={userButtons}>
-                    <IconButton 
-                        icon={userSettings} 
-                        className={[userButton]} 
-                        onClick={handleOpenUserSettings} 
-                    />
-                    <IconButton 
-                        icon={gear} 
+                    <IconButton
+                        icon={userSettings}
                         className={[userButton]}
-                        onClick={handleOpenSettings} 
+                        onClick={handleOpenUserSettings}
+                    />
+                    <IconButton
+                        icon={gear}
+                        className={[userButton]}
+                        onClick={handleOpenSettings}
                     />
                 </div>
             </div>

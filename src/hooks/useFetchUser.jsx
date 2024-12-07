@@ -18,6 +18,8 @@ export const useFetchUser = () => {
 
             const { username } = data
 
+            console.log(username)
+
             if (username === currentUser.username) {
                 return {}
             }

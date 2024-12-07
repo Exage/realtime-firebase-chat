@@ -22,6 +22,10 @@
             @include photoPlaceholder($photoSize);
         }
 
+        &-btn {
+            cursor: pointer;
+        }
+
         img {
             width: 100%;
             height: 100%;

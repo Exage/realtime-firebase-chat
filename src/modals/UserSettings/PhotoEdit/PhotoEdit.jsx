@@ -4,6 +4,7 @@ import modules from './PhotoEdit.module.scss'
 import { FormWrapper } from '../FormWrapper/FormWrapper'
 
 import { useUpdateUser } from '@/hooks/useUpdateUser'
+import { Button } from '@/components/UI/Button/Button'
 
 export const PhotoEdit = ({ setPhotoDisplayed, setEditing, resetData }) => {
 
@@ -16,11 +17,12 @@ export const PhotoEdit = ({ setPhotoDisplayed, setEditing, resetData }) => {
     const handleCancel = (e) => {
         e.preventDefault()
         setEditing(false)
+        setPhotoDisplayed(null)
         resetData()
     }
 
     const handleSetFile = (e) => {
-        console.log(e.target.files[0])
+        setPhotoDisplayed(e.target.files[0])
         setFile(e.target.files[0])
     }
 
@@ -43,7 +45,7 @@ export const PhotoEdit = ({ setPhotoDisplayed, setEditing, resetData }) => {
                 htmlFor="new-user-photo"
                 className='btn'
             >
-                Choose New photo
+                Choose photo
             </label>
 
             <input

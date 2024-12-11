@@ -9,6 +9,7 @@ import styles from './UserSettings.module.scss'
 
 import { useUserStore } from '@/lib/userStore'
 
+import { Image } from '@/components/Image/Image'
 import { Input } from '@/components/UI/Input/Input'
 import { Button } from '@/components/UI/Button/Button'
 import { IconButton } from '@/components/UI/IconButton/IconButton'
@@ -76,6 +77,10 @@ export const UserSettings = () => {
         setNameEditing(false)
         setUsernameEditing(false)
         setPhotoEditing(false)
+
+        setNameDisplayed('')
+        setUsernameDisplayed('')
+        setPhotoDisplayed(null)
     }
 
     return (
@@ -88,11 +93,17 @@ export const UserSettings = () => {
 
                 <button onClick={handlePhotoEdit} className={photoBtn}>
                     <div className={photoClass}>
-                        {!currentUser.avatar.photo && (
+
+                        {displayedPhoto && <img src={URL.createObjectURL(displayedPhoto)} alt='' />}
+
+                        {!displayedPhoto && (currentUser.avatar.url && <Image src={currentUser.avatar.url} hash={currentUser.avatar.hash} />)}
+
+                        {!displayedPhoto && (!currentUser.avatar.url && (
                             <div className={photoNone}>
                                 {displayedName ? displayedName[0] : currentUser.name[0]}
                             </div>
-                        )}
+                        ))}
+
                     </div>
                 </button>
 

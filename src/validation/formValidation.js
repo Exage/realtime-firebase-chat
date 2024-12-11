@@ -16,7 +16,7 @@ export const FormValidation = {
     Username: {
         required: "This field is required",
         minLength: {
-            value: 4,
+            value: 3,
             message: "Username must be at least 3 characters long"
         },
         maxLength: {

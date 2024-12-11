@@ -7,6 +7,7 @@ import { useUserStore } from '@/lib/userStore'
 import { useModals } from '@/lib/modalsStore'
 
 import { IconButton } from '@/components/UI/IconButton/IconButton'
+import { Image } from '@/components/Image/Image'
 
 import userSettings from '@/assets/icons/user-pen.svg'
 import gear from '@/assets/icons/gear.svg'
@@ -55,19 +56,20 @@ export const UserInfo = () => {
         openModal('settings')
     }
 
-    console.log(currentUser)
-
     return (
         <div className={userInfo}>
 
             <div className={user}>
                 <div className={userPhoto}>
-                    {currentUser.avatar.url && <img src={currentUser.avatar.url} alt="" />}
+
+                    {currentUser.avatar.url && <Image src={currentUser.avatar.url} hash={currentUser.avatar.hash} />}
+
                     {!currentUser.avatar.url && (
                         <div className={userPhotoNone}>
-                            {currentUser.name[0]}
+                            <span>{currentUser.name[0]}</span>
                         </div>
                     )}
+                    
                 </div>
                 <div className={userText}>
                     <h3 className={userName}>

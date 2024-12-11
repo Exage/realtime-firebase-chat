@@ -6,6 +6,11 @@ export const Image = ({ src, alt = '', hash = '', className = [], blurWidth = '1
 
     const [load, setLoad] = useState(true)
 
+    const handleLoad = () => {
+        console.log(load)
+        setLoad(false)
+    }
+
     return (
         <>
             {load && (
@@ -14,15 +19,14 @@ export const Image = ({ src, alt = '', hash = '', className = [], blurWidth = '1
                     style={{ width: blurWidth, height: blurhHeight }}
                 />
             )}
-            {!load && (
-                <img
-                    className={classNames(...className)}
-                    src=''
-                    alt={alt}
-                    onLoad={() => setLoad(false)}
-                    {...props}
-                />
-            )}
+            <img
+                className={classNames(...className)}
+                style={{ display: load ? 'none' : 'block' }}
+                src={src}
+                alt={alt}
+                onLoad={handleLoad}
+                {...props}
+            />
         </>
     )
 }

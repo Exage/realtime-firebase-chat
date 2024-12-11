@@ -6,6 +6,11 @@ import { useUserStore } from '@/lib/userStore'
 import { useChatStore } from '@/lib/chatStore'
 import { useResponseMenus } from '@/lib/responseMenus'
 
+import { Image } from '@/components/Image/Image'
+
+import groupIcon from '@/assets/icons/user-group.svg'
+import { ReactSVG } from 'react-svg'
+
 export const Chat = ({ chat }) => {
 
     const {
@@ -15,7 +20,8 @@ export const Chat = ({ chat }) => {
         ['chat__text']: chatText,
         ['chat__name']: chatName,
         ['chat__subtitle']: chatSubtitle,
-        active
+        active,
+        icon
     } = styles
 
     const { chatId: currentChatId, changeChat, changeGroup, setLoading } = useChatStore()
@@ -43,24 +49,43 @@ export const Chat = ({ chat }) => {
             onClick={() => handleSelect()}
         >
             <div className={chatPhoto}>
+
                 {type === 'group' && (
-                    groupData?.photo || (
-                        <div className={chatPhotoNone}>
-                            <span>{groupData?.title[0]}</span>
-                        </div>
-                    )
+                    <>
+                        {groupData?.cover.url && <Image src={groupData?.cover.url} hash={groupData?.cover.hash} />}
+
+                        {!groupData?.cover.url && (
+                            <div className={chatPhotoNone}>
+                                <span>{groupData?.title[0]}</span>
+                            </div>
+                        )}
+                    </>
                 )}
+
                 {type === 'single' && (
-                    users[0].avatar.url || (
-                        <div className={chatPhotoNone}>
-                            <span>{users[0]?.name[0]}</span>
-                        </div>
-                    )
+                    <>
+
+                        {users[0].avatar.url && <Image src={users[0].avatar.url} hash={users[0].avatar.hash} />}
+
+                        {!users[0].avatar.url && (
+                            <div className={chatPhotoNone}>
+                                <span>{users[0]?.name[0]}</span>
+                            </div>
+                        )}
+
+                    </>
                 )}
+                
             </div>
             <div className={chatText}>
                 <h3 className={chatName}>
-                    {type === 'group' && `G: ${groupData?.title}`}
+                    {type === 'group' && (
+                        <>
+                            <ReactSVG className={icon} src={groupIcon} />
+                            {' '}
+                            {groupData?.title}
+                        </>
+                    )}
                     {type === 'single' && users[0].name}
                 </h3>
                 {lastMessage && (

@@ -139,3 +139,13 @@
         color: var(--text-primary-active);
     }
 }
+
+.icon {
+    display: inline-block;
+    fill: var(--text-primary);
+
+    width: 2rem;
+    height: 2rem;
+
+    transform: translateY(-0.2rem);
+}

@@ -16,7 +16,7 @@ export const FormValidation = {
     Username: {
         required: "This field is required",
         minLength: {
-            value: 4,
+            value: 3,
             message: "Username must be at least 3 characters long"
         },
         maxLength: {
@@ -24,19 +24,19 @@ export const FormValidation = {
             message: "Username must not exceed 20 characters"
         },
         validate: {
-            startsWithAt: (value) => {
-                if (!value.startsWith('@')) {
-                    return "Username must start with @"
-                }
-            },
             noSpaces: (value) => {
                 if (/\s/.test(value)) {
                     return "Username must not contain spaces"
                 }
             },
-            alidChars: (value) => {
-                const regex = /^[a-zA-Z0-9._/\\|*&^%$#]+$/
-                if (!regex.test(value.slice(1))) {
+            noAtSymbol: (value) => {
+                if (/@/.test(value)) {
+                    return "Username must not contain the @ symbol"
+                }
+            },
+            validChars: (value) => {
+                const regex = /^[a-zA-Z0-9._]+$/;
+                if (!regex.test(value)) {
                     return "The username can only contain letters, numbers, _ and ."
                 }
             }

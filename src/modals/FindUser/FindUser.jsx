@@ -70,7 +70,7 @@ export const FindUser = () => {
             <div className={findUser}>
                 <form className={form} onSubmit={handleSubmit(handleSearch)}>
                     <Input
-                        placeholder="@username"
+                        placeholder="username"
                         className={[formInput, { invalid: errors.username }]}
                         autoComplete="off"
                         {...register('username', FormValidation.Username)}

@@ -17,6 +17,7 @@ import { MembersList } from '@/modals/MembersList/MembersList'
 import { GroupSettings } from '@/modals/GroupSettings/GroupSettings'
 import { BlockUser } from '@/modals/BlockUser/BlockUser'
 import { UnblockUser } from '@/modals/UnblockUser/UnblockUser'
+import { PhotosShow } from '@/modals/PhotosShow/PhotosShow'
 
 import { useUserStore } from '@/lib/userStore'
 import { useChatStore } from '@/lib/chatStore'
@@ -52,6 +53,7 @@ export const Main = () => {
             <StartGroup />
             <UserSettings />
             <Settings />
+            <PhotosShow />
             
             {/* Single Modals */}
             {type === 'single' && <ClearChat />}

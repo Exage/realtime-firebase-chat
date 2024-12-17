@@ -7,7 +7,6 @@ export const Image = ({ src, alt = '', hash = '', className = [], blurWidth = '1
     const [load, setLoad] = useState(true)
 
     const handleLoad = () => {
-        console.log(load)
         setLoad(false)
     }
 

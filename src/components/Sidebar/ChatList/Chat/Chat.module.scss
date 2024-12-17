@@ -107,9 +107,14 @@
         display: none;
     }
 
+    &.active .photo {
+        fill: var(--text-primary-active)
+    }
+
     &__name {
         font-size: 1.6rem;
         color: var(--text-primary);
+        fill: var(--text-primary);
         font-weight: 700;
 
         overflow: hidden;
@@ -120,9 +125,17 @@
 
     &.active>&__text>&__name {
         color: var(--text-primary-active);
+        
+        .icon {
+            fill: var(--text-primary-active);
+        }
     }
 
     &__subtitle {
+        // display: flex;
+        // align-items: center;
+        // column-gap: 1rem;
+
         margin-top: 0.5rem;
 
         overflow: hidden;
@@ -148,4 +161,11 @@
     height: 2rem;
 
     transform: translateY(-0.2rem);
+}
+
+.photo {
+    display: inline-flex;
+    align-items: center;
+    column-gap: 0.5rem;
+    fill: var(--text-secondary);
 }

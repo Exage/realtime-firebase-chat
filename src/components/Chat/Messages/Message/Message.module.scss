@@ -8,8 +8,9 @@
         min-width: 15rem;
         background-color: var(--message-companion);
         color: var(--text-primary-active);
-        padding: 1rem 2rem 0.5rem 2rem;
-    
+
+        overflow: hidden;
+
         border-radius: 1rem;
     }
 
@@ -18,11 +19,11 @@
         padding-left: 3rem;
     }
 
-    &.own > &__inner {
+    &.own>&__inner {
         margin-left: auto;
         background-color: var(--accent-primary);
-    
-        & > .time {
+
+        &>.time {
             color: var(--message-user-time);
         }
     }
@@ -33,7 +34,7 @@
         text-align: center;
     }
 
-    &.system > &__inner {
+    &.system>&__inner {
         border-radius: 2rem;
         padding: 0.5rem 2rem;
         min-width: auto;
@@ -42,8 +43,8 @@
         background-color: var(--message-system-bg);
 
         backdrop-filter: blur(20px);
-    
-        & > .time {
+
+        &>.time {
             color: var(--message-user-time);
         }
     }
@@ -51,6 +52,11 @@
 
 .text {
     word-break: break-all;
+    padding: 1rem 2rem 0 2rem;
+
+    &__system {
+        word-break: break-all;
+    }
 }
 
 .time {
@@ -58,4 +64,31 @@
     text-align: right;
 
     color: var(--text-secondary);
+    padding: 0.2rem 2rem 0.5rem 2rem;
+}
+
+.photo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    // min-height: 20rem;
+
+    position: relative;
+
+    // margin: -1rem -2rem 0.5rem -2rem;
+    margin-bottom: 0.2rem;
+
+    border-radius: 1rem;
+
+    overflow: hidden;
+    border: 5px solid var(--accent-primary);
+
+    user-select: none;
+    pointer-events: none;
+}
+
+.removeTopPadding {
+    padding-top: 0;
 }

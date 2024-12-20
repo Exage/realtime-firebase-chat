@@ -24,16 +24,17 @@ import banIcon from '@/assets/icons/ban.svg'
 
 export const Bottom = () => {
     const {
-        bottom, form, ['form__input-wrapper']: formInputWrapper, emoji, ['photo-preview']: photoPreview,
-        blocked, ['blocked__icon']: blockedIcon, ['blocked__text']: blockedText, content, loader, 
+        bottom, form, ['form__input-wrapper']: formInputWrapper, emoji, ['emoji__picker']: emojiPicker, ['photo-preview']: photoPreview,
+        blocked, ['blocked__icon']: blockedIcon, ['blocked__text']: blockedText, content, loader,
         ['loader__wrapper']: loaderWrapper, error: errorClass
     } = styles
 
+    const messageAreaRef = useRef(null)
     const emojiRef = useRef(null)
     const [emojiPickerShow, setEmojiPickerShow] = useState(false)
 
     const { sendMessage, loading } = useSendMessage()
-    const { isCurrentUserBlocked, isReceiverBlocked, isLoading: isMessagesLoading } = useChatStore()
+    const { isCurrentUserBlocked, isReceiverBlocked, isLoading: isMessagesLoading, messages } = useChatStore()
 
     const { register, handleSubmit, formState: { errors }, watch, reset, setValue } = useForm({ mode: 'onChange' })
     const message = watch('messageSend')
@@ -68,10 +69,18 @@ export const Bottom = () => {
 
     const handleSendMessage = async () => {
         if (!message?.trim() && !photo) return
-        await sendMessage({ text: message?.trim(), photo })
+
+        await sendMessage({ text: message?.trim() || '', photo })
         reset({ messageSend: '' })
         setPhoto(null)
     }
+
+    useEffect(() => {
+        console.log(messageAreaRef?.current)
+        if (messageAreaRef?.current) {
+            messageAreaRef.current.focus()
+        }
+    }, [messages])
 
     const handlePickPhoto = (e) => {
         const file = e.target.files[0]
@@ -123,6 +132,7 @@ export const Bottom = () => {
 
                     <div className={formInputWrapper}>
                         <TextArea
+                            ref={messageAreaRef}
                             placeholder='Type your message'
                             isInvalid={errors.messageSend}
                             onKeyDown={handleKeyDown}
@@ -140,7 +150,9 @@ export const Bottom = () => {
                             disabled={loading}
                         />
                         {emojiPickerShow && (
-                            <Picker data={data} onEmojiSelect={handleEmojiPicker} />
+                            <div className={emojiPicker}>
+                                <Picker data={data} onEmojiSelect={handleEmojiPicker} />
+                            </div>
                         )}
                     </div>
 

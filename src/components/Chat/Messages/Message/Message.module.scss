@@ -92,3 +92,22 @@
 .removeTopPadding {
     padding-top: 0;
 }
+
+.hash {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition-property: opacity;
+    transition-duration: 200ms;
+    transition-timing-function: ease;
+
+    &__show {
+        opacity: 1;
+    }
+}

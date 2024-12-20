@@ -20,6 +20,8 @@ export const Message = ({ message }) => {
         time,
         photo,
         ['photo__bg']: photoBg,
+        hash,
+        ['hash__show']: hashShow,
         removeTopPadding
     } = styles
 
@@ -36,6 +38,8 @@ export const Message = ({ message }) => {
     const seconds = totalSeconds.getSeconds() < 10 ? `0${totalSeconds.getSeconds()}` : totalSeconds.getSeconds()
 
     const messageType = message.type.split(' ')
+
+    const [photoLoading, setPhotoLoading] = useState(true)
 
     useEffect(() => {
         const getSender = () => {
@@ -87,12 +91,21 @@ export const Message = ({ message }) => {
 
                 {message?.photo && (
                     <div className={photo}>
-                        <Image
+                        {/* <Image
                             src={message?.photo.url}
                             hash={message?.photo.hash}
-                            blurWidth='500px'
-                            blurhHeight='200px'
+                            blurWidth='100%'
+                            blurhHeight='100%'
+                        /> */}
+                        <img 
+                            src={message?.photo.url} 
+                            alt=""
+                            
+                            onLoad={() => setPhotoLoading(false)}
                         />
+                        <div className={classNames(hash, { [hashShow]: photoLoading })}>
+                            <Blurhash hash={message?.photo.hash} style={{ width: '100%', height: '100%' }} />
+                        </div>
                     </div>
                 )}
 

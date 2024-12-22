@@ -76,7 +76,6 @@ export const Bottom = () => {
     }
 
     useEffect(() => {
-        console.log(messageAreaRef?.current)
         if (messageAreaRef?.current) {
             messageAreaRef.current.focus()
         }

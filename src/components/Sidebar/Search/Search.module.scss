@@ -1,7 +1,54 @@
 .search {
+    position: relative;
     padding: 0 1rem;
 
     input {
         width: 100%;
+    }
+}
+
+.results {
+    padding: 0.5rem;
+    overflow: hidden;
+
+    border-radius: 1rem;
+    background-color: var(--background-primary);
+
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+
+    &__wrapper {
+        width: 100%;
+
+        position: absolute;
+        top: 100%;
+        left: 0;
+
+        padding: 0 1rem;
+        padding-top: 1rem;
+
+        z-index: 10;
+    }
+}
+
+.input {
+    
+    padding-left: 5rem !important;
+
+    &__wrapper {
+        position: relative;
+    }
+
+    &:focus + &__icon {
+        fill: var(--input-active);
+    }
+
+    &__icon {
+        position: absolute;
+        top: 50%;
+        left: 2rem;
+        transform: translateY(-50%);
+        fill: var(--input-inactive);
+
+        transition: fill .2s ease;
     }
 }

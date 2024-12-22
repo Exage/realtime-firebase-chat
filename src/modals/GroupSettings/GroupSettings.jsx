@@ -1,17 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { FormValidation } from '@/validation/formValidation'
-import { useForm } from 'react-hook-form'
+import React, { useState } from 'react'
 import styles from './GroupSettings.module.scss'
-import classNames from 'classnames'
-
-import { useChangeGroupData } from '@/hooks/useChangeGroupData'
 
 import { Modal } from '@/components/Modal/Modal'
-import { Input } from '@/components/UI/Input/Input'
+import { Image } from '@/components/Image/Image'
 
 import { useChatStore } from '@/lib/chatStore'
 import { Button } from '@/components/UI/Button/Button'
-import { IconButton } from '@/components/UI/IconButton/IconButton'
 
 import { PhotoEdit } from './PhotoEdit/PhotoEdit'
 import { TitleEdit } from './TitleEdit/TitleEdit'

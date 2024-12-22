@@ -17,11 +17,14 @@ import { IconButton } from '@/components/UI/IconButton/IconButton'
 import { Modal } from '@/components/Modal/Modal'
 
 import pen from '@/assets/icons/pen.svg'
+import camera from '@/assets/icons/camera.svg'
 import logoutIcon from '@/assets/icons/logout.svg'
 
 import { NameEdit } from './NameEdit/NameEdit'
 import { UsernameEdit } from './UsernameEdit/UsernameEdit'
 import { PhotoEdit } from './PhotoEdit/PhotoEdit'
+
+import { ReactSVG } from 'react-svg'
 
 export const UserSettings = () => {
 
@@ -30,6 +33,8 @@ export const UserSettings = () => {
         ['user-settings__photo']: photoClass,
         ['user-settings__photo-btn']: photoBtn,
         ['user-settings__photo-none']: photoNone,
+        ['user-settings__photo-overlay']: photoOverlay,
+        ['user-settings__photo-overlay__icon']: photoOverlayIcon,
         ['user-settings__text']: text,
         ['user-settings__text-name']: title,
         ['user-settings__text-row']: row,
@@ -93,6 +98,10 @@ export const UserSettings = () => {
 
                 <button onClick={handlePhotoEdit} className={photoBtn}>
                     <div className={photoClass}>
+
+                        <div className={photoOverlay}>
+                            <ReactSVG src={camera} className={photoOverlayIcon} />
+                        </div>
 
                         {displayedPhoto && <img src={URL.createObjectURL(displayedPhoto)} alt='' />}
 

@@ -97,15 +97,17 @@ export const Message = ({ message }) => {
                             blurWidth='100%'
                             blurhHeight='100%'
                         /> */}
-                        <img 
-                            src={message?.photo.url} 
-                            alt=""
-                            
-                            onLoad={() => setPhotoLoading(false)}
-                        />
-                        <div className={classNames(hash, { [hashShow]: photoLoading })}>
-                            <Blurhash hash={message?.photo.hash} style={{ width: '100%', height: '100%' }} />
-                        </div>
+                        <a href={message?.photo.url} target='_blank'>
+                            <img
+                                src={message?.photo.url}
+                                alt=""
+
+                                onLoad={() => setPhotoLoading(false)}
+                            />
+                            <div className={classNames(hash, { [hashShow]: photoLoading })}>
+                                <Blurhash hash={message?.photo.hash} style={{ width: '100%', height: '100%' }} />
+                            </div>
+                        </a>
                     </div>
                 )}
 

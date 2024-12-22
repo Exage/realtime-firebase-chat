@@ -1,3 +1,18 @@
 .input {
     display: none;
 }
+
+.btn {
+    margin: 0 auto;
+
+    &__wrapper {
+        padding: 2rem;
+        
+        // background-color: var(--photo-choose-bg);
+        border-radius: 1rem;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

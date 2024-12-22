@@ -9,8 +9,10 @@ import { Button } from '@/components/UI/Button/Button'
 
 import { PhotoEdit } from './PhotoEdit/PhotoEdit'
 import { TitleEdit } from './TitleEdit/TitleEdit'
+import { ReactSVG } from 'react-svg'
 
 import pen from '@/assets/icons/pen.svg'
+import camera from '@/assets/icons/camera.svg'
 
 export const GroupSettings = () => {
 
@@ -18,6 +20,8 @@ export const GroupSettings = () => {
         ['group-settings']: groupSettings,
         ['group-settings__photo']: groupSettingsPhoto,
         ['photo']: photo,
+        ['photo__overlay']: photoOverlay,
+        ['photo__overlay-icon']: photoOverlayIcon,
         ['photo__none']: photoNone,
         ['title']: titleClass,
         ['title__edit']: titleEdit,
@@ -61,6 +65,10 @@ export const GroupSettings = () => {
                 <div className={wrapper}>
                     <button onClick={handlePhotoEdit} className={groupSettingsPhoto}>
                         <div className={photo}>
+
+                            <div className={photoOverlay}>
+                                <ReactSVG src={camera} className={photoOverlayIcon} />
+                            </div>
 
                             {displayedPhoto && <img src={URL.createObjectURL(displayedPhoto)} alt='' />}
 

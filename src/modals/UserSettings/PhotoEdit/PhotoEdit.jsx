@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
-import modules from './PhotoEdit.module.scss'
+import styles from './PhotoEdit.module.scss'
 
 import { FormWrapper } from '../FormWrapper/FormWrapper'
 
 import { useUpdateUser } from '@/hooks/useUpdateUser'
 import { Button } from '@/components/UI/Button/Button'
 
+import photoIcon from '@/assets/icons/photo-video.svg'
+
 export const PhotoEdit = ({ setPhotoDisplayed, setEditing, resetData }) => {
 
-    const { input } = modules
+    const { input, btn, ['btn__wrapper']: btnWrapper } = styles
 
     const [file, setFile] = useState(null)
 
@@ -41,12 +43,16 @@ export const PhotoEdit = ({ setPhotoDisplayed, setEditing, resetData }) => {
             loading={loading}
         >
 
-            <label
-                htmlFor="new-user-photo"
-                className='btn'
+            <Button
+                type="button"
+                labelId={'new-user-photo'}
+                filled={true}
+                icon={photoIcon}
+                tabIndex={-1}
+                className={[btn]}
             >
-                Choose photo
-            </label>
+                Choose new photo
+            </Button>
 
             <input
                 className={input}

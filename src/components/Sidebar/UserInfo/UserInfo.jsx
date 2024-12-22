@@ -10,7 +10,7 @@ import { IconButton } from '@/components/UI/IconButton/IconButton'
 import { Image } from '@/components/Image/Image'
 
 import userSettings from '@/assets/icons/user-pen.svg'
-import gear from '@/assets/icons/gear.svg'
+import gear from '@/assets/icons/circle-half.svg'
 import copy from '@/assets/icons/copy.svg'
 import check from '@/assets/icons/check.svg'
 

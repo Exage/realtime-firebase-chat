@@ -1,0 +1,51 @@
+.btn {}
+
+.label {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 1.4rem;
+
+    padding: 0.5rem 1.5rem;
+    border: 2px solid var(--border);
+    border-radius: 3rem;
+
+    cursor: pointer;
+
+    color: var(--text-secondary);
+    fill: var(--text-secondary);
+
+    &.isChecked {
+        background-color: var(--accent-primary);
+        border-color: var(--accent-primary);
+        color: var(--text-primary-active);
+        fill: var(--text-primary-active);
+    }
+
+    input {
+        display: none;
+    }
+}
+
+.icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 1.6rem;
+    height: 1.6rem;
+
+    margin-right: 0.5rem;
+
+    div {
+        width: 100%;
+        height: 100%;
+    }
+
+    svg {
+        width: 100%;
+        height: 100%;
+        vertical-align: baseline;
+    }
+}

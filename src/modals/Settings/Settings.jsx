@@ -1,25 +1,54 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import styles from './Settings.module.scss'
 
 import { Modal } from '@/components/Modal/Modal'
-import { Button } from '@/components/UI/Button/Button'
 
-import { useThemeStore } from '@/lib/themeStore'
+import { RadioButton } from './RadioButton/RadioButton'
+
+import moon from '@/assets/icons/moon.svg'
+import sun from '@/assets/icons/sun.svg'
+import system from '@/assets/icons/system.svg'
 
 export const Settings = () => {
 
-    const { setTheme } = useThemeStore()
+    const { radios } = styles
+
+    const btns = [
+        {
+            value: 'light',
+            title: 'Light',
+            icon: sun
+        },
+        {
+            value: 'dark',
+            title: 'Dark',
+            icon: moon
+        },
+        {
+            value: 'system',
+            title: 'System',
+            icon: system
+        }
+    ]
 
     return (
         <Modal
             modalId='settings'
-            title='Settings'
+            title='Change theme'
         >
-            <div style={{ display: 'flex', columnGap: '1rem' }}>
-                <Button onClick={() => setTheme('light')}>Light</Button>
-                <Button onClick={() => setTheme('dark')}>Dark</Button>
-                <Button onClick={() => setTheme('system')}>System</Button>
+            <div className={radios}>
+                {btns.map((btn, index) => (
+                    <RadioButton 
+                        key={index} 
+                        index={index} 
+                        name={'theme-radio'}
+                        value={btn.value}
+                        icon={btn.icon}
+                    >
+                        {btn.title}
+                    </RadioButton>
+                ))}
             </div>
         </Modal>
     )

@@ -4,15 +4,17 @@
 $gap: 1rem;
 
 .bottom {
-    display: flex;
-    align-items: flex-end;
-    column-gap: $gap;
-    
     padding: 1rem 2rem 3rem 2rem;
 
     @include response($sidebar-response) {
         padding: 1rem 0.5rem 1.5rem 0.5rem;
     }
+}
+
+.content {
+    display: flex;
+    align-items: flex-end;
+    column-gap: $gap;
 }
 
 .form {
@@ -28,7 +30,7 @@ $gap: 1rem;
     &__input {
         width: 100%;
         height: 100%;
-        
+
         &-error {
             border: 1px solid var(--error) !important;
 
@@ -38,7 +40,7 @@ $gap: 1rem;
 
             &:focus {
                 border: 1px solid var(--error);
-        
+
                 &::placeholder {
                     color: var(--error);
                 }
@@ -49,7 +51,7 @@ $gap: 1rem;
             position: relative;
             flex: 1;
 
-            & > .error {
+            &>.error {
                 position: absolute;
                 top: 100%;
                 left: 0;
@@ -100,5 +102,42 @@ $gap: 1rem;
         line-height: 1;
         font-weight: 400;
         margin-left: 1rem;
+    }
+}
+
+.photo-preview {
+    display: inline-block;
+    position: relative;
+    padding-bottom: 1rem;
+
+    img {
+        width: 8rem;
+        height: 8rem;
+        object-fit: cover;
+        border-radius: 0.8rem;
+    }
+
+    button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.6);
+        fill: #fff;
+        border: none;
+        border-radius: 50%;
+        padding: 0.4px;
+        cursor: pointer;
+    }
+}
+
+.loader {
+    font-size: 2.7rem;
+
+    &__wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 4.4rem;
+        height: 4.4rem;
     }
 }

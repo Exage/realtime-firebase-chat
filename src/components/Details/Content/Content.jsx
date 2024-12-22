@@ -57,13 +57,17 @@ export const Content = () => {
         }
     }
 
+    const handleOpenPhotosModal = () => {
+        openModal('photosShow')
+    }
+
     return (
         <div className={content}>
             <div className={block}>
                 {type === 'group' && (
                     <Button icon={slidersIcon} iconGap={20} className={[btn]} onClick={handleOpenGroupSettings}>Group settings</Button>
                 )}
-                <Button icon={mediaIcon} iconGap={20} className={[btn]} disabled={true}>Photos &amp; Video</Button>
+                <Button icon={mediaIcon} iconGap={20} className={[btn]} onClick={handleOpenPhotosModal}>Photos</Button>
             </div>
 
             {type === 'group' && (

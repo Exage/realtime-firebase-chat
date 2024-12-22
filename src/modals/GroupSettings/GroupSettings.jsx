@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from 'react'
-import { FormValidation } from '@/validation/formValidation'
-import { useForm } from 'react-hook-form'
+import React, { useState } from 'react'
 import styles from './GroupSettings.module.scss'
-import classNames from 'classnames'
-
-import { useChangeGroupData } from '@/hooks/useChangeGroupData'
 
 import { Modal } from '@/components/Modal/Modal'
-import { Input } from '@/components/UI/Input/Input'
+import { Image } from '@/components/Image/Image'
 
 import { useChatStore } from '@/lib/chatStore'
 import { Button } from '@/components/UI/Button/Button'
-import { IconButton } from '@/components/UI/IconButton/IconButton'
+
+import { PhotoEdit } from './PhotoEdit/PhotoEdit'
+import { TitleEdit } from './TitleEdit/TitleEdit'
+import { ReactSVG } from 'react-svg'
 
 import pen from '@/assets/icons/pen.svg'
+import camera from '@/assets/icons/camera.svg'
 
 export const GroupSettings = () => {
 
@@ -21,90 +20,76 @@ export const GroupSettings = () => {
         ['group-settings']: groupSettings,
         ['group-settings__photo']: groupSettingsPhoto,
         ['photo']: photo,
+        ['photo__overlay']: photoOverlay,
+        ['photo__overlay-icon']: photoOverlayIcon,
         ['photo__none']: photoNone,
         ['title']: titleClass,
-        ['title__wrapper']: titleWrapper,
         ['title__edit']: titleEdit,
-        ['pen']: penClass,
-        ['form']: form,
-        ['form__input']: input,
-        ['form__input-wrapper']: inputWrapper,
-        ['form__btn']: formBtn,
-        ['form__error']: formError,
-        ['form__btn-cancel']: formBtnCancel
+        wrapper
     } = styles
 
+    const [displayedTitle, setTitleDisplayed] = useState('')
+    const [displayedPhoto, setPhotoDisplayed] = useState(null)
+
     const { groupData } = useChatStore()
-    const { changeGroupData, loading, error } = useChangeGroupData()
 
-    const { register, handleSubmit, formState: { errors }, setError, watch } = useForm({
-        mode: 'onChange',
-        defaultValues: {
-            groupTitle: groupData?.title
-        }
-    })
+    const [titleEditing, setTitleEditing] = useState(false)
+    const [photoEditing, setPhotoEditing] = useState(false)
 
-    const groupTitle = watch('groupTitle')
-
-    const [isTitleEditing, setTitleEditing] = useState(false)
-
-    const [disableSubmit, setDisableSubmit] = useState(false)
-
-    useEffect(() => {
-        if (groupTitle === groupData.title) {
-            setDisableSubmit(true)
-        } else {
-            setDisableSubmit(false)
-        }
-    }, [groupData, groupTitle])
+    const handlePhotoEdit = () => {
+        setTitleEditing(false)
+        setPhotoEditing(true)
+    }
 
     const handleEditTitle = () => {
         setTitleEditing(true)
+        setPhotoEditing(false)
     }
 
-    const handleCancelBtn = () => {
+    const resetData = () => {
         setTitleEditing(false)
-    }
+        setPhotoEditing(false)
 
-    const handleSubmitForm = (Event) => {
-        Event.preventDefault()
-    }
-
-    const handleSubmitNewData = async () => {
-        const newGroupData = {...groupData, title: groupTitle}
-        await changeGroupData(newGroupData)
-        setTitleEditing(false)
-    }
-
-    const resetForms = () => {
-        setTitleEditing(false)
+        setPhotoDisplayed(null)
+        setTitleDisplayed('')
     }
 
     return (
         <Modal
             modalId='groupSettings'
             title='Group settings'
-            resetForms={resetForms}
+            resetForms={resetData}
         >
             <div className={groupSettings}>
 
-                <div className={groupSettingsPhoto}>
-                    <div className={photo}>
-                        {groupData.cover.photo || (
-                            <div className={photoNone}>
-                                {groupTitle[0] || 'U'}
-                            </div>
-                        )}
-                    </div>
-                </div>
+                <div className={wrapper}>
+                    <button onClick={handlePhotoEdit} className={groupSettingsPhoto}>
+                        <div className={photo}>
 
-                <div className={titleWrapper}>
+                            <div className={photoOverlay}>
+                                <ReactSVG src={camera} className={photoOverlayIcon} />
+                            </div>
+
+                            {displayedPhoto && <img src={URL.createObjectURL(displayedPhoto)} alt='' />}
+
+                            {!displayedPhoto && (groupData.cover.url && <Image src={groupData.cover.url} hash={groupData.cover.hash} />)}
+
+                            {!displayedPhoto && (!groupData.cover.url && (
+                                <div className={photoNone}>
+                                    {displayedTitle ? displayedTitle[0] : groupData.title[0]}
+                                </div>
+                            ))}
+
+                        </div>
+                    </button>
 
                     <h3 className={titleClass}>
-                        {groupTitle || 'Unnamed group'}
+                        <span>
+                            {displayedTitle || groupData.title}
+                        </span>
                     </h3>
 
-                    {!isTitleEditing && (
+                    {!(titleEditing || photoEditing) && (
                         <Button
                             icon={pen}
                             className={[titleEdit]}
@@ -113,38 +98,22 @@ export const GroupSettings = () => {
                             Edit Title
                         </Button>
                     )}
-
                 </div>
 
-                {isTitleEditing && (
-                    <form className={form} onSubmit={handleSubmit(handleSubmitNewData)}>
+                {photoEditing && (
+                    <PhotoEdit
+                        setPhotoDisplayed={setPhotoDisplayed}
+                        setEditing={setPhotoEditing}
+                        resetData={resetData}
+                    />
+                )}
 
-                        <div className={inputWrapper}>
-                            <Input
-                                placeholder="New Title"
-                                className={[input, { invalid: errors.groupTitle }]}
-                                maxLength={50}
-                                {...register('groupTitle', FormValidation.GroupTitle)}
-                            />
-                        </div>
-                        <p className={classNames('error', formError)}>{errors.groupTitle && errors.groupTitle.message}</p>
-
-                        <Button
-                            filled={true}
-                            className={[formBtn]}
-                            onClick={() => handleSubmitNewData()}
-                            loading={loading}
-                            disabled={disableSubmit || errors.groupTitle}
-                        >
-                            Save
-                        </Button>
-                        <Button
-                            className={[formBtnCancel]}
-                            onClick={handleCancelBtn}
-                        >
-                            Cancel
-                        </Button>
-                    </form>
+                {titleEditing && (
+                    <TitleEdit
+                        setTitleDisplayed={setTitleDisplayed}
+                        setEditing={setTitleEditing}
+                        resetData={resetData}
+                    />
                 )}
 
             </div>

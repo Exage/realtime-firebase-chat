@@ -6,6 +6,8 @@ import { v4 as uuidv4 } from 'uuid'
 import { useUserStore } from '@/lib/userStore'
 import { useChatStore } from '@/lib/chatStore'
 
+import { useUploadPhoto } from './useUploadPhoto'
+
 export const useSendMessage = () => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
@@ -13,15 +15,26 @@ export const useSendMessage = () => {
     const { currentUser } = useUserStore()
     const { chatId, users } = useChatStore()
 
-    const sendMessage = async (text) => {
+    const { uploadPhoto } = useUploadPhoto()
+
+    const sendMessage = async (data) => {
         try {
+            setLoading(true)
+            setError(null)
+
+            let photo = null
+
+            if (data.photo) {
+                photo = await uploadPhoto(data.photo)
+            }
 
             const messageId = uuidv4()
             const messageStructure = {
                 id: messageId,
                 type: 'user',
                 senderId: currentUser.id,
-                text,
+                text: data.text,
+                photo,
                 createdAt: new Date()
             }
 

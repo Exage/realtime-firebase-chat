@@ -36,6 +36,7 @@ export const useStartChat = () => {
                 type: 'system',
                 senderId: currentUser.id,
                 text: "Chat started",
+                photo: null,
                 createdAt: new Date()
             }
 

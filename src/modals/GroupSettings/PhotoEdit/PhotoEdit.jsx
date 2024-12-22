@@ -3,7 +3,7 @@ import styles from './PhotoEdit.module.scss'
 
 import { FormWrapper } from '../FormWrapper/FormWrapper'
 
-import { useUpdateUser } from '@/hooks/useUpdateUser'
+import { useChangeGroupData } from '@/hooks/useChangeGroupData'
 import { Button } from '@/components/UI/Button/Button'
 
 import photoIcon from '@/assets/icons/photo-video.svg'
@@ -14,7 +14,7 @@ export const PhotoEdit = ({ setPhotoDisplayed, setEditing, resetData }) => {
 
     const [file, setFile] = useState(null)
 
-    const { loading, error, updatePhoto } = useUpdateUser()
+    const { loading, error, changeGroupPhoto } = useChangeGroupData()
 
     const handleCancel = (e) => {
         e.preventDefault()
@@ -29,7 +29,7 @@ export const PhotoEdit = ({ setPhotoDisplayed, setEditing, resetData }) => {
     }
 
     const handleSave = async () => {
-        await updatePhoto(file)
+        await changeGroupPhoto(file)
     }
 
     return (
@@ -41,22 +41,26 @@ export const PhotoEdit = ({ setPhotoDisplayed, setEditing, resetData }) => {
             handleSave={handleSave}
 
             loading={loading}
+
+            saveText='Save new photo'
         >
 
-            <Button
-                type="button"
-                labelId={'new-user-photo'}
-                filled={true}
-                icon={photoIcon}
-                tabIndex={-1}
-                className={[btn]}
-            >
-                Choose new photo
-            </Button>
+            {/* <div className={btnWrapper}> */}
+                <Button
+                    type="button"
+                    labelId={'new-group-photo'}
+                    filled={true}
+                    icon={photoIcon}
+                    tabIndex={-1}
+                    className={[btn]}
+                >
+                    Choose group photo
+                </Button>
+            {/* </div> */}
 
             <input
                 className={input}
-                id='new-user-photo'
+                id='new-group-photo'
                 type="file"
 
                 onChange={handleSetFile}

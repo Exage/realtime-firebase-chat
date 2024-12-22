@@ -1,6 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import styles from './Chat.module.scss'
+import { ReactSVG } from 'react-svg'
 
 import { useUserStore } from '@/lib/userStore'
 import { useChatStore } from '@/lib/chatStore'
@@ -8,8 +9,8 @@ import { useResponseMenus } from '@/lib/responseMenus'
 
 import { Image } from '@/components/Image/Image'
 
+import photoVideo from '@/assets/icons/photo-video.svg'
 import groupIcon from '@/assets/icons/user-group.svg'
-import { ReactSVG } from 'react-svg'
 
 export const Chat = ({ chat }) => {
 
@@ -21,7 +22,8 @@ export const Chat = ({ chat }) => {
         ['chat__name']: chatName,
         ['chat__subtitle']: chatSubtitle,
         active,
-        icon
+        icon,
+        photo
     } = styles
 
     const { chatId: currentChatId, changeChat, changeGroup, setLoading } = useChatStore()
@@ -75,7 +77,7 @@ export const Chat = ({ chat }) => {
 
                     </>
                 )}
-                
+
             </div>
             <div className={chatText}>
                 <h3 className={chatName}>
@@ -89,9 +91,17 @@ export const Chat = ({ chat }) => {
                     {type === 'single' && users[0].name}
                 </h3>
                 {lastMessage && (
-                    <p className={chatSubtitle}>
+                    <div className={chatSubtitle}>
+                        {lastMessage.photo && (
+                            <span className={photo}>
+                                <ReactSVG src={photoVideo} />
+                                {' '}
+                                {!lastMessage.text && 'Photo'}
+                            </span>
+                        )}
+                        {' '}
                         {lastMessage.text}
-                    </p>
+                    </div>
                 )}
             </div>
         </div>

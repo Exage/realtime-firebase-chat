@@ -60,6 +60,12 @@ export const Messages = () => {
         }
     }, [chatId])
 
+    useEffect(() => {
+        if (endRef.current) {
+            endRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' })
+        }
+    }, [messages])
+
     if (isLoading) {
         return (
             <div className={classNames(messagesClass, messagesLoading)}>

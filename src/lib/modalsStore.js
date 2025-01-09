@@ -9,4 +9,6 @@ export const useModals = create((set) => ({
         return { modals: { ...state.modals, [modalId]: false } }
     }),
     clearModals: () => set({ modals: {} })
-})) 
+}))
+
+

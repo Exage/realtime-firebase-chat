@@ -23,6 +23,10 @@
         margin-left: auto;
         background-color: var(--accent-primary);
 
+        &>.photo {
+            border-color: var(--accent-primary);
+        }
+
         &>.time {
             color: var(--message-user-time);
         }
@@ -84,7 +88,7 @@
     border-radius: 1rem;
 
     overflow: hidden;
-    border: 5px solid var(--accent-primary);
+    border: 5px solid var(--message-companion);
 
     img {
         width: 100%;
